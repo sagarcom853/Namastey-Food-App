@@ -1,0 +1,23 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.diagonal-split-background{
+  background-color: #06130a;
+  background-image: -webkit-linear-gradient(135deg, #1d3b3b 50%, #123a1e 50%);
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+body{
+  overflow-x: hidden;
+}

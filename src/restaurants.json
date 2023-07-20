@@ -1,0 +1,434 @@
+[
+    {
+      "id": 1,
+      "name": "Tikka Palace",
+      "image_link": "https://example.com/restaurant_a.jpg",
+      "price": "350",
+      "ratings": 4.5,
+      "reviews": 50,
+      "description": "A trendy and upscale restaurant with a diverse menu.",
+      "timeToDeliver": 45,
+      "keywords": ["Chicken Tikka", "Chutney", "Paneer"],
+      "minimum_order_price": 500,
+      "delivery_fee": 5,
+      "open_status": true,
+      "online":true,
+      "restaurant_images": [
+        "http://www.flavorquotient.com/wp-content/uploads/2020/04/Chicken-Tikka-FQ-1-1-of-1.jpg",
+        "https://www.kitchensanctuary.com/wp-content/uploads/2020/07/Chicken-Tikka-Skewers-wide-FS-77.jpg",
+        "https://aapnasweets.ca/wp-content/uploads/2020/07/Chicken-Tikka.jpg"
+      ],
+      "address": "Balasore golei,Baripada",
+      "menu_items": [
+        {
+          "id": "103",
+          "name": "Chicken Tikka",
+          "position": 1,
+          "price": "450.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse3.mm.bing.net/th?id=OIP.nzbwolpFKOk8RJoWVEcFRQHaE8&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "104",
+          "name": "Paneer Tikka",
+          "position": 2,
+          "price": "300.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse2.mm.bing.net/th?id=OIP.v9Pzaqjr9y72Se6IDR_33wHaE8&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "South Indian Cafe",
+      "image_link": "https://example.com/restaurant_b.jpg",
+      "price": "70",
+      "reviews": 80,
+      "ratings": 3.8,
+      "description": "Authentic south Indian Food.",
+      "keywords": ["South Indian", "Idli", "Dosa", "Upma"],
+      "timeToDeliver": 30,
+      "minimum_order_price": 100,
+      "delivery_fee": 30,
+      "open_status": true,
+      "restaurant_images": [
+        "https://weareliferuiner.com/wp-content/uploads/2018/09/Featured-image-masala-dosa-recipe.jpg",
+        "https://tse4.mm.bing.net/th?id=OIP.LrdgB037J2vt1juhWGilPAHaEd&pid=Api&P=0",
+        "https://tse1.mm.bing.net/th?id=OIP.YVE0jppOUq2V2K-HlbkwngHaEt&pid=Api&P=0"
+      ],
+      "address": "Kaptipada,Baripada",
+      "menu_items": [
+        {
+          "id": "105",
+          "name": "Dosa",
+          "position": 1,
+          "price": "50.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://weareliferuiner.com/wp-content/uploads/2018/09/Featured-image-masala-dosa-recipe.jpg"
+          ]
+        },
+        {
+          "id": "111",
+          "name": "IDli",
+          "position": 2,
+          "price": "100.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse4.mm.bing.net/th?id=OIP.LrdgB037J2vt1juhWGilPAHaEd&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Biryani Palace",
+      "image_link": "https://example.com/restaurant_c.jpg",
+      "price": "100",
+      "ratings": 4.9,
+      "reviews": 100,
+      "description": "An elegant fine dining restaurant offering gourmet cuisine.",
+      "timeToDeliver": 20,
+      "keywords": ["Biryani", "Veg", "Non-veg"],
+      "minimum_order_price": 300,
+      "delivery_fee": 7,
+      "open_status": false,
+      "restaurant_images": [
+        "https://www.madhuseverydayindian.com/wp-content/uploads/2020/12/plain-biryani-kuska-rice-.jpg",
+        "https://tse2.mm.bing.net/th?id=OIP.uevIwPRgzaXkJmNbMMomzwHaEH&pid=Api&P=0",
+        "https://pixfeeds.com/images/india/food/1280-519486575-delhi-biryani.jpg"
+      ],
+      "address": "Station golei,Baripada",
+      "menu_items": [
+        {
+          "id": "106",
+          "name": "Veg Pulao",
+          "position": 1,
+          "price": "100",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://www.madhuseverydayindian.com/wp-content/uploads/2020/12/plain-biryani-kuska-rice-.jpg"
+          ]
+        },
+        {
+          "id": "107",
+          "name": "Chicken Biryani",
+          "position": 2,
+          "price": "250.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse2.mm.bing.net/th?id=OIP.uevIwPRgzaXkJmNbMMomzwHaEH&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Mother's Cake",
+      "image_link": "https://example.com/restaurant_d.jpg",
+      "price": "400",
+      "ratings": 4.2,
+      "reviews": 121,
+      "description": "A fusion Cake shop combining flavors from around .",
+      "timeToDeliver": 40,
+      "keywords": ["Bakery", "cakes"],
+      "minimum_order_price": 500,
+      "delivery_fee": 50,
+      "open_status": true,
+      "restaurant_images": [
+        "https://tse3.mm.bing.net/th?id=OIP.VyrlEyoHGZaMl5yWEVVyxgHaFj&pid=Api&P=0&h=180",
+        "https://tse1.mm.bing.net/th?id=OIP.vbky98_dLNJeTKY5ocD_KgHaEK&pid=Api&P=0&h=180",
+        "https://tse4.mm.bing.net/th?id=OIP.p_Rsb1svTxtGd72WjeL5VwHaFj&pid=Api&P=0",
+        "https://i.pinimg.com/originals/f3/7f/0e/f37f0e9b7c94bc727f45bc499045bda2.png",
+        "https://tse4.mm.bing.net/th?id=OIP.gEJedrYceEfxgALV3W-AVAHaEc&pid=Api&P=0&h=180",
+        "https://tse3.mm.bing.net/th?id=OIP.-SuXJxBrzPl2Ou28KBDmgwHaEo&pid=Api&P=0&h=180",
+        "http://s1.picswalls.com/wallpapers/2014/07/19/cake-wallpapers_110552651_63.jpg"
+
+      ],
+      "address": "College Square,Baripada",
+      "menu_items": [
+        {
+          "id": "108",
+          "name": "Choclate cake",
+          "position": 1,
+          "price": "450.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse1.mm.bing.net/th?id=OIP.huOdn1OsDwfnXZ_3HACf_gHaF-&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "109",
+          "name": "Pastry",
+          "position": 2,
+          "price": "250.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse4.mm.bing.net/th?id=OIP.udTx38ga-1uqC--C0K0cSgHaEK&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Laziz Pizza",
+      "image_link": "https://example.com/restaurant_e.jpg",
+      "price": 150,
+      "ratings": 4.7,
+      "reviews": 71,
+      "description": "A casual fast-food joint serving delicious burgers, Pizzas,fries, and milkshakes.",
+      "keywords": ["Pizza", "Burgers", "Drinks"],
+      "timeToDeliver": 35,
+      "minimum_order_price": 200,
+      "delivery_fee": 20,
+      "open_status": true,
+      "restaurant_images": [
+        "https://tse2.mm.bing.net/th?id=OIP.p6fwvteHm1jYL4o20DKcQQHaE7&pid=Api&P=0",
+        "https://tse2.mm.bing.net/th?id=OIP.p6fwvteHm1jYL4o20DKcQQHaE7&pid=Api&P=0",
+        "https://tse2.mm.bing.net/th?id=OIP.yqK3PnzozZH2qUqDlea71wHaFS&pid=Api&P=0"
+      ],
+      "address": "Near Ambica Mandir,Baripada",
+      "menu_items": [
+        {
+          "id": "110",
+          "name": "Chicken Burger",
+          "position": 1,
+          "price": "450.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse2.mm.bing.net/th?id=OIP.p6fwvteHm1jYL4o20DKcQQHaE7&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "112",
+          "name": "Non-Veg HotDog",
+          "position": 2,
+          "price": "250.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse2.mm.bing.net/th?id=OIP.yqK3PnzozZH2qUqDlea71wHaFS&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "BrewBakes",
+      "image_link": "https://example.com/restaurant_f.jpg",
+      "price": "200",
+      "ratings": 4.8,
+      "reviews": 36,
+      "description": "A trendy rooftop restaurant offering panoramic city views and a modern fusion menu.",
+      "timeToDeliver": 40,
+      "keywords": ["North Indian", "Chinese", "Non-veg"],
+      "minimum_order_price": 250,
+      "delivery_fee": 60,
+      "open_status": false,
+      "restaurant_images": [
+        "https://tse3.mm.bing.net/th?id=OIP.2RtmEFohgdZ70jZ60vqlwwHaE8&pid=Api&P=0",
+        "https://tse1.mm.bing.net/th?id=OIP.OASGCWmG7W9Y_WHEvjzvuQHaDt&pid=Api&P=0",
+        "https://tse2.mm.bing.net/th?id=OIP.Xgn9PdIys7OPuQF2Sayf0AHaHa&pid=Api&P=0"
+      ],
+      "address": "Near Roxy Cinama hall,Baripada",
+      "menu_items": [
+        {
+          "id": "113",
+          "name": "Butterscotch cake",
+          "position": 1,
+          "price": "530.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse1.mm.bing.net/th?id=OIP.huOdn1OsDwfnXZ_3HACf_gHaF-&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "109",
+          "name": "Hot Dogs",
+          "position": 2,
+          "price": "150.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse2.mm.bing.net/th?id=OIP.Xgn9PdIys7OPuQF2Sayf0AHaHa&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Hotel Durga",
+      "image_link": "https://example.com/restaurant_g.jpg",
+      "price": "250",
+      "ratings": 4.0,
+      "reviews": 82,
+      "description": "An elegant fine dining restaurant offering gourmet cuisine",
+      "keywords": ["North Indian", "Chinese", "Special"],
+      "timeToDeliver": 20,
+      "minimum_order_price": 300,
+      "delivery_fee": 40,
+      "open_status": true,
+      "restaurant_images": [
+        "https://i.pinimg.com/originals/69/8d/af/698dafb5a89d608d0493b05406bef0c1.jpg",
+        "https://tse1.mm.bing.net/th?id=OIP.HNY0vh8QUazAkb8nMXc3YwHaFj&pid=Api&rs=1&c=1&qlt=95&w=121&h=91",
+        "https://tse1.mm.bing.net/th?id=OIP.Be2cTvXmQWgSNruyeFEQDwHaFj&pid=Api&P=0",
+        "https://tse1.mm.bing.net/th?id=OIP.fRteHCm-dsF3hL6XwZaIdgHaE4&pid=Api&P=0",
+        "https://tse3.mm.bing.net/th?id=OIP.7vQQHYPNvMkDJPM3eah9JgHaDs&pid=Api&P=0"
+      ],
+      "address": "Deuli chaka,Baripada",
+      "menu_items": [
+        {
+          "id": "119",
+          "name": "Paneer kulcha",
+          "position": 1,
+          "price": "450.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://i.pinimg.com/originals/69/8d/af/698dafb5a89d608d0493b05406bef0c1.jpg"
+          ]
+        },
+        {
+          "id": "120",
+          "name": "Chole Bhature",
+          "position": 2,
+          "price": "150.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse1.mm.bing.net/th?id=OIP.huOdn1OsDwfnXZ_3HACf_gHaF-&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "King's Momo",
+      "image_link": "https://example.com/restaurant_h.jpg",
+      "price": "100",
+      "ratings": 4.6,
+      "reviews": 124,
+      "description": "An Italian trattoria known for its wood-fired pizzas and homemade pasta.",
+      "keywords": ["Momo", "Chutney", "Fried"],
+      "timeToDeliver": 25,
+      "minimum_order_price": 120,
+      "delivery_fee": 40,
+      "open_status": true,
+      "restaurant_images": [
+        "https://tse3.mm.bing.net/th?id=OIP.aG7qW3hdlk6cb1qmIuyNtgHaE9&pid=Api&P=0",
+        "https://tse3.mm.bing.net/th?id=OIP.aG7qW3hdlk6cb1qmIuyNtgHaE9&pid=Api&P=0",
+        "https://tse4.mm.bing.net/th?id=OIP.Xn_UUFHkinCsNrcLd-ui8gHaFj&pid=Api&P=0",
+        "https://tse3.mm.bing.net/th?id=OIP.mgmRyw7CuuI_7HMl6-5sMwHaE8&pid=Api&P=0"
+      ],
+      "address": "Balasore golei,Baripada",
+      "menu_items": [
+        {
+          "id": "121",
+          "name": "Dimsum momos",
+          "position": 1,
+          "price": "120.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse3.mm.bing.net/th?id=OIP.aG7qW3hdlk6cb1qmIuyNtgHaE9&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "122",
+          "name": "Sizzling Momos Chutneey",
+          "position": 2,
+          "price": "170.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse4.mm.bing.net/th?id=OIP.Xn_UUFHkinCsNrcLd-ui8gHaFj&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Waah Taaz",
+      "image_link": "https://example.com/restaurant_i.jpg",
+      "price": "30",
+      "ratings": 4.9,
+      "reviews": 78,
+      "description": "Tea Coffe best in area",
+      "keywords": ["Coffee", "Tea", "MilkShakes"],
+      "timeToDeliver": 30,
+      "minimum_order_price": 90,
+      "delivery_fee": 8,
+      "open_status": true,
+      "restaurant_images": [
+        "https://tse1.mm.bing.net/th?id=OIP.bZe5CRuf8D_SPAiU_sAYTwHaE8&pid=Api&P=0",
+        "https://tse1.mm.bing.net/th?id=OIP.CmjYOR3BbBzFHflXBSfcpgHaFb&pid=Api&rs=1&c=1&qlt=95&w=143&h=105",
+        "https://tse1.mm.bing.net/th?id=OIP.bZe5CRuf8D_SPAiU_sAYTwHaE8&pid=Api&P=0",
+        "https://tse1.mm.bing.net/th?id=OIP.bZe5CRuf8D_SPAiU_sAYTwHaE8&pid=Api&P=0"
+      ],
+      "address": "Palbani Golei,Baripada",
+      "menu_items": [
+        {
+          "id": "123",
+          "name": "Cold Coffee ",
+          "position": 1,
+          "price": "220.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse1.mm.bing.net/th?id=OIP.bZe5CRuf8D_SPAiU_sAYTwHaE8&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "124",
+          "name": "Coffee Tea",
+          "position": 2,
+          "price": "250.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse1.mm.bing.net/th?id=OIP.huOdn1OsDwfnXZ_3HACf_gHaF-&pid=Api&P=0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Pappu's Mitha Paan",
+      "image_link": "https://example.com/restaurant_j.jpg",
+      "price": "50",
+      "ratings": 3.5,
+      "reviews": 56,
+      "description": "Paan Fire paan smoke paan",
+      "keywords": ["Pure Veg", "Mitha", "Paan"],
+      "timeToDeliver": 15,
+      "minimum_order_price": 120,
+      "delivery_fee": 10,
+      "open_status": false,
+      "restaurant_images": [
+        "https://tse1.mm.bing.net/th?id=OIP.R9q-U00M8tWaO2xwEXxAAwHaE8&pid=Api&rs=1&c=1&qlt=95&w=154&h=103",
+        "https://tse1.mm.bing.net/th?id=OIP.BYRLdx1cPXID5okSBGmVngHaHa&pid=Api&rs=1&c=1&qlt=95&w=103&h=103"
+      ],
+      "address": "Takatpur,Baripada",
+      "menu_items": [
+        {
+          "id": "101",
+          "name": "Fire paan",
+          "position": 1,
+          "price": "70.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse4.mm.bing.net/th?id=OIP.xkxdQ2F8Cn3GR7zzxhP3ZwHaEo&pid=Api&P=0"
+          ]
+        },
+        {
+          "id": "102",
+          "name": "Mitha paan",
+          "position": 2,
+          "price": "50.00",
+          "cuisine_name": "Indian",
+          "image": [
+            "https://tse1.mm.bing.net/th?id=OIP.3iq57rhHNPlqKzQ139PhIQHaEo&pid=Api&P=0"
+          ]
+        }
+      ]
+    }
+  ]
+  
+  
+  
