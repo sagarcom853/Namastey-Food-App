@@ -41,7 +41,7 @@ const GeneratePassword = () => {
   };
 
   return (
-    <div className="bg-cyan-200 h-auto w-4/5 mx-auto my-8 shadow-2xl rounded-md">
+    <div className="bg-cyan-200 lg:h-3/4 sm:h-full md:h-full w-4/5 mx-auto my-8 shadow-2xl rounded-md">
       <div className="flex flex-wrap justify-between relative top-5 m-5">
         <p className="font-bold">{password}</p>
         <button

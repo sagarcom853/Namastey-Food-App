@@ -1,19 +1,18 @@
 import React from "react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Badge } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import useOnlineStatus from "./useHooks/useOnLineStatus";
-import PasswordGenerate from "./passwordGeneratorNew/PasswordGenerate";
-import Login from "./authentication/Login";
+import { useSelector } from "react-redux";
+import { useAuth } from "./Context/AuthProvider";
 
-const Header = ({ textFieldValue, plates }) => {
+const Header = ({ plates }) => {
+  const { isAuthenticated, logout } = useAuth()
   const onlineStatus = useOnlineStatus();
-  useEffect(() => {}, [textFieldValue]);
+  const cart = useSelector((store) => store?.cart.items)
 
   return (
-    <div className='flex justify-start w-full mx-auto flex-wrap items-center p-2 bg-emerald-200 hover:bg-emerald-300 shadow-lg rounded-sm'>
+    <div className='flex flex-col justify-between border border-black md:flex md:flex-row  py-4 text-white bg-black'>
       <ul className='ml-2 flex flex-wrap justify-start items-center font-medium gap-3'>
         <li>
           <Link to='/'>
@@ -25,45 +24,29 @@ const Header = ({ textFieldValue, plates }) => {
           </Link>
         </li>
         <li>
-          <Link className='flex flex-nowrap' to='/'>
+          <Link className='flex flex-nowrap hover:text-orange-400 transition-all duration-300 ease-in-out' to='/'>
             <p>OnlineStatus:</p> {onlineStatus ? "🟢" : "🔴"}
           </Link>
         </li>
         <li>
-          <Link to='/login'>Login</Link>
+          {!isAuthenticated ? <Link className="hover:text-orange-400 transition-all duration-300 ease-in-out" to="/login">Login</Link> : <Link className="hover:text-orange-400 transition-all duration-300 ease-in-out" onClick={logout}>Logout</Link>}
         </li>
         <li>
-          <Link to='/signup'>SignUp</Link>
+          <Link className="hover:text-orange-400 transition-all duration-300 ease-in-out" to='/'>Home</Link>
         </li>
         <li>
-          <Link to='/grocery'>Grocery</Link>
+          <Link className="hover:text-orange-400 transition-all duration-300 ease-in-out" to='/about'>About</Link>
         </li>
         <li>
-          <Link to='/'>Home</Link>
-        </li>
-        <li>
-          <Link to='/about'>About</Link>
-        </li>
-        <li>
-          <Link to='/contact'>Contact</Link>
-        </li>
-        <li>
-          <Link to='/generate-password'>GeneratePassword</Link>
-        </li>
-        <li>
-          <Link to='/generate-password2'>PassGen</Link>
-        </li>
-        <li>
-          <Link to='/cart'>
-            <Badge color='secondary' badgeContent={plates}>
-              <IconButton color='secondary' aria-label='add to shopping cart'>
-                <AddShoppingCartIcon />
-              </IconButton>
-            </Badge>
+          <Link className="hover:text-orange-400 transition-all duration-300 ease-in-out" to='/cart'>
+            {/* <IconButton color='secondary' aria-label='add to shopping cart'> */}
+            <span className="text-sm"><AddShoppingCartIcon /></span>
+            {cart.length} items
+            {/* </IconButton> */}
           </Link>
         </li>
       </ul>
     </div>
   );
 };
-export default Header;
+export default Header

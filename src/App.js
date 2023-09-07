@@ -11,6 +11,9 @@ import Footer from "./Footer";
 import Home from "./Home";
 import Login from "./authentication/Login";
 import SignupPage from "./authentication/SignupPage";
+import Layout from "./authentication/Layout";
+import ProtectedRoute from "./authentication/ProtectedRoutes";
+import { useSelector } from 'react-redux'
 
 const GeneratePassword1 = lazy(() =>
   import("./Password Generator old/GeneratePassword1")
@@ -19,14 +22,16 @@ const PasswordGenerate = lazy(() =>
   import("./passwordGeneratorNew/PasswordGenerate")
 );
 const Grocery = lazy(() => import("./Grocery"));
+const BarCode = lazy(() => import("./Scanner/BarCode"));
+const ProgressBar = lazy(() => import('./Progressbar/ProgressBar'));
 
 const App = () => {
   let HighestPriceValue = 800;
 
-  const [textFieldValue, setTextFieldValue] = useState("");
   const [plates, changePlates] = useState(0);
   const [priceFilter, setPriceFilter] = useState(HighestPriceValue);
   const [value, setValue] = useState(HighestPriceValue);
+  const darkMode = useSelector((store) => store.cart?.dark)
 
   //instead of manually setting data, write a loop
   const setMarks = (HighestPriceValue, steps) => {
@@ -64,76 +69,94 @@ const App = () => {
   //filter using dropdown
 
   return (
-    <div className="w-full">
+    <div className={`w-full relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
       <BrowserRouter>
-        <Header textFieldValue={textFieldValue} plates={plates} />
+        {/* <Header plates={plates} /> */}
         <Routes>
-          <Route
-            path='/'
-            element={
-              <Home
-                textFieldValue={textFieldValue}
-                marks={marks}
-                handleChange={handleChange}
-                valuetext={valuetext}
-                handleBlur={handleBlur}
-                priceFilter={priceFilter}
-                value={value}
-                HighestPriceValue={HighestPriceValue}
-                setTextFieldValue={setTextFieldValue}
-
-                // handleSearch={handleSearchChange}
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/signup' element={<SignupPage />} />
+          <Route exact path="/*" element={<Layout>
+            <Routes>
+              <Route
+                path='/'
+                element={
+                  <Home
+                    marks={marks}
+                    handleChange={handleChange}
+                    valuetext={valuetext}
+                    handleBlur={handleBlur}
+                    priceFilter={priceFilter}
+                    value={value}
+                    HighestPriceValue={HighestPriceValue}
+                  />
+                }
               />
-            }
-          />
-          <Route exact path='about' element={<About />} />
-          <Route exact path='contact' element={<Contact />} />
-          <Route exact path='hotelPage' element={<HotelPage />} />
-          <Route exact path='login' element={<Login />} />
-          <Route exact path='signup' element={<SignupPage />} />
-          <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
+              <Route exact path='about' element={<About />} />
+              <Route exact path='contact' element={<Contact />} />
+              <Route exact path='hotelPage' element={<HotelPage />} />
+              <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
+              {/* <Route element={<RequireAuth />}>
+             <Route path="/protected" element={<ProtectedPage />} />
+             <Route path="/dashboard" element={<Dashboard />} />
+             </Route> */}
 
-          <Route
-            exact
-            path='cart'
-            element={<Cart plates={plates} changePlates={changePlates} />}
-          />
-          {/* <Route
-          exact
-          path="modal"
-          element={<Modal plates={plates} changePlates={changePlates} />}
-        /> */}
-          <Route
-            exact
-            path='grocery'
-            element={
-              <Suspense fallback={<p> Loading..............</p>}>
-                <Grocery />
-              </Suspense>
-            }
-          />
-          <Route
-            exact
-            path='generate-password'
-            element={
-              <Suspense fallback={<p> Password Generate..............</p>}>
-                <GeneratePassword1 />
-              </Suspense>
-            }
-          />
-          <Route
-            exact
-            path='generate-password2'
-            element={
-              <Suspense fallback={<p> Password Generate..............</p>}>
-                <PasswordGenerate />
-              </Suspense>
-            }
-          />
+              <Route path="cart" element={<ProtectedRoute />}>
+                <Route index element={<Cart />} />
+              </Route>
+              <Route
+                exact
+                path='grocery'
+                element={
+                  <Suspense fallback={<p> Loading..............</p>}>
+                    <Grocery />
+                  </Suspense>
+                }
+              />
+              <Route
+                exact
+                path='generate-password'
+                element={
+                  <Suspense fallback={<p> Password Generate..............</p>}>
+                    <GeneratePassword1 />
+                  </Suspense>
+                }
+              />
+              <Route
+                exact
+                path='generate-password2'
+                element={
+                  <Suspense fallback={<p> Password Generate..............</p>}>
+                    <PasswordGenerate />
+                  </Suspense>
+                }
+              />
+              <Route
+                exact
+                path='barcode'
+                element={
+                  <Suspense fallback={<p> Loading Scanner..............</p>}>
+                    <BarCode />
+                  </Suspense>
+                }
+              />
+              <Route
+                exact
+                path='progress'
+                element={
+                  <Suspense fallback={<p> Loading Progress..............</p>}>
+                    <ProgressBar />
+                  </Suspense>
+                }
+              />
+
+            </Routes>
+
+          </Layout>} />
+
         </Routes>
-        <Footer />
-      </BrowserRouter>
-    </div>
+        {/* <Footer /> */}
+      </BrowserRouter >
+    </div >
   );
 };
 

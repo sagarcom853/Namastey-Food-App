@@ -21,3 +21,9 @@ input::-webkit-inner-spin-button {
 body{
   overflow-x: hidden;
 }
+
+.darkModeCSS{
+    background-color: #101010;
+    color: white;
+
+}

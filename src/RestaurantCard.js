@@ -1,41 +1,48 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
-// import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-// import { Carousel } from "react-responsive-carousel";
+import StarIcon from '@mui/icons-material/Star';
 
-const RestaurantCard = ({ data, topRated, setTopRated }) => {
+const RestaurantCard = ({ data }) => {
   const [hoveredState, setHoveredState] = useState(true);
-
   return (
     <div
-      key={data.data.id}
-      className='border-none hover:border-black w-72 h-90 p-4 mt-4 hover:shadow-2xl'
+
+      key={data.info.id}
+      className='hover:border-gray-100 hover:border-2 hover:outline-0 w-72 h-90 p-4 mt-4 hover:shadow-2xl transition-all duration-300 ease-in-out'
     >
       <div className='h-40 w-60 mx-auto'>
-        <Link to={`/restaurant/${data.data.id}`}>
+        <Link to={`/restaurant/${data.info.id}`}>
           <img
             alt='Food'
             className=' h-40 w-60 pt-2 hover:border-black'
-            src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${data.data.cloudinaryImageId}`}
+            src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${data.info.cloudinaryImageId}`}
           />
         </Link>
       </div>
-
       <div className='my-4'>
         <div className='text-md text-gray-850 font-semibold font-sans text-start'>
-          {data.data.name}
+          {data.info.name}
         </div>
         <div className='text-sm text-gray-600'>
-          {data.data.cuisines.map((data) => data + ", ")}
+          {data.info.cuisines?.join(", ")}
         </div>
-        <div className='mt-4 mx-4'>
-          <ul className='list-disc flex flex-wrap justify-between'>
+        <div className='mt-4 mx-4 text-gray-600'>
+          <ul className='list-disc flex flex-wrap justify-between items-center'>
             <li className='text-sm text-gray-600'>
-              {data.data.deliveryTime} MINS
+              {data.info.sla.deliveryTime} MINS
             </li>
             <li className='text-sm text-gray-600'>
-              {data.data.costForTwoString}
+              {data.info.costForTwo}
             </li>
+            <li className={` ${Number(data.info?.avgRating) > 4 ? "text-green-600" : "text-orange-600"}`}>
+
+              <StarIcon />{data.info?.avgRating}</li>
+            {/* {data.info.isOpen ? <li className='text-sm bg-green-100 p-1 rounded-md hover:bg-green-200 text-gray-600'>
+              OPEN
+            </li> : <li className='text-sm bg-gray-300 p-1 rounded-md hover:bg-gray-600 hover:text-white text-gray-600'>
+              CLOSED
+            </li>} */}
+
           </ul>
         </div>
         <div className='my-4 flex justify-center'>
@@ -47,8 +54,6 @@ const RestaurantCard = ({ data, topRated, setTopRated }) => {
             ""
           )}
         </div>
-
-        <div className='open_status'>{data.data.open_status}</div>
       </div>
     </div>
   );
@@ -68,3 +73,6 @@ export const withPromotedRestuarant = (RestaurantCard) => {
     );
   };
 };
+
+
+

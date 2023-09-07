@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import HotelPage from "./HotelPage";
-import RestaurantData from "./restaurants.json";
 import FiltersPage from "./FiltersPage";
-import axios from "axios";
-import TotalRestaurants from "./TotalRestaurants";
+// import TotalRestaurants from "./TotalRestaurants";
 import ShimmerUi from "./useHooks/ShimmerUi";
+import { useAuth } from "./Context/AuthProvider";
+import { useLocation } from "react-router-dom";
+import Switch from '@mui/material/Switch';
+import { useDispatch, useSelector } from "react-redux";
+import { themeReducer } from "./Redux/cartSlice";
+import Modal from "./Modal/Modal";
 
 const Home = ({
-  textFieldValue,
   marks,
   handleChange,
   valuetext,
@@ -16,105 +19,219 @@ const Home = ({
   value,
   HighestPriceValue,
   handleSearchChange,
-  setTextFieldValue,
 }) => {
   let [RestaurantData6, setRestaurantData6] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
+  // const [selectedOption, setSelectedOption] = useState(null);
+  const [originalData, setOriginalData] = useState([]); // Store the original data
   const [topRated, setTopRated] = useState(false);
+  const [textFieldValue, setTextFieldValue] = useState("");
+  const [labelNamesArray, setLabelNamesArray] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [Err, setErr] = useState("")
+  const { isAuthenticated } = useAuth()
+  const dispatch = useDispatch()
+  const location = useLocation()
+  console.log('location', location)
 
+  const darkMode = useSelector((store) => store?.cart.dark);
+  console.log("themeColor", darkMode)
   let API =
-    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.9319838&lng=86.7465928&page_type=DESKTOP_WEB_LISTING";
+    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
 
-  let API2 =
-    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.9319838&lng=86.7465928&offset=15&sortBy=RELEVANCE&pageType=SEE_ALL&page_type=DESKTOP_SEE_ALL_LISTING";
-  // const RestaurantDataSearchFiltered = RestaurantData6.filter((data) =>
-  //   data.data.name.toLowerCase().includes(textFieldValue.toLowerCase())
-  // );
-  // console.log("RestaurantDataSearchFiltered",RestaurantDataSearchFiltered)
-  // let RestaurantData2 = RestaurantDataSearchFiltered.filter(
-  //   (data) => Number(data.minimum_order_price) <= Number(priceFilter)
-  // );
-  // let RestaurantData2=''
-
-  if (topRated) {
-    let RestaurantData4 = RestaurantData6.filter((data) => data.data.avgRating > 4);
-    RestaurantData6 = RestaurantData4;
-    console.log("Res", RestaurantData6);
-  }
-
-  // if (selectedOption) {
-  //   if (selectedOption.toLowerCase().toString() === "no options selected") {
-  //     RestaurantData2 = [...RestaurantData2];
-  //   } else {
-  //     RestaurantData2 = RestaurantData2.filter(
-  //       (data) => data.data.name === selectedOption
-  //     );
-  //   }
-  // }
-  // const labelNamesArray = [];
-  // labelNamesArray.push({ label: "No Options Selected" });
-  // RestaurantData2.filter((data) => labelNamesArray.push({ label: data.name }));
-  // const handleInputChange = (event, value) => {
-  //   setSelectedOption(value.label);
-  // };
   const handleTopRestaurants = () => {
     setTopRated(!topRated);
   };
 
-
   const fetchData = async () => {
     try {
-      const response = await axios.get(API); // Replace with your API endpoint
-      const response2 = await axios.get(API2);
-
-      console.log('response',response) 
-      console.log('response2',response2) 
-      // response2?.data?.data?.cards.forEach((datum)=>{
-      //     if(response?.data?.data?.cards[2]?.data?.data?.cards.data.name.includes(datum.data.data.name)){
-      //       console.log('1')
-      //       console.log('datum',datum.data.data.name)
-      //     }
-      // })
-
-      response.data.data.cards.map((d) => {
-        if (d.cardType === "seeAllRestaurants") {
-          console.log('Restaurant6',RestaurantData6)
-          setRestaurantData6(d.data.data.cards);
-        }
-      });
+      const data = await fetch(API);
+      const json = await data.json();
+      setRestaurantData6(
+        json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+      setOriginalData(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants)
     } catch (error) {
-      console.error("Error fetching data:", error);
+      <Modal
+        modalContent={error}
+        modalTitle="Error Occured"
+        showModal={showModal}
+        setShowModal={setShowModal} />
     }
   };
+
+  const setTopRatedFunc = useCallback(() => {
+    if (topRated) {
+      if (RestaurantData6?.length > 0) {
+        let RestaurantData4 = originalData.filter(
+          (data) => data.info.avgRating > 4.3
+        );
+        console.log(originalData)
+        if (originalData.length !== RestaurantData4.length) {
+          setRestaurantData6(RestaurantData4)
+        }
+      }
+    } else {
+      setRestaurantData6(originalData)
+    }
+
+  }, [topRated])
+
+  const SearchFilter = async () => {
+    if (textFieldValue) {
+      if (originalData && originalData.length > 0) {
+        let filteredData = originalData.filter((data) => {
+          if (data.info.name.toLowerCase().includes(textFieldValue.toLowerCase())) {
+            setErr("")
+            return data.info.name.toLowerCase().includes(textFieldValue.toLowerCase())
+          } else {
+            setErr("No restaurants found")
+            return;
+          }
+        })
+        if (filteredData.length > 0) {
+          setRestaurantData6(filteredData)
+          setErr("")
+        } else {
+          setErr("No restaurants found")
+          return;
+        }
+
+      }
+    } else {
+      setRestaurantData6(originalData)
+    }
+  }
+
+  const setDropDown = () => {
+    let labelNamesArray = RestaurantData6?.map((res) => {
+      return res.info.name
+    })
+    labelNamesArray?.unshift("No items Selected")
+    setLabelNamesArray(labelNamesArray)
+  }
+  const handleInputChange = (e) => {
+    if (e.target.value.toLowerCase() === "no items selected") {
+      setRestaurantData6(originalData)
+    }
+    else if (e.target.value) {
+      let filteredDropRes = originalData.filter((res) => {
+        return res.info.name === e.target.value
+      })
+      setRestaurantData6(filteredDropRes)
+    }
+  }
+
+  const setDrawFilter = () => {
+    if (priceFilter) {
+      const filteredData = originalData.filter((data) => {
+        const priceString = data.info.price; // Assuming "₹150 for two" format
+        const priceValue = Number(priceString?.replace(/[^0-9]/g, '')); // Extract the numerical part
+
+        return priceValue > priceFilter;
+      });
+      console.log('filteredData', filteredData);
+      return filteredData;
+    } else {
+      // If priceFilter is not set, return the original data
+      return originalData;
+    }
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [])
 
-  if (RestaurantData6.length === 0 ) {
+  useEffect(() => {
+    SearchFilter()
+  },
+    [textFieldValue]);
+  useEffect(() => {
+    setTopRatedFunc()
+  }, [topRated])
+
+  useEffect(() => {
+    setDropDown()
+  }, [originalData])
+
+  useEffect(() => {
+    setDrawFilter()
+  }, [priceFilter])
+
+  if (RestaurantData6?.length === 0) {
+    <Modal
+      modalContent={"Loading....................."}
+      modalTitle="Error Occured"
+      showModal={showModal}
+      setShowModal={setShowModal} />
     return <ShimmerUi />;
   }
 
+  const handleTheme = () => {
+    console.log("dark inside handleTheme", darkMode)
+    if (darkMode) {
+      dispatch(themeReducer("light"))
+    } else {
+      dispatch(themeReducer("dark"))
+    }
+  }
+
   return (
-    <div>
-      <FiltersPage
-        RestaurantData={RestaurantData6}
-        marks={marks}
-        textFieldValue={textFieldValue}
-        handleChange={handleChange}
-        valuetext={valuetext}
-        value={value}
-        handleBlur={handleBlur}
-        HighestPriceValue={HighestPriceValue}
-        priceFilter={priceFilter}
-        // labelNamesArray={labelNamesArray}
-        // handleInputChange={handleInputChange}
-        handleSearch={handleSearchChange}
-        setTextFieldValue={setTextFieldValue}
-        handleTopRestaurants={handleTopRestaurants}
-        topRated={topRated}
-        setTopRated={setTopRated}
-      />
-      <TotalRestaurants RestaurantData={RestaurantData6} />
+    <div className={` ${darkMode ? 'darkModeCSS' : ""}`}>
+      {isAuthenticated ? <div className="flex items-center justify-center flex-wrap font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
+      <div className={`flex flex-row flex-wrap justify-between`}>
+        <FiltersPage
+          RestaurantData={RestaurantData6}
+          marks={marks}
+          textFieldValue={textFieldValue}
+          handleChange={handleChange}
+          valuetext={valuetext}
+          value={value}
+          handleBlur={handleBlur}
+          HighestPriceValue={HighestPriceValue}
+          priceFilter={priceFilter}
+          labelNamesArray={labelNamesArray}
+          handleInputChange={handleInputChange}
+          handleSearch={handleSearchChange}
+          setTextFieldValue={setTextFieldValue}
+          handleTopRestaurants={handleTopRestaurants}
+          topRated={topRated}
+          setTopRated={setTopRated}
+          Err={Err}
+        />
+        <div className="flex flex-wrap justify-end m-4 p-2">
+          <div className="flex gap-12 cursor-pointer text-xs">
+
+            <div className="flex gap-4 items-center">
+              <Switch
+                checked={darkMode}
+                onChange={handleTheme}
+                inputProps={{ 'aria-label': 'controlled' }}
+                label={darkMode === true ? "Dark" : "Ligt"}
+              />
+            </div>
+
+            <div className="flex gap-4 items-center">
+              <img className="h-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/c0bb85d3a6347b2ec070a8db694588261616149578.png?output-format=webp" loading="lazy" />
+              <span className="">Delivery</span>
+            </div>
+            <div className="flex gap-4 items-center">
+              <img className="h-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/78d25215ff4c1299578ed36eefd5f39d1616149985.png?output-format=webp" loading="lazy" />
+              <span className="whitespace-nowrap">Dining Out</span>
+            </div>
+            <div className="flex gap-4 items-center">
+              <img className="h-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/01040767e4943c398e38e3592bb1ba8a1616150142.png?output-format=webp" loading="lazy" />
+              <span className="">Nightlife</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      {/* <TotalRestaurants RestaurantData={RestaurantData6} /> */}
 
       <HotelPage
         RestaurantData={RestaurantData6}
@@ -126,8 +243,8 @@ const Home = ({
         handleBlur={handleBlur}
         HighestPriceValue={HighestPriceValue}
         priceFilter={priceFilter}
-        // labelNamesArray={labelNamesArray}
-        // handleInputChange={handleInputChange}
+        labelNamesArray={labelNamesArray}
+        handleInputChange={handleInputChange}
         handleSearch={handleSearchChange}
         setTextFieldValue={setTextFieldValue}
         // handleTopRestaurants={handleTopRestaurants}
@@ -138,3 +255,4 @@ const Home = ({
   );
 };
 export default Home;
+

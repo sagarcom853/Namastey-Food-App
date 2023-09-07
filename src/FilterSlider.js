@@ -31,7 +31,7 @@ const FilterSlider = ({
 
   return (
     <div>
-      <Box sx={{ width: width }}>
+      <Box sx={{ width: '300px' }}>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs>
             <Slider
