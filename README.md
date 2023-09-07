@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+Namaste Foods - Restaurant Food Ordering App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Namaste Foods is a web-based application that allows users to browse and order food from our restaurant. With a wide variety of delicious dishes and seamless ordering process, we aim to provide a delightful dining experience.
 
-## Available Scripts
+Features
+User Authentication: Create an account or log in to get access to personalized features like order history and saved addresses.
+Browse Menu: Explore our extensive menu categorized by cuisine, dietary preferences, and more.
+Customizable Orders: Modify dishes to suit your taste preferences, with options for extras, sides, and special requests.
+Secure Payments: Make hassle-free payments through multiple payment options, including credit/debit cards and digital wallets.
+Order Tracking: Keep an eye on the status of your order in real-time, from preparation to delivery.
+Save Addresses: Store multiple delivery addresses for convenient ordering.
+Rating and Reviews: Share your feedback and read reviews from other customers to make informed choices.
 
-In the project directory, you can run:
+Technologies Used
+Frontend: React.js, Redux for state management, Tailwind CSS for styling.
 
-### `npm start`
+Getting Started
+Prerequisites
+Node.js and npm should be installed on your machine.
+Installation
+Clone the repository:
+bash
+Copy code
+Install dependencies:
+bash
+Copy code
+cd namaste-foods
+npm install
+Set up environment variables:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Create a .env file in the root directory and add the following:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+env
+Copy code
+REACT_APP_API_URL=http://localhost:5000
+REACT_APP_STRIPE_PUBLIC_KEY=your_stripe_public_key
+Replace your_stripe_public_key with your Stripe API public key.
 
-### `npm test`
+Run the application:
+bash
+Copy code
+npm start
+Contributing
+If you'd like to contribute to this project, please follow these guidelines:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Fork the repository.
+Create a new branch for your feature or bug fix.
+Make your changes and write tests if possible.
+Test your changes thoroughly.
+Create a pull request with a clear description of your changes.
+License
+This project is licensed under the MIT License.

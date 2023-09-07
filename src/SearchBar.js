@@ -1,54 +1,48 @@
-import React from "react";
-import { TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Modal from "./Modal/Modal";
 
-const SearchBar = ({
-  setTextFieldValue,
-}) => {
+const SearchBar = ({ setTextFieldValue, Err }) => {
+  const [showModal, setShowModal] = useState(false)
+  const darkMode = useSelector((store) => store?.cart.dark);
+
+  useEffect(() => {
+    if (Err !== "") {
+      console.log("called inside useEffct",showModal,Err)
+      setShowModal(true)
+    }
+    // Err!=="" && (setShowModal(true))
+  }, [Err])
+
+  const searchBarClasses = `
+    w-64 border outline-none border-gray-300 focus:border-gray-500 px-2 py-2 transition-all duration-300 ${darkMode ? 'darkModeCSS' : ''}`;
+
+    console.log("ShowModal",showModal,"Err",Err)
   return (
-    <div className="flex flex-wrap justify-center items-center gap-3">
-      <div className="searchbar-text">
-      <TextField
-        id="filled-search"
-        label="Search Restaurants"
-        type="search"
-        key="search"
-        color="secondary"
-        // value={textFieldValue}
-        onChange={(e) => setTextFieldValue(e.target.value)}
-        InputLabelProps={{ shrink: true }}
-        inputProps={{}}
-        // autoFocus="autoFocus"
-        autoComplete="true"
-        // multiline="true"
-        // fullWidth="true"
-        // margin="normal"
-        variant="outlined"
-        autohighlight="true"
-        //   focused
-        // helperText="Find best Restaurants near you"
-        // helperTextColor="secondary"
-      />
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap justify-center items-center gap-3">
+        <input
+          id="filled-search"
+          label="Search Restaurants"
+          type="text"
+          key="search1"
+          color="text-black"
+          className={searchBarClasses}
+          placeholder="Search for Restaurants"
+          name="hello"
+          onChange={(e) => setTextFieldValue(e.target.value)}
+        />
       </div>
-    
-
-      <input
-         id="filled-search"
-         label="Search Restaurants"
-         type="text"
-         key="search1"
-         color="secondary"
-         className="h-12"
-         placeholder="Search for Restaurants"
-         name="hello"
-        onChange={(e) => setTextFieldValue(e.target.value)}
-
-      />
+      {showModal && Err !== "" && (
+        <Modal
+          modalContent="No Restaurants found for the search!!"
+          modalTitle="Not Found"
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
     </div>
   );
 };
 
 export default SearchBar;
-
-
-
-
