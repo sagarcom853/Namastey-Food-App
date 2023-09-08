@@ -145,6 +145,7 @@ const Home = ({
     SearchFilter()
   },
     [textFieldValue]);
+    
   useEffect(() => {
     setTopRatedFunc()
   }, [topRated])
