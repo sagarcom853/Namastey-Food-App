@@ -7,10 +7,10 @@ const Footer = () => {
           <span className="opacity-50 font-medium">COMPANY</span>
           <ul className="mt-4 flex flex-col gap-2">
             <Link to="/about">
-              <li className="footerItem">About us</li>
+              <li className="">About us</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Careers</li>
+              <li className="">Careers</li>
             </Link>
             <Link to="/generate-password">
               <li className="">Team GeneratePassword</li>
@@ -19,19 +19,19 @@ const Footer = () => {
               <li className="">Generate Password2</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Bug Bounty</li>
+              <li className="">Bug Bounty</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Namaste One</li>
+              <li className="">Namaste One</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Namaste Corporate</li>
+              <li className="">Namaste Corporate</li>
             </Link>
             <Link to="/grocery">
-              <li className="footerItem">Namaste Instamart</li>
+              <li className="">Namaste Instamart</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Namaste Genie</li>
+              <li className="">Namaste Genie</li>
             </Link>
           </ul>
         </div>
@@ -48,7 +48,7 @@ const Footer = () => {
               <li className="">Barcode with us</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Ride with us</li>
+              <li className="">Ride with us</li>
             </Link>
           </ul>
         </div>
@@ -58,22 +58,22 @@ const Footer = () => {
           <span className="opacity-50 font-medium">LEGAL</span>
           <ul className="mt-4 flex flex-col gap-2">
             <Link to="/">
-              <li className="footerItem">Terms & Conditions</li>
+              <li className="">Terms & Conditions</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Refund & Cancellation</li>
+              <li className="">Refund & Cancellation</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Privacy Policy</li>
+              <li className="">Privacy Policy</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Cookie Policy</li>
+              <li className="">Cookie Policy</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Offer Terms</li>
+              <li className="">Offer Terms</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Phishing & Fraud</li>
+              <li className="">Phishing & Fraud</li>
             </Link>
           </ul>
         </div>
