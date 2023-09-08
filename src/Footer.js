@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 const Footer = () => {
   return (
-    <div className="flex flex-col justify-between border border-black md:flex md:flex-row  py-10 text-white bg-black">
+    <div className="flex flex-col justify-between border border-black md:flex md:flex-row py-10 text-white bg-black">
       <div className="flex flex-1 justify-around ">
         <div className="leftFooter1">
           <span className="opacity-50 font-medium">COMPANY</span>
@@ -22,16 +22,16 @@ const Footer = () => {
               <li className="footerItem">Bug Bounty</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Swiggy One</li>
+              <li className="footerItem">Namaste One</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Swiggy Corporate</li>
+              <li className="footerItem">Namaste Corporate</li>
             </Link>
             <Link to="/grocery">
-              <li className="footerItem">Swiggy Instamart</li>
+              <li className="footerItem">Namaste Instamart</li>
             </Link>
             <Link to="/">
-              <li className="footerItem">Swiggy Genie</li>
+              <li className="footerItem">Namaste Genie</li>
             </Link>
           </ul>
         </div>
@@ -41,11 +41,11 @@ const Footer = () => {
             <Link to="/contact">
               <li className="">Help & Support</li>
             </Link>
-            <Link to="/">
-              <li className="/progress">Progress</li>
+            <Link to="/progress">
+              <li className="/">Progress</li>
             </Link>
-            <Link to="/">
-              <li className="/barcode">Barcode with us</li>
+            <Link to="/barcode">
+              <li className="">Barcode with us</li>
             </Link>
             <Link to="/">
               <li className="footerItem">Ride with us</li>
@@ -94,3 +94,6 @@ const Footer = () => {
   );
 };
 export default Footer;
+
+
+

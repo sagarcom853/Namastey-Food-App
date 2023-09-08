@@ -6,7 +6,7 @@ import useOnlineStatus from "./useHooks/useOnLineStatus";
 import { useSelector } from "react-redux";
 import { useAuth } from "./Context/AuthProvider";
 
-const Header = ({ plates }) => {
+const Header = () => {
   const { isAuthenticated, logout } = useAuth()
   const onlineStatus = useOnlineStatus();
   const cart = useSelector((store) => store?.cart.items)

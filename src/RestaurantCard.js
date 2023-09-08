@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import StarIcon from '@mui/icons-material/Star';
 
 const RestaurantCard = ({ data }) => {
-  const [hoveredState, setHoveredState] = useState(true);
+  const [hoveredState] = useState(true);
   return (
     <div
 

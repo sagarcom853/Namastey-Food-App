@@ -5,7 +5,7 @@ const ShimmerUi = () => {
   let cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const darkMode = useSelector((store)=>store.cart?.dark)
   return (
-    <div className={`flex flex-wrap mx-4 lg:justify-start gap-5 mb-4 sm:justify-center items-center md:justify-start bg-green-100`}>
+    <div className={`flex flex-wrap mx-4 lg:justify-start gap-5 mb-4 sm:justify-center items-center md:justify-start`}>
       {cards.map((card) => {
         return (
           <div
@@ -20,7 +20,6 @@ const ShimmerUi = () => {
             <div className="flex justify-end flex-wrap ">
               <div className='h-6 w-44 mx-4 bg-gray-200 hover:border-black hover:shadow-md  mt-2'></div>
               <div className='h-6 w-44 mx-4 bg-gray-200 hover:border-black  hover:shadow-md  mt-2'></div>
-
             </div>
           </div>
         );
