@@ -128,13 +128,11 @@ const Home = ({
       const filteredData = originalData.filter((data) => {
         const priceString = data.info.price; // Assuming "₹150 for two" format
         const priceValue = Number(priceString?.replace(/[^0-9]/g, '')); // Extract the numerical part
-
         return priceValue > priceFilter;
       });
       console.log('filteredData', filteredData);
       return filteredData;
     } else {
-      // If priceFilter is not set, return the original data
       return originalData;
     }
   };
@@ -227,9 +225,6 @@ const Home = ({
           </div>
         </div>
       </div>
-
-
-
 
       {/* <TotalRestaurants RestaurantData={RestaurantData6} /> */}
 

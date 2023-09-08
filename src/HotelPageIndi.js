@@ -1,7 +1,6 @@
 /* eslint-disable no-lone-blocks */
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Accordion from "@mui/material/Accordion";
@@ -10,7 +9,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ShimmerUi from "./useHooks/ShimmerUi";
-import Grid from "@mui/material/Grid";
 import { useAuth } from "./Context/AuthProvider";
 import StarIcon from '@mui/icons-material/Star';
 import { useSelector } from "react-redux";
@@ -92,7 +90,6 @@ const HotelPageIndi = () => {
           >
             <ItemList it={it} cloudinaryImageId={cloudinaryImageId} vegLabel={vegLabel} />
             <div>
-              {/* {index===it.card.length-1? '':  <div className='text-gray-200 mt-10'>__________________________________________________________________________</div>} */}
             </div>
           </div>
         )
