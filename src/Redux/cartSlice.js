@@ -34,8 +34,9 @@ const cartSlice = createSlice(
                 }
             },
             clearCart: (state) => {
-                return { items: [] }
+                 state.items.length = 0
             },
+
             themeReducer: (state, action) => {
                 if (action.payload === "dark") {
                     state.dark = true

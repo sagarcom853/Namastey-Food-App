@@ -27,7 +27,13 @@ const ItemList = ({ it, vegLabel }) => {
                     {it.card.info.name}
                 </div>
                 <div className='text-sm'>
-                    &#8377;{it.card.info.price / 100}
+                    <span> &#8377;{it.card.info.price / 100}</span>
+                    {it.card.info?.offerTags?.map((item) => {
+                        return <span style={{
+                            backgroundColor: item.backgroundColor, color: item?.textColor
+                        }}>{item?.title | item?.subTitle}</span>
+                    })}
+
                 </div>
 
                 <div className='text-sm mt-3 font-sans text-gray-400 w-[10]'>
@@ -61,7 +67,7 @@ const ItemList = ({ it, vegLabel }) => {
                         </button>
                     )}
                 </div>
-            
+
             </Grid>
         </Grid>
 

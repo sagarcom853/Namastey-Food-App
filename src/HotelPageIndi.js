@@ -130,12 +130,12 @@ const HotelPageIndi = () => {
         return (
           <div className={`mt-1 mb-3  ${darkMode? 'darkModeCSS' : 'bg-green-500'}`} key={item.card.card.title}>
             {(!vegLabel || lengthOfCards > 0) && (
-              <Accordion className={`mt-1 mb-3 ${darkMode? 'darkModeCSS' : 'bg-green-500'}` } >
+              <Accordion className={`mt-1 mb-3 ${darkMode? 'darkModeCSS' : ' text-blue-600 bg-green-500'}` } >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls='panel1a-content'
                   id='panel1a-header'
-                  className={`${darkMode? 'darkModeCSS' : 'bg-gray-300'}` } 
+                  className={`${darkMode? 'darkModeCSS' : 'bg-green-900'}` } 
                 >
                   <Typography className='font-sans font-semibold'>
                     {vegLabel && lengthOfCards > 0
@@ -147,7 +147,6 @@ const HotelPageIndi = () => {
                   <Typography>
                     <div>
                       {renderAfterVegLabel(result, item)}
-
                     </div>
                   </Typography>
                 </AccordionDetails>

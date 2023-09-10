@@ -14,6 +14,7 @@ import SignupPage from "./authentication/SignupPage";
 import Layout from "./authentication/Layout";
 import ProtectedRoute from "./authentication/ProtectedRoutes";
 import { useSelector } from 'react-redux'
+import { IntlProvider } from "react-intl";
 
 const GeneratePassword1 = lazy(() =>
   import("./Password Generator old/GeneratePassword1")
@@ -66,10 +67,12 @@ const App = () => {
     }
   };
 
+  console.log("IntlProvider",IntlProvider);
   //filter using dropdown
 
   return (
     <div className={`w-full relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
+    <IntlProvider messages={{}} locale="en" defaultLocale="en">
       <BrowserRouter>
         {/* <Header plates={plates} /> */}
         <Routes>
@@ -156,6 +159,7 @@ const App = () => {
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter >
+      </IntlProvider>
     </div >
   );
 };
