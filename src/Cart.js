@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "./Redux/cartSlice";
 import { Button } from "@mui/material";
-import { addItem, removeItem } from "./Redux/cartSlice";
+import { addItem, removeItem, clearCart } from "./Redux/cartSlice";
 import { useNavigate } from "react-router-dom";
-let cloudinaryImageId =
-  "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
+let cloudinaryImageId = "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
 
 const CartItem = ({ item, index }) => {
   const dispatch = useDispatch()
@@ -75,12 +73,12 @@ const belowLine = (cart, ifCouponApplied) => {
   return (
     <div className="flex flex-wrap flex-col items-end mr-14 p-4 border-b border-gray-300">
       <p className="py-2">Total items {totalQuantity}</p>
-      <p className="py-2">Base price before Tax &nbsp;&nbsp;&#8377; {basePrice.toFixed(2)}</p>
+      <p className="py-2">Base price before Tax &nbsp;&nbsp;&#8377; {basePrice?.toFixed(2)}</p>
       {isApplied ? <div>
-        <p className="py-2">Discount Applied with coupon &nbsp;&nbsp;&#8377; {discountPrice.toFixed(2)}</p>
+        <p className="py-2">Discount Applied with coupon &nbsp;&nbsp;&#8377; {discountPrice?.toFixed(2)}</p>
       </div> : ""}
-      <p className="py-2">Tax Amount@18% &nbsp;&nbsp;&#8377; {taxAmount.toFixed(2)}</p>
-      <p className="py-2 font-bold">Total Price after Tax&nbsp;&nbsp;&#8377; {pricewithTax.toFixed(2)}</p>
+      <p className="py-2">Tax Amount@18% &nbsp;&nbsp;&#8377; {taxAmount?.toFixed(2)}</p>
+      <p className="py-2 font-bold">Total Price after Tax&nbsp;&nbsp;&#8377; {pricewithTax?.toFixed(2)}</p>
     </div>
   )
 }
@@ -117,7 +115,12 @@ const handleApplyOffers = (iter, setCoupedApplied, ifCouponApplied) => {
     discount = 20
     unit = "percent"
   }
+  else {
+    discount = 40;
+    unit = "percent"
+  }
   if (!isApplied) {
+    console.log("disocunt", discount, "unit", unit)
     setCoupedApplied({ ...ifCouponApplied, isApplied: true, discount, unit })
   } else {
     setCoupedApplied({ ...ifCouponApplied, isApplied: false, discount: 0, unit })

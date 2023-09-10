@@ -9,6 +9,7 @@ import Switch from '@mui/material/Switch';
 import { useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./Redux/cartSlice";
 import Modal from "./Modal/Modal";
+import { IntlProvider } from "react-intl";
 
 const Home = ({
   marks,
