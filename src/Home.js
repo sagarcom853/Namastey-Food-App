@@ -10,9 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./Redux/cartSlice";
 import Modal from "./Modal/Modal";
 import { IntlProvider } from "react-intl";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import _ from 'lodash'
 
 const Home = ({
   marks,
@@ -32,11 +29,6 @@ const Home = ({
   const [labelNamesArray, setLabelNamesArray] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [Err, setErr] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [filteredRestaurants , setFilteredRestaurants] = useState([])
-  const [allRestaurants,setAllRestaurants] = useState([])
-
-  const [page,setPage] = useState(10)
   const { isAuthenticated } = useAuth()
   const dispatch = useDispatch()
   const location = useLocation()
@@ -47,16 +39,13 @@ const Home = ({
   let API =
     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
 
-  let API2 = 'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
-
-
   const handleTopRestaurants = () => {
     setTopRated(!topRated);
   };
 
   const fetchData = async () => {
     try {
-      const data = await fetch(API2);
+      const data = await fetch(API);
       const json = await data.json();
       setRestaurantData6(
         json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
@@ -72,76 +61,6 @@ const Home = ({
         setShowModal={setShowModal} />
     }
   };
-  const fetchMoreData = async () => {
-    console.log("fetch more datta called")
-    try {
-      setLoading(true);
-      const data = await fetch(API2);
-      const json = await data.json();
-      setRestaurantData6(prevData => [
-        ...prevData,
-        ...(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [])
-      ]);
-      setOriginalData(prevData => [
-        ...prevData,
-        ...(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [])
-      ]);
-    } catch (error) {
-      console.error("Error fetching more data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const throttledFetchMoreData = _.throttle(fetchMoreData, 5000)
-
-  //get more restaurants new new
-  async function getRestaurantMore() {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/update',
-        {
-          method: 'POST', // Use POST for fetching more restaurants
-          headers: {
-            'Content-Type': 'application/json',
-            // Add any additional headers here
-          },
-          body: JSON.stringify({
-            lat: 12.9715987,
-            lng: 77.5945627,
-            nextOffset: 'COVCELQ4KID4ruup+9+KczCnEzgD', // Use the correct nextOffset value
-            // Other payload parameters if needed
-            seoParams: {
-              apiName: "FoodHomePage",
-              pageType: "FOOD_HOMEPAGE",
-              seoUrl: "https://www.swiggy.com/",
-            },
-            widgetOffset: {
-              // Include your widgetOffset values here
-              NewListingView_Topical_Fullbleed: '',
-              NewListingView_category_bar_chicletranking_TwoRows: '',
-              NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
-              collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: String(page),
-            },
-          }),
-        }
-      );
-      const data = await response.json();
-      //    console.log(data.data.cards[0].card.card.gridElements.infoWithStyle.restaurants);
-      if (allRestaurants) {
-
-        let newRestaurants = data.data.cards[0].card.card.gridElements.infoWithStyle.restaurants;
-
-        setFilteredRestaurants((prevRestaurants) => [...prevRestaurants, ...newRestaurants]);
-        setAllRestaurants((prevRestaurants) => [...prevRestaurants, ...newRestaurants]);
-      }
-    } catch (error) {
-      console.error('Error fetching restaurants:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   const setTopRatedFunc = useCallback(() => {
     if (topRated) {
@@ -191,9 +110,6 @@ const Home = ({
       return res.info.name
     })
     labelNamesArray?.unshift("No items Selected")
-    labelNamesArray = labelNamesArray.filter((lab, index) => {
-      return labelNamesArray.indexOf(lab) === index
-    })
     setLabelNamesArray(labelNamesArray)
   }
   const handleInputChange = (e) => {
@@ -222,50 +138,15 @@ const Home = ({
     }
   };
 
-  const showToastMessage = () => {
-    toast.success('Success Notification !', {
-      position: toast.POSITION.TOP_RIGHT
-    });
-  };
-
   useEffect(() => {
     fetchData();
   }, [])
-
-  //  useEffect(() => {
-  //   toast.promise(fetchData, {
-  //     pending: "Promise is pending",
-  //     success: "Promise Loaded",
-  //     error: "error"
-  //   });
-  // }, []);
-  // Listen for scroll events
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 50 &&
-        !loading
-
-      ) {
-        console.log('window.innerHeight', window.innerHeight, 'document', document.documentElement.offsetHeight)
-        throttledFetchMoreData();   // if throttled then use this function, otherwise can directly use fetchMoreData()
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-
-
-    return () => {
-      console.log("cleaned up")
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [loading]);
-
 
   useEffect(() => {
     SearchFilter()
   },
     [textFieldValue]);
-
+    
   useEffect(() => {
     setTopRatedFunc()
   }, [topRated])
@@ -299,9 +180,6 @@ const Home = ({
   return (
     <div className={` ${darkMode ? 'darkModeCSS' : ""}`}>
       {isAuthenticated ? <div className="flex items-center justify-center flex-wrap font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
-
-      <button onClick={showToastMessage}>Notify</button>
-      <ToastContainer />
       <div className={`flex flex-row flex-wrap justify-between`}>
         <FiltersPage
           RestaurantData={RestaurantData6}
@@ -374,6 +252,4 @@ const Home = ({
   );
 };
 export default Home;
-
-
 

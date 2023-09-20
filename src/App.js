@@ -15,7 +15,6 @@ import Layout from "./authentication/Layout";
 import ProtectedRoute from "./authentication/ProtectedRoutes";
 import { useSelector } from 'react-redux'
 import { IntlProvider } from "react-intl";
-import HelpPage from "./HelpPage";
 
 const GeneratePassword1 = lazy(() =>
   import("./Password Generator old/GeneratePassword1")
@@ -96,7 +95,6 @@ const App = () => {
                 }
               />
               <Route exact path='about' element={<About />} />
-              <Route exact path='help' element={<HelpPage />} />
               <Route exact path='contact' element={<Contact />} />
               <Route exact path='hotelPage' element={<HotelPage />} />
               <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
@@ -108,7 +106,6 @@ const App = () => {
               <Route path="cart" element={<ProtectedRoute />}>
                 <Route index element={<Cart />} />
               </Route>
-
               <Route
                 exact
                 path='grocery'
