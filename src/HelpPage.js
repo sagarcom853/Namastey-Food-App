@@ -8,9 +8,6 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Typography from "@mui/material/Typography";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
-
-
-
 const HelpPage = () => {
   const [expanded, setExpanded] = useState(Array(FAQ.length).fill(false));
   console.log('expanded',expanded)
