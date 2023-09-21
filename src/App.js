@@ -6,8 +6,6 @@ import Contact from "./Contact";
 import HotelPage from "./HotelPage";
 import HotellPageIndi from "./HotelPageIndi";
 import Cart from "./Cart";
-import Header from "./Header";
-import Footer from "./Footer";
 import Home from "./Home";
 import Login from "./authentication/Login";
 import SignupPage from "./authentication/SignupPage";
@@ -15,6 +13,7 @@ import Layout from "./authentication/Layout";
 import ProtectedRoute from "./authentication/ProtectedRoutes";
 import { useSelector } from 'react-redux'
 import { IntlProvider } from "react-intl";
+import HelpPage from "./HelpPage"
 
 const GeneratePassword1 = lazy(() =>
   import("./Password Generator old/GeneratePassword1")
@@ -97,6 +96,7 @@ const App = () => {
               <Route exact path='about' element={<About />} />
               <Route exact path='contact' element={<Contact />} />
               <Route exact path='hotelPage' element={<HotelPage />} />
+              <Route exact path='help' element={<HelpPage />} />
               <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
               {/* <Route element={<RequireAuth />}>
              <Route path="/protected" element={<ProtectedPage />} />
