@@ -39,7 +39,7 @@ const Footer = () => {
           <span className="opacity-50 font-medium">CONTACT</span>
           <ul className="mt-4 flex flex-col gap-2">
             <Link to="/contact">
-              <li className="">Help & Support</li>
+              <li className="">Contact Us</li>
             </Link>
             <Link to="/progress">
               <li className="/">Progress</li>

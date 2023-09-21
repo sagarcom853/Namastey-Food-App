@@ -12,8 +12,6 @@ import ShimmerUi from "./useHooks/ShimmerUi";
 import { useAuth } from "./Context/AuthProvider";
 import StarIcon from '@mui/icons-material/Star';
 import { useSelector } from "react-redux";
-
-
 import ItemList from "./ItemList"
 
 const HotelPageIndi = () => {
@@ -118,7 +116,7 @@ const HotelPageIndi = () => {
       if (item.card.card.itemCards) {
         let lengthOfCards = 0
         if (vegLabel) {
-          result = item.card.card.itemCards.filter((iterator) => {
+          result = item.card.card.itemCards?.filter((iterator) => {
             let veg = iterator.card.info.itemAttribute?.vegClassifier === "VEG"
             if (veg) {
               lengthOfCards++
@@ -127,15 +125,18 @@ const HotelPageIndi = () => {
           })
         }
 
+
+
+
         return (
-          <div className={`mt-1 mb-3  ${darkMode? 'darkModeCSS' : 'bg-green-500'}`} key={item.card.card.title}>
+          <div className={`mt-1 mb-3  ${darkMode ? 'darkModeCSS' : 'bg-green-500'}`} key={item.card.card.title}>
             {(!vegLabel || lengthOfCards > 0) && (
-              <Accordion className={`mt-1 mb-3 ${darkMode? 'darkModeCSS' : ' text-blue-600 bg-green-500'}` } >
+              <Accordion className={`mt-1 mb-3 ${darkMode ? 'darkModeCSS' : ' text-blue-600 bg-green-500'}`} >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls='panel1a-content'
                   id='panel1a-header'
-                  className={`${darkMode? 'darkModeCSS' : 'bg-green-900'}` } 
+                  className={`${darkMode ? 'darkModeCSS' : 'bg-green-900'}`}
                 >
                   <Typography className='font-sans font-semibold'>
                     {vegLabel && lengthOfCards > 0
@@ -233,6 +234,7 @@ const HotelPageIndi = () => {
       </div>
     );
   };
+
 
   return (
     <div className={`w-4/5 mx-auto mt-4 `}>

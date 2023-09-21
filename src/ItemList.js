@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material"
 import { useDispatch } from "react-redux";
 import { addItem } from "./Redux/cartSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ItemList = ({ it, vegLabel }) => {
     let cloudinaryImageId =
@@ -8,14 +10,20 @@ const ItemList = ({ it, vegLabel }) => {
     const dispatch = useDispatch()
     //dispatching actions by clicking add item button 
 
-    const handleAddItem = (info) => {
-        // setShowModal(true);
+    const showToastMessage = () => {
+        toast.success('Added to cart!', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+    };
 
+    const handleAddItem = (info) => {
         //dispatching actions with actions and actions.payload
         dispatch(addItem({ info }))
+        showToastMessage()
     };
 
     return (<>
+        <ToastContainer />
         <Grid container spacing={2}>
             <Grid item xs={8} sm={9} md={10} lg={10}>
                 {it.card.info.isVeg ?
