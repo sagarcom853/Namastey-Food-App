@@ -47,7 +47,7 @@ const Home = ({
 
   const fetchData = async () => {
     try {
-      const data = await fetch(API2);
+      const data = await fetch(API);
       const json = await data.json();
       setRestaurantData6(
         json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
@@ -256,7 +256,7 @@ const Home = ({
     SearchFilter()
   },
     [textFieldValue]);
-
+    
   useEffect(() => {
     setTopRatedFunc()
   }, [topRated])
