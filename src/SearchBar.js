@@ -8,10 +8,8 @@ const SearchBar = ({ setTextFieldValue, Err }) => {
 
   useEffect(() => {
     if (Err !== "") {
-      console.log("called inside useEffct", showModal, Err)
       setShowModal(true)
     }
-    // Err!=="" && (setShowModal(true))
   }, [Err])
 
   const searchBarClasses = `
@@ -29,7 +27,6 @@ const SearchBar = ({ setTextFieldValue, Err }) => {
     })
   }
   const handleChange = Debounce((e) => {
-    console.log("inside debounce")
     setTextFieldValue(e.target.value)
   }, 500)
 
