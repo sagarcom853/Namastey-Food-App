@@ -5,7 +5,8 @@ const cartSlice = createSlice(
         name: 'cart',
         initialState: {
             items: [],
-            dark: false
+            dark: false,
+            // allRestaurantData: []
         },
         reducers: {
             addItem: (state, action) => {
@@ -27,7 +28,7 @@ const cartSlice = createSlice(
                 console.log('existingItem', existingItem)
                 if (existingItem) {
                     if (existingItem.quantity === 1) {
-                        state.items = state.items.filter((item, index) => index !== itemIdToRemove);
+                        state.items = state.items?.filter((item, index) => index !== itemIdToRemove);
                     } else {
                         existingItem.quantity -= 1;
                     }
@@ -44,7 +45,10 @@ const cartSlice = createSlice(
                 else if (action.payload === "light") {
                     state.dark = false
                 }
-            }
+            },
+            // setAllRestaurantData: (state,action)=>{
+            //     state.allRestaurantData = [...state.allRestaurantData, ...action.payload]
+            // }
 
         }
     }

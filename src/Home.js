@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import HotelPage from "./HotelPage";
 import FiltersPage from "./FiltersPage";
-// import TotalRestaurants from "./TotalRestaurants";
+import TotalRestaurants from "./TotalRestaurants";
 import ShimmerUi from "./useHooks/ShimmerUi";
 import { useAuth } from "./Context/AuthProvider";
 import { useLocation } from "react-router-dom";
@@ -9,7 +9,7 @@ import Switch from '@mui/material/Switch';
 import { useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./Redux/cartSlice";
 import Modal from "./Modal/Modal";
-import { IntlProvider } from "react-intl";
+import ScrollTop from "./utils/ScrollToTop";
 
 const Home = ({
   marks,
@@ -29,15 +29,17 @@ const Home = ({
   const [labelNamesArray, setLabelNamesArray] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [Err, setErr] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(10)
   const { isAuthenticated } = useAuth()
   const dispatch = useDispatch()
   const location = useLocation()
-  console.log('location', location)
 
   const darkMode = useSelector((store) => store?.cart.dark);
-  console.log("themeColor", darkMode)
   let API =
     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+
+  let API2 = 'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
 
   const handleTopRestaurants = () => {
     setTopRated(!topRated);
@@ -53,6 +55,7 @@ const Home = ({
       );
       setOriginalData(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants)
+
     } catch (error) {
       <Modal
         modalContent={error}
@@ -61,11 +64,92 @@ const Home = ({
         setShowModal={setShowModal} />
     }
   };
+  //function to implement infinite scrolling but with same API... 
+  // const fetchMoreData = async () => {
+  //   console.log("fetch more datta called")
+  //   try {
+  //     setLoading(true);
+  //     const data = await fetch(API2);
+  //     const json = await data.json();
+  //     setRestaurantData6(prevData => [
+  //       ...prevData,
+  //       ...(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [])
+  //     ]);
+  //     setOriginalData(prevData => [
+  //       ...prevData,
+  //       ...(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [])
+  //     ]);
+  //   } catch (error) {
+  //     console.error("Error fetching more data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
+  //function to get more restaurants and implement infinite scrolling with new Restaurants...
+  async function getRestaurantMore() {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/update',
+        {
+          method: 'POST', // Use POST for fetching more restaurants
+          headers: {
+            'Content-Type': 'application/json',
+            // Add any additional headers here
+          },
+          body: JSON.stringify({
+            lat: 12.9715987,
+            lng: 77.5945627,
+            nextOffset: 'COVCELQ4KICYlpa2w9/eIDCnEzgE', // Use the correct nextOffset value
+            // Other payload parameters if needed
+            seoParams: {
+              apiName: "FoodHomePage",
+              pageType: "FOOD_HOMEPAGE",
+              seoUrl: "https://www.swiggy.com/",
+            },
+            widgetOffset: {
+              // Include your widgetOffset values here
+              NewListingView_Topical_Fullbleed: '',
+              NewListingView_category_bar_chicletranking_TwoRows: '',
+              NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
+              collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: String(page),
+            },
+          }),
+        }
+      );
+      const data = await response.json();
+      // console.log(data.data.cards[0].card.card.gridElements.infoWithStyle.restaurants);
+      if (originalData) {
+        let newRestaurants = data.data.cards[0].card.card.gridElements.infoWithStyle.restaurants;
+        setRestaurantData6((prevRestaurants) => [...prevRestaurants, ...newRestaurants]);
+        setOriginalData((prevRestaurants) => [...prevRestaurants, ...newRestaurants]);
+      }
+    } catch (error) {
+      console.error('Error fetching restaurants:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const throttle = (func, delay) => {
+    let lastCall = 0;
+    return function (...args) {
+      const now = new Date().getTime();
+      if (now - lastCall >= delay) {
+        lastCall = now;
+        func(...args);
+      }
+    };
+  };
+  // const throttledGetRestaurantMore = throttle(getRestaurantMore, 5000);
+  const throttledGetRestaurantMore = useCallback(throttle(getRestaurantMore, 5000), []);
 
   const setTopRatedFunc = useCallback(() => {
     if (topRated) {
       if (RestaurantData6?.length > 0) {
-        let RestaurantData4 = originalData.filter(
+        let RestaurantData4 = originalData?.filter(
           (data) => data.info.avgRating > 4.3
         );
         console.log(originalData)
@@ -82,7 +166,7 @@ const Home = ({
   const SearchFilter = async () => {
     if (textFieldValue) {
       if (originalData && originalData.length > 0) {
-        let filteredData = originalData.filter((data) => {
+        let filteredData = originalData?.filter((data) => {
           if (data.info.name.toLowerCase().includes(textFieldValue.toLowerCase())) {
             setErr("")
             return data.info.name.toLowerCase().includes(textFieldValue.toLowerCase())
@@ -110,6 +194,9 @@ const Home = ({
       return res.info.name
     })
     labelNamesArray?.unshift("No items Selected")
+    labelNamesArray = labelNamesArray?.filter((lab, index) => {
+      return labelNamesArray.indexOf(lab) === index
+    })
     setLabelNamesArray(labelNamesArray)
   }
   const handleInputChange = (e) => {
@@ -117,7 +204,7 @@ const Home = ({
       setRestaurantData6(originalData)
     }
     else if (e.target.value) {
-      let filteredDropRes = originalData.filter((res) => {
+      let filteredDropRes = originalData?.filter((res) => {
         return res.info.name === e.target.value
       })
       setRestaurantData6(filteredDropRes)
@@ -126,7 +213,7 @@ const Home = ({
 
   const setDrawFilter = () => {
     if (priceFilter) {
-      const filteredData = originalData.filter((data) => {
+      const filteredData = originalData?.filter((data) => {
         const priceString = data.info.price; // Assuming "₹150 for two" format
         const priceValue = Number(priceString?.replace(/[^0-9]/g, '')); // Extract the numerical part
         return priceValue > priceFilter;
@@ -140,7 +227,30 @@ const Home = ({
 
   useEffect(() => {
     fetchData();
+    window.scrollTo(0, 0)
   }, [])
+
+  const handleScroll = async () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight
+
+      ) {
+        setPage((prev) => prev + 15)
+        throttledGetRestaurantMore()
+        // throttledFetchMoreData();   // if throttled then use this function, otherwise can directly use fetchMoreData()
+      }
+    } catch (error) {
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      console.log("cleaned up")
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [page, throttledGetRestaurantMore]);
 
   useEffect(() => {
     SearchFilter()
@@ -160,12 +270,16 @@ const Home = ({
   }, [priceFilter])
 
   if (RestaurantData6?.length === 0) {
-    <Modal
-      modalContent={"Loading....................."}
-      modalTitle="Error Occured"
-      showModal={showModal}
-      setShowModal={setShowModal} />
-    return <ShimmerUi />;
+    return (
+      <>
+        <Modal
+          modalContent={"Loading....................."}
+          modalTitle="Error Occured"
+          showModal={showModal}
+          setShowModal={setShowModal} />
+        <ShimmerUi />
+      </>
+    );
   }
 
   const handleTheme = () => {
@@ -227,9 +341,7 @@ const Home = ({
           </div>
         </div>
       </div>
-
       {/* <TotalRestaurants RestaurantData={RestaurantData6} /> */}
-
       <HotelPage
         RestaurantData={RestaurantData6}
         marks={marks}
@@ -248,8 +360,8 @@ const Home = ({
         topRated={topRated}
         setTopRated={setTopRated}
       />
+      <ScrollTop showBelow={500} />
     </div>
   );
 };
 export default Home;
-
