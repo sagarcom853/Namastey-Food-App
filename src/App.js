@@ -70,7 +70,7 @@ const App = () => {
   //filter using dropdown
 
   return (
-    <div className={`w-full relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
+    <div className={`relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
     <IntlProvider messages={{}} locale="en" defaultLocale="en">
       <BrowserRouter>
         {/* <Header plates={plates} /> */}

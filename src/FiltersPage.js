@@ -27,7 +27,7 @@ const FiltersPage = ({
 
   return (
     <div>
-      <div className="flex flex-wrap m-4 p-2 gap-3 items-center">
+      <div className="flex flex-wrap lg:justify-start md:justify-start sm:justify-center my-4 p-2 gap-3 items-center">
         {/* <FilterSlider
           marks={marks}
           handleChange={handleChange}

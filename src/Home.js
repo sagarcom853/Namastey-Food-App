@@ -37,7 +37,7 @@ const Home = ({
 
   const darkMode = useSelector((store) => store?.cart.dark);
   let API =
-    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999"
 
   let API2 = 'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
 
@@ -293,8 +293,8 @@ const Home = ({
 
   return (
     <div className={` ${darkMode ? 'darkModeCSS' : ""}`}>
-      {isAuthenticated ? <div className="flex items-center justify-center flex-wrap font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
-      <div className={`flex flex-row flex-wrap justify-between`}>
+      {isAuthenticated ? <div className="flex flex-wrap items-center justify-center font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
+      <div className={`w-11/12 mx-auto flex flex-row sm:items-center sm:justify-center sm:mx-auto flex-wrap justify-between`}>
         <FiltersPage
           RestaurantData={RestaurantData6}
           marks={marks}
@@ -315,7 +315,7 @@ const Home = ({
           Err={Err}
         />
         <div className="flex flex-wrap justify-end m-4 p-2">
-          <div className="flex gap-12 cursor-pointer text-xs">
+          <div className="flex flex-wrap gap-12 cursor-pointer text-xs">
 
             <div className="flex gap-4 items-center">
               <Switch
