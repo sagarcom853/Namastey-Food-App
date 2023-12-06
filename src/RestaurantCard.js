@@ -61,14 +61,14 @@ const RestaurantCard = ({ data }) => {
 export default RestaurantCard;
 
 //higer order component to add label:
-export const withPromotedRestuarant = (RestaurantCard) => {
+export const withPromotedRestuarant = (WrapperComponent) => {
   return (props) => {
     return (
       <div className='flex relative'>
         <label className='absolute ml-3 mt-8 z-1 bg-gray-700 text-white text-xs p-1 w-20 text-center font-semibold font-sans uppercase'>
           Promoted
         </label>
-        <RestaurantCard data={props.data} />
+        <WrapperComponent data={props.data} />
       </div>
     );
   };
