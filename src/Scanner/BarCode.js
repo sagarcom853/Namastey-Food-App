@@ -15,10 +15,10 @@ const BarCode = () => {
       </div>
       <div className='flex flex-wrap gap-5 justify-center'>
         <div className='lg:w-2/6 h-2/3 sm:w-full md:w-full rounded-lg'>
-          <img src='image-qr-code.png' alt='scanner' />
+          <img src='image-qr-code.png' alt='scanner' loading='lazy' />
         </div>
         <div className='lg:w-2/6 h-2/3 sm:w-full md:w-full rounded-lg'>
-          <img src='scanner logo.jpg' alt='scanner-logo' />
+          <img src='scanner logo.jpg' alt='scanner-logo' loading='lazy'/>
         </div>
         <div>
         <Scanner/>

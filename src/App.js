@@ -1,27 +1,29 @@
 import React, { useState, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import About from "./About";
-import Contact from "./Contact";
-import HotelPage from "./HotelPage";
-import HotellPageIndi from "./HotelPageIndi";
-import Cart from "./Cart";
-import Home from "./Home";
-import Login from "./authentication/Login";
-import SignupPage from "./authentication/SignupPage";
-import Layout from "./authentication/Layout";
-import ProtectedRoute from "./authentication/ProtectedRoutes";
+import About from "./Components/About";
+import Contact from "./Contact/Contact";
+import HotelPage from "./Components/HotelPage";
+import HotellPageIndi from "./Components/HotelPageIndi";
+import Cart from "./Components/Cart";
+import Home from "./Components/Home";
+import Login from "./Components/authentication/Login";
+import SignupPage from "./Components/authentication/SignupPage";
+import Layout from "./Components/authentication/Layout";
+import ProtectedRoute from "./Components/authentication/ProtectedRoutes";
 import { useSelector } from 'react-redux'
 import { IntlProvider } from "react-intl";
-import HelpPage from "./HelpPage"
 
+const HelpPage = lazy(() =>
+  import("./Components/HelpPage")
+);
 const GeneratePassword1 = lazy(() =>
   import("./Password Generator old/GeneratePassword1")
 );
 const PasswordGenerate = lazy(() =>
   import("./passwordGeneratorNew/PasswordGenerate")
 );
-const Grocery = lazy(() => import("./Grocery"));
+const Grocery = lazy(() => import("./Components/Grocery"));
 const BarCode = lazy(() => import("./Scanner/BarCode"));
 const ProgressBar = lazy(() => import('./Progressbar/ProgressBar'));
 
@@ -66,99 +68,91 @@ const App = () => {
     }
   };
 
-  console.log("IntlProvider",IntlProvider);
   //filter using dropdown
 
   return (
     <div className={`relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
-    <IntlProvider messages={{}} locale="en" defaultLocale="en">
-      <BrowserRouter>
-        {/* <Header plates={plates} /> */}
-        <Routes>
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<SignupPage />} />
-          <Route exact path="/*" element={<Layout>
-            <Routes>
-              <Route
-                path='/'
-                element={
-                  <Home
-                    marks={marks}
-                    handleChange={handleChange}
-                    valuetext={valuetext}
-                    handleBlur={handleBlur}
-                    priceFilter={priceFilter}
-                    value={value}
-                    HighestPriceValue={HighestPriceValue}
-                  />
-                }
-              />
-              <Route exact path='about' element={<About />} />
-              <Route exact path='contact' element={<Contact />} />
-              <Route exact path='hotelPage' element={<HotelPage />} />
-              <Route exact path='help' element={<HelpPage />} />
-              <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
-              {/* <Route element={<RequireAuth />}>
-             <Route path="/protected" element={<ProtectedPage />} />
-             <Route path="/dashboard" element={<Dashboard />} />
-             </Route> */}
+      <IntlProvider messages={{}} locale="en" defaultLocale="en">
+        <BrowserRouter>
+          <Routes>
+            <Route exact path='/login' element={<Login />} />
+            <Route exact path='/signup' element={<SignupPage />} />
+            <Route exact path="/*" element={<Layout>
+              <Routes>
+                <Route
+                  path='/'
+                  element={
+                    <Home
+                      marks={marks}
+                      handleChange={handleChange}
+                      valuetext={valuetext}
+                      handleBlur={handleBlur}
+                      priceFilter={priceFilter}
+                      value={value}
+                      HighestPriceValue={HighestPriceValue}
+                    />
+                  }
+                />
+                <Route exact path='about' element={<About />} />
+                <Route exact path='contact' element={<Contact />} />
+                <Route exact path='hotelPage' element={<HotelPage />} />
+                <Route exact path='help' element={<HelpPage />} />
+                <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
+                <Route path="cart" element={<ProtectedRoute />}>
+                  <Route index element={<Cart />} />
+                </Route>
+                <Route
+                  exact
+                  path='grocery'
+                  element={
+                    <Suspense fallback={<p> Loading..............</p>}>
+                      <Grocery />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  exact
+                  path='generate-password'
+                  element={
+                    <Suspense fallback={<p> Password Generate..............</p>}>
+                      <GeneratePassword1 />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  exact
+                  path='generate-password2'
+                  element={
+                    <Suspense fallback={<p> Password Generate..............</p>}>
+                      <PasswordGenerate />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  exact
+                  path='barcode'
+                  element={
+                    <Suspense fallback={<p> Loading Scanner..............</p>}>
+                      <BarCode />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  exact
+                  path='progress'
+                  element={
+                    <Suspense fallback={<p> Loading Progress..............</p>}>
+                      <ProgressBar />
+                    </Suspense>
+                  }
+                />
 
-              <Route path="cart" element={<ProtectedRoute />}>
-                <Route index element={<Cart />} />
-              </Route>
-              <Route
-                exact
-                path='grocery'
-                element={
-                  <Suspense fallback={<p> Loading..............</p>}>
-                    <Grocery />
-                  </Suspense>
-                }
-              />
-              <Route
-                exact
-                path='generate-password'
-                element={
-                  <Suspense fallback={<p> Password Generate..............</p>}>
-                    <GeneratePassword1 />
-                  </Suspense>
-                }
-              />
-              <Route
-                exact
-                path='generate-password2'
-                element={
-                  <Suspense fallback={<p> Password Generate..............</p>}>
-                    <PasswordGenerate />
-                  </Suspense>
-                }
-              />
-              <Route
-                exact
-                path='barcode'
-                element={
-                  <Suspense fallback={<p> Loading Scanner..............</p>}>
-                    <BarCode />
-                  </Suspense>
-                }
-              />
-              <Route
-                exact
-                path='progress'
-                element={
-                  <Suspense fallback={<p> Loading Progress..............</p>}>
-                    <ProgressBar />
-                  </Suspense>
-                }
-              />
+              </Routes>
 
-            </Routes>
+            </Layout>} />
 
-          </Layout>} />
-
-        </Routes>
-        {/* <Footer /> */}
-      </BrowserRouter >
+          </Routes>
+        </BrowserRouter >
       </IntlProvider>
     </div >
   );
