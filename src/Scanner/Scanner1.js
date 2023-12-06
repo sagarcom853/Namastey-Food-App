@@ -1,7 +1,7 @@
 // versi "react-qr-reader" 1.0.0. component API harus disesuaikan dengan yg baru
 
 import { useState } from "react";
-import {QrReader} from "react-qr-reader";
+// import {QrReader} from "react-qr-reader";
 
 const Scanner = () => {
   const [selected, setSelected] = useState("environment");
@@ -11,7 +11,7 @@ const Scanner = () => {
 
   const handleScan = async (scanData) => {
     setLoadingScan(true);
-    console.log(`loaded data data`, scanData);
+  console.log(`loaded data data`, scanData);
     if (scanData && scanData !== "") {
       console.log(`loaded >>>`, scanData);
       setData(scanData);
@@ -43,14 +43,14 @@ const Scanner = () => {
             <option value={"environment"}>Back Camera</option>
             <option value={"user"}>Front Camera</option>
           </select>
-          <QrReader
+          {/* <QrReader
             facingMode={selected}
             delay={1000}
             onError={handleError}
             onScan={handleScan}
             // chooseDeviceId={()=>selected}
             style={{ width: "300px", height:'400px' }}
-          />
+          /> */}
         </>
       )}
       {loadingScan && <p>Loading</p>}

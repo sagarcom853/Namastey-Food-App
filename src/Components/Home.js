@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import HotelPage from "./HotelPage";
-import FiltersPage from "./FiltersPage";
+import FiltersPage from "./Filters/FiltersPage";
 import TotalRestaurants from "./TotalRestaurants";
-import ShimmerUi from "./useHooks/ShimmerUi";
+import ShimmerUi from "../useHooks/ShimmerUi";
 import { useAuth } from "./Context/AuthProvider";
 import { useLocation } from "react-router-dom";
 import Switch from '@mui/material/Switch';
 import { useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./Redux/cartSlice";
 import Modal from "./Modal/Modal";
-import ScrollTop from "./utils/ScrollToTop";
+import ScrollTop from "../utils/ScrollToTop";
 
 const Home = ({
   marks,
@@ -37,7 +37,7 @@ const Home = ({
 
   const darkMode = useSelector((store) => store?.cart.dark);
   let API =
-    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999"
 
   let API2 = 'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
 
@@ -256,7 +256,7 @@ const Home = ({
     SearchFilter()
   },
     [textFieldValue]);
-    
+
   useEffect(() => {
     setTopRatedFunc()
   }, [topRated])
@@ -293,8 +293,8 @@ const Home = ({
 
   return (
     <div className={` ${darkMode ? 'darkModeCSS' : ""}`}>
-      {isAuthenticated ? <div className="flex items-center justify-center flex-wrap font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
-      <div className={`flex flex-row flex-wrap justify-between`}>
+      {isAuthenticated ? <div className="flex flex-wrap items-center justify-center font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
+      <div className={`w-11/12 mx-auto flex flex-row sm:items-center sm:justify-center sm:mx-auto flex-wrap justify-between`}>
         <FiltersPage
           RestaurantData={RestaurantData6}
           marks={marks}
@@ -315,8 +315,7 @@ const Home = ({
           Err={Err}
         />
         <div className="flex flex-wrap justify-end m-4 p-2">
-          <div className="flex gap-12 cursor-pointer text-xs">
-
+          <div className="flex flex-wrap gap-12 cursor-pointer text-xs">
             <div className="flex gap-4 items-center">
               <Switch
                 checked={darkMode}
@@ -327,15 +326,15 @@ const Home = ({
             </div>
 
             <div className="flex gap-4 items-center">
-              <img className="h-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/c0bb85d3a6347b2ec070a8db694588261616149578.png?output-format=webp" loading="lazy" />
+              <img className="h-6 w-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/c0bb85d3a6347b2ec070a8db694588261616149578.png?output-format=webp" loading="lazy" />
               <span className="">Delivery</span>
             </div>
             <div className="flex gap-4 items-center">
-              <img className="h-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/78d25215ff4c1299578ed36eefd5f39d1616149985.png?output-format=webp" loading="lazy" />
+              <img className="h-6 w-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/78d25215ff4c1299578ed36eefd5f39d1616149985.png?output-format=webp" loading="lazy" />
               <span className="whitespace-nowrap">Dining Out</span>
             </div>
             <div className="flex gap-4 items-center">
-              <img className="h-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/01040767e4943c398e38e3592bb1ba8a1616150142.png?output-format=webp" loading="lazy" />
+              <img className="h-6 w-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/01040767e4943c398e38e3592bb1ba8a1616150142.png?output-format=webp" loading="lazy" />
               <span className="">Nightlife</span>
             </div>
           </div>
@@ -365,3 +364,4 @@ const Home = ({
   );
 };
 export default Home;
+

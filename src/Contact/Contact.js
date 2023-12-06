@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { LOCALES } from "./i18n/local"
-import { messages } from "./i18n/message"
+import React, { useState } from "react";
+import { LOCALES } from "./i18n/local";
+import { messages } from "./i18n/message";
 import { IntlProvider } from "react-intl";
 import { FormattedMessage } from "react-intl";
-// const locale = LOCALES.ENGLISH;
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { addComments } from "../Components/Redux/CommentSlice";
+import Comment from "./Comments";
+import { v4 as uuid } from 'uuid';
 
 const Language = [
   { term: "en-US", value: 'ENGLISH' },
@@ -15,42 +17,63 @@ const Language = [
 ]
 
 const Contact = () => {
-  const [contactData, setContactData] = useState({ name: "", email: "", comments: "", doc: "" })
-  const [imageURL, setImageURL] = useState('')
-  const [previewMode, setPreviewMode] = useState(false)
-  const [locale, setLocale] = useState(LOCALES.ENGLISH)
+  const [contactData, setContactData] = useState({ name: "", email: "", comments: "", doc: "" });
+  const [imageURL, setImageURL] = useState('');
+  const [previewMode, setPreviewMode] = useState(false);
+  const [locale, setLocale] = useState(LOCALES.ENGLISH);
   const darkMode = useSelector((store) => store?.cart.dark);
+  const commentStore = useSelector((store) => store?.comments?.commentsArray);
+  const dispatch = useDispatch();
+  const [replyIndex, setReplyIndex] = useState(null);
+  const [replyContent, setReplyContent] = useState("");
 
   const handleChange = (e) => {
     e.preventDefault()
     const { name, value } = e.target
     setContactData({ ...contactData, [name]: value })
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (contactData.name !== "" && contactData.email !== "" && contactData.comments && contactData.doc && !previewMode) {
-      console.log("contactdata", contactData)
+
+      dispatch(addComments({ id: 1, name: contactData.name, email: contactData.email, comments: contactData.comments, nestedComments: [] }))
       setContactData({ ...contactData, name: "", email: "", comments: "", doc: "" })
     }
   }
-  useEffect(() => {
-    if (contactData.doc && previewMode) {
-      if (contactData.doc.type === "application/pdf") {
-        // Open the preview in a new tab using the URL.createObjectURL method
-        window.open(URL.createObjectURL(contactData.doc), "_blank");
-        setPreviewMode(!previewMode)
-      }
-      setImageURL(URL.createObjectURL(contactData.doc))
-    }
-  }, [contactData.doc, previewMode])
-
-  // useEffect(() => {
-  //   setLocale('ENGLISH')
-  // }, [])
 
   const handleChangeLocale = (e) => {
     setLocale(e.target.value)
   }
+
+  const handleReply = (id) => {
+    setReplyIndex(id);
+  };
+
+  const handleSendReply = (id) => {
+    const new_id = uuid();
+    const uniqueId = new_id.slice(0, 8);
+
+    if (replyIndex !== null) {
+      dispatch(addComments({
+        id: uniqueId,
+        name: "Your Name",
+        email: "Your Email",
+        comments: replyContent,
+        parentId: replyIndex,
+      }));
+    } else {
+      dispatch(addComments({
+        id: uniqueId,
+        name: "Your Name",
+        email: "Your Email",
+        comments: replyContent,
+      }));
+    }
+
+    setReplyIndex(null);
+    setReplyContent("");
+  };
 
   return (
     <>
@@ -58,7 +81,7 @@ const Contact = () => {
         <label htmlFor="locale">Language &nbsp;&nbsp;</label>
         <select className={`border w-32 border-gray-300 focus:border-gray-500 transition-all duration-300 px-2 py-1 outline-none  rounded ${darkMode ? 'darkModeCSS' : ""}`} value={locale} onChange={handleChangeLocale} id="locale" name="locale">
           {Language?.map((lang) => {
-            return <option className="border-solid border-gray-300 outline-none" id={lang.value}>{lang.term}</option>
+            return <option key={lang.value} className="border-solid border-gray-300 outline-none" id={lang.value}>{lang.term}</option>
           })}
         </select>
       </div>
@@ -87,10 +110,10 @@ const Contact = () => {
             </div>
             <div className='flex flex-col border-2 border-gray-300 w-80 p-4 mb-4'>
               <h2 className="font-bold text-xl">  {<FormattedMessage id="customer_support_caption" value={locale.customer_support_caption} />}</h2>
-              <p>
-                Phone:   {<FormattedMessage id="support_phone" value={locale.support_phone} />}
-                <p> Email:   {<FormattedMessage id="support_Email" value={locale.support_Email} />}</p>
-              </p>
+              <div>
+                <p>Phone:   {<FormattedMessage id="support_phone" value={locale.support_phone} />}</p>
+                <p>Email:   {<FormattedMessage id="support_Email" value={locale.support_Email} />}</p>
+              </div>
               <h2>  {<FormattedMessage id="Business_Inquiries_Caption" value={locale.Business_Inquiries_Caption} />}</h2>
               <p>Phone:   {<FormattedMessage id="Business_Inquiries_Phone" value={locale.Business_Inquiries_Phone} />} Email:   {<FormattedMessage id="Business_Inquiries_Email" value={locale.Business_Inquiries_Email} />}</p>
             </div>
@@ -123,6 +146,7 @@ const Contact = () => {
                 <label htmlFor="comments"><FormattedMessage id="Leave_feedback_caption" value={locale.Leave_fedback_caption} />
                 </label>
                 <textarea type="text" id="comments" value={contactData.comments} name="comments" className="hover: outline-gray-500 p-2 rounded-lg" onChange={handleChange} />
+
                 <label htmlFor="file" id="file"><FormattedMessage id="Upload_document" value={locale.Upload_document} /> </label>
                 <input type="file" name="file" id="file" accept="file" onChange={(e) => { e.preventDefault(); setContactData({ ...contactData, doc: e.target.files[0] }) }} />
                 {imageURL && previewMode && contactData.doc.type === "image/jpeg" && (
@@ -131,7 +155,6 @@ const Contact = () => {
                     <img src={imageURL} alt={contactData.doc.name} height="50px" />
                   </>
                 )}
-                {console.log("cont", contactData.doc)}
                 {contactData.doc ? <button className={`${darkMode ? 'text-black bg-gray-100' : ''} border-solid border-1 border-black w-28 h-10 bg-gray-200 hover:bg-gray-400`} onClick={() => setPreviewMode(!previewMode)}>
                   {previewMode ? "Hide Preview" : "Preview"}
                 </button> : " "}
@@ -140,11 +163,15 @@ const Contact = () => {
               </form>
             </div>
           </div >
+          {
+            commentStore.length > 0 ? <Comment replyIndex={replyIndex} setReplyContent={setReplyContent} setReplyIndex={setReplyIndex} replyContent={replyContent} /> : ''
+          } 
+          <iframe src="https://www.youtube.com/embed/wr9M-CoxP7A" width={500} height={300} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture full" title='A youtube video on Chaleya' loading='lazy' ></iframe>
+          <iframe src="https://www.youtube.com/embed/uXWycyeTeCs" width={500} height={300} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture full"title='A youtube video on React hooks' loading='lazy'></iframe>
         </IntlProvider >
-
       </div>
     </>
-
   );
 };
+
 export default Contact;

@@ -4,9 +4,9 @@ import Rating from "@mui/material/Rating";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import RestaurantCard from "./RestaurantCard";
 import { withPromotedRestuarant } from "./RestaurantCard";
-import useOnlineStatus from "./useHooks/useOnLineStatus";
-import ErrorModal from "./ErrorModal";
-import ShimmerUi from "./useHooks/ShimmerUi";
+import useOnlineStatus from "../useHooks/useOnLineStatus";
+import ErrorModal from "./Modal/ErrorModal";
+import ShimmerUi from "../useHooks/ShimmerUi";
 import { useSelector } from "react-redux";
 
 const Hotelpage = ({ RestaurantData, topRated, setTopRated }) => {
@@ -52,12 +52,12 @@ const Hotelpage = ({ RestaurantData, topRated, setTopRated }) => {
   return (
     <>
 
-      <div className={`flex flex-row flex-wrap mx-4 lg:justify-start gap-5 mb-4 sm:justify-center items-center md:justify-start ${darkMode ? 'darkModeCSS' : ''}`}>
+      <div className={`w-11/12 mx-auto flex flex-row flex-wrap gap-5 mb-4 sm:justify-center sm:items-center  md:justify-start ${darkMode ? 'darkModeCSS' : ''}`}>
         {RestaurantData &&
           RestaurantData?.map((data, index) => {
             return (
               <div key={index}>
-                <p>{callData(data)}</p>
+                <div>{callData(data)}</div>
               </div>
             );
           })}

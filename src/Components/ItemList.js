@@ -27,9 +27,9 @@ const ItemList = ({ it, vegLabel }) => {
         <Grid container spacing={2}>
             <Grid item xs={8} sm={9} md={10} lg={10}>
                 {it.card.info.isVeg ?
-                    <img width="20" height="20" src="https://img.icons8.com/fluency/48/vegetarian-food-symbol.png" alt="vegetarian-food-symbol" />
+                    <img width="20" height="20"  loading='lazy' src="https://img.icons8.com/fluency/48/vegetarian-food-symbol.png" alt="vegetarian-food-symbol" />
                     :
-                    <img width="20" height="20" src="https://img.icons8.com/fluency/48/non-vegetarian-food-symbol.png" alt="non-vegetarian-food-symbol" />
+                    <img width="20" height="20" loading='lazy' src="https://img.icons8.com/fluency/48/non-vegetarian-food-symbol.png" alt="non-vegetarian-food-symbol" />
                 }
                 <div className='text-md w-[6]'>
                     {it.card.info.name}
@@ -55,6 +55,7 @@ const ItemList = ({ it, vegLabel }) => {
                             <img
                                 alt='food'
                                 className='h-24 w-28 rounded-md'
+                                loading='lazy'
                                 src={
                                     cloudinaryImageId + it.card.info.imageId
                                 }

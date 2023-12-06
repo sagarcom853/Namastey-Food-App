@@ -14,6 +14,8 @@ const RestaurantCard = ({ data }) => {
         <Link to={`/restaurant/${data.info.id}`}>
           <img
             alt='Food'
+            // loading='lazy'
+            rel="preconnect"
             className=' h-40 w-60 pt-2 hover:border-black'
             src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${data.info.cloudinaryImageId}`}
           />
@@ -27,14 +29,14 @@ const RestaurantCard = ({ data }) => {
           {data.info.cuisines?.join(", ")}
         </div>
         <div className='mt-4 mx-4 text-gray-600'>
-          <ul className='list-disc flex flex-wrap justify-between items-center'>
+          <ul className='flex flex-wrap justify-between items-center'>
             <li className='text-sm text-gray-600'>
               {data.info.sla.deliveryTime} MINS
             </li>
             <li className='text-sm text-gray-600'>
               {data.info.costForTwo}
             </li>
-            <li className={` ${Number(data.info?.avgRating) > 4 ? "text-green-600" : "text-orange-600"}`}>
+            <li className={` ${Number(data.info?.avgRating) > 4 ? "text-green-900" : "text-pink-900"}`}>
 
               <StarIcon />{data.info?.avgRating}</li>
             {/* {data.info.isOpen ? <li className='text-sm bg-green-100 p-1 rounded-md hover:bg-green-200 text-gray-600'>
@@ -47,7 +49,7 @@ const RestaurantCard = ({ data }) => {
         </div>
         <div className='my-4 flex justify-center'>
           {hoveredState ? (
-            <button className='text-center text-blue-300 font-semibold hover:text-gray-600 uppercase'>
+            <button className='text-center text-blue-600 font-semibold hover:text-gray-300 uppercase'>
               Quick View
             </button>
           ) : (

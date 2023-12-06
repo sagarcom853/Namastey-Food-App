@@ -16,6 +16,7 @@ const CartItem = ({ item, index }) => {
         <img
           alt='food'
           className='h-24 w-28 rounded-md'
+          loading='lazy'
           src={
             cloudinaryImageId + item.info.imageId
           }

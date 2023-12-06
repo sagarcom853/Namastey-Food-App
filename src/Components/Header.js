@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import useOnlineStatus from "./useHooks/useOnLineStatus";
+import useOnlineStatus from "../useHooks/useOnLineStatus";
 import { useSelector } from "react-redux";
 import { useAuth } from "./Context/AuthProvider";
 
@@ -19,7 +19,8 @@ const Header = () => {
             <img
               src='https://tse3.mm.bing.net/th?id=OIP.Oap-2kGS3d-eEpnau9qIKAHaEI&pid=Api&P=0'
               alt='food logo'
-              className='w-16 h-12 rounded-md bg-transparent'
+              className='w-20 h-11 rounded-md bg-transparent'
+              // loading='lazy'
             />
           </Link>
         </li>

@@ -8,11 +8,12 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ShimmerUi from "./useHooks/ShimmerUi";
+import ShimmerUi from "../useHooks/ShimmerUi";
 import { useAuth } from "./Context/AuthProvider";
 import StarIcon from '@mui/icons-material/Star';
 import { useSelector } from "react-redux";
 import ItemList from "./ItemList"
+import ScrollTop from "../utils/ScrollToTop";
 
 const HotelPageIndi = () => {
   const [restaurantMenuData, setRestaurantMenuData] = useState([]);
@@ -170,7 +171,7 @@ const HotelPageIndi = () => {
               <label htmlFor='veg' className='ml-2 text-gray-600 text-sm'>
                 {'Veg Only'}
               </label>
-              {/* <img alt="veg" src={cloudinaryImageId + vegDetails.imageId}></img> */}
+              {/* <img alt="veg" loading='lazy' src={cloudinaryImageId + vegDetails.imageId}></img> */}
             </div>
           )
         }
@@ -216,14 +217,14 @@ const HotelPageIndi = () => {
             &nbsp;{restaurantInfo.sla.lastMileTravelString}
           </div>
         </div>
-        <div className='flex flex-wrap mt-3 gap-2'>
+        {/* <div className='flex flex-wrap mt-3 gap-2'>
           <img
             alt='order icon'
             className='h-6 w-6'
             src={cloudinaryIdIcon + restaurantInfo.feeDetails.icon}
           />
           <div className='text-gray-600 text-sm'>{randmMessage}</div>
-        </div>
+        </div> */}
         <div className='flex flex-wrap font-bold mt-3 justify-start gap-8'>
           <div className='text-gray-600 text-sm'>{slaString}</div>
           <div className='text-gray-600 text-sm'>{costForTwoMessage}</div>
@@ -240,8 +241,12 @@ const HotelPageIndi = () => {
     <div className={`w-4/5 mx-auto mt-4 `}>
       {basicDetails()}
       {results()}
+      <ScrollTop showBelow={500} />
     </div>
   );
 };
 
 export default HotelPageIndi;
+
+
+

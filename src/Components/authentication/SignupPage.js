@@ -3,7 +3,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { MdLockReset } from "react-icons/md";
 import { useAuth } from "../Context/AuthProvider";
 import { Navigate, useNavigate, Link } from "react-router-dom";
-import ProgressBar from "../Progressbar/ProgressBar";
+import ProgressBar from "../../Progressbar/ProgressBar";
 // 
 const Signup = () => {
   const { isAuthenticated, login } = useAuth()

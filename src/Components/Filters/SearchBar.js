@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Modal from "./Modal/Modal";
+import Modal from "../Modal/Modal";
 
 const SearchBar = ({ setTextFieldValue, Err }) => {
   const [showModal, setShowModal] = useState(false)

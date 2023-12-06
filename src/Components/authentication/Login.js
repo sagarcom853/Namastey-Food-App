@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { MdLockReset } from "react-icons/md";
+// import { useAuth } from "../../Context/AuthProvider";
 import { useAuth } from "../Context/AuthProvider";
+
 import { Navigate, useNavigate, Link } from "react-router-dom";
-import Loggin from "./Google_Login";
-import Loggout from "./Google_Logout";
+// import Loggin from "./Google_Login";
+// import Loggout from "./Google_Logout";
 import { gapi } from "gapi-script";
 import axios from "axios"
+// "react-google-login": "^5.2.2",
+// "react-qr-reader": "^3.0.0-beta-1",
+
 
 const clientID = "1084392458345-pehhma6j6823s6gdkpt4hr5p5fth1vjf.apps.googleusercontent.com"
 const Login = () => {
@@ -70,12 +75,12 @@ const Login = () => {
         <div>
           <p className="text-gray-400">Do not have an Account? <Link to='/signup' className="hover:text-white">SignUp Now!!</Link></p>
         </div>
-        <div className="my-2">
+        {/* <div className="my-2">
           <Loggin user={user} setUser={setUser} />
         </div>
         <div className="my-2">
           <Loggout />
-        </div>
+        </div> */}
       </div>
     </div>
   );
