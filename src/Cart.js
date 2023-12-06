@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { addItem, removeItem, clearCart } from "./Redux/cartSlice";
 import { useNavigate } from "react-router-dom";
+
 let cloudinaryImageId = "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
 
 const CartItem = ({ item, index }) => {
@@ -153,6 +154,7 @@ const Cart = () => {
   const cart = useSelector((store) => store?.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate()
+
   return (
     <div className="p-6 m-6">
       <div className="flex flex-wrap justify-between">

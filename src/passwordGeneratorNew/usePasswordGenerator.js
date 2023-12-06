@@ -8,7 +8,7 @@ const usePasswordGenerator = ({ checkboxData, passwordLength }) => {
     let Characters = "";
     let password = "";
 
-    let selectedOption = checkboxData.filter((checkbox) => {
+    let selectedOption = checkboxData?.filter((checkbox) => {
       return checkbox.checked === true;
     });
     selectedOption.forEach((option) => {
