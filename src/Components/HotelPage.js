@@ -52,7 +52,7 @@ const Hotelpage = ({ RestaurantData, topRated, setTopRated }) => {
   return (
     <>
 
-      <div className={`w-11/12 mx-auto flex flex-row flex-wrap gap-5 mb-4 sm:justify-center sm:items-center  md:justify-start ${darkMode ? 'darkModeCSS' : ''}`}>
+      <div className={`w-full pl-10 mx-auto flex flex-row flex-wrap gap-5 mb-4 sm:justify-center sm:items-center  md:justify-start ${darkMode ? 'darkModeCSS' : ''}`}>
         {RestaurantData &&
           RestaurantData?.map((data, index) => {
             return (

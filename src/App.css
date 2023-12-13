@@ -5,7 +5,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.diagonal-split-background{
+.diagonal-split-background {
   background-color: #06130a;
   background-image: -webkit-linear-gradient(135deg, #1d3b3b 50%, #123a1e 50%);
 }
@@ -18,12 +18,35 @@ input::-webkit-inner-spin-button {
 
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 
-.darkModeCSS{
-    background-color: #101010;
-    color: white;
+.darkModeCSS {
+  background-color: #101010;
+  color: white;
+
+}
+
+.button {
+  padding: 5px 15px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background-color: tomato;
+}
+
+.button:hover {
+  background-color: gray;
+
+}
+
+.input-field {
+  outline: none;
+  border: none;
+  padding: 5px 30px;
+  border-radius: 30px;
+  color: black;
+  /* cursor: pointer; */
 
 }

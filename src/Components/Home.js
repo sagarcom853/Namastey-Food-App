@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./Redux/cartSlice";
 import Modal from "./Modal/Modal";
 import ScrollTop from "../utils/ScrollToTop";
+import axios from 'axios'
 
 const Home = ({
   marks,
@@ -30,10 +31,14 @@ const Home = ({
   const [showModal, setShowModal] = useState(false)
   const [Err, setErr] = useState("")
   const [loading, setLoading] = useState(false)
+  const [cityData, setCityData] = useState('')
   const [page, setPage] = useState(10)
   const { isAuthenticated } = useAuth()
+  const [lat, setLat] = useState('')
+  const [long, setLong] = useState('')
   const dispatch = useDispatch()
   const location = useLocation()
+  const weather_API = 'a2ac8f252952756e57ff657ad656e40d';
 
   const darkMode = useSelector((store) => store?.cart.dark);
   let API =
@@ -44,6 +49,7 @@ const Home = ({
   const handleTopRestaurants = () => {
     setTopRated(!topRated);
   };
+
 
   const fetchData = async () => {
     try {
@@ -64,6 +70,18 @@ const Home = ({
         setShowModal={setShowModal} />
     }
   };
+
+  const detectLocation = () => {
+    navigator.geolocation.watchPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    });
+  };
+
+  useEffect(() => {
+    detectLocation()
+  }, [])
+
   //function to implement infinite scrolling but with same API... 
   // const fetchMoreData = async () => {
   //   console.log("fetch more datta called")
@@ -230,6 +248,8 @@ const Home = ({
     window.scrollTo(0, 0)
   }, [])
 
+
+
   const handleScroll = async () => {
     try {
       if (
@@ -269,6 +289,11 @@ const Home = ({
     setDrawFilter()
   }, [priceFilter])
 
+  useEffect(() => {
+    getCity();
+  }, [lat, long]);
+
+
   if (RestaurantData6?.length === 0) {
     return (
       <>
@@ -291,10 +316,28 @@ const Home = ({
     }
   }
 
+ 
+
+  async function getCity() {
+    try {
+      if (lat && long) {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${weather_API}`);
+        console.log(response.data)
+        setCityData(response.data);
+
+      }
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  }
+
+
+
   return (
     <div className={` ${darkMode ? 'darkModeCSS' : ""}`}>
       {isAuthenticated ? <div className="flex flex-wrap items-center justify-center font-bold text-lg my-6">{location.state ? `Welcome back ${location.state.name}` : ""}</div> : " "}
-      <div className={`w-11/12 mx-auto flex flex-row sm:items-center sm:justify-center sm:mx-auto flex-wrap justify-between`}>
+      &nbsp;&nbsp;You are in {cityData?.name || ''}
+      <div className={`w-full flex flex-row sm:items-center sm:justify-center sm:mx-auto flex-wrap justify-between`}>
         <FiltersPage
           RestaurantData={RestaurantData6}
           marks={marks}
