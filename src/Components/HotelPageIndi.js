@@ -125,10 +125,6 @@ const HotelPageIndi = () => {
             }
           })
         }
-
-
-
-
         return (
           <div className={`mt-1 mb-3  ${darkMode ? 'darkModeCSS' : 'bg-green-500'}`} key={item.card.card.title}>
             {(!vegLabel || lengthOfCards > 0) && (

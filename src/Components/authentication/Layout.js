@@ -5,7 +5,7 @@ import Footer from '../Footer'
 const Layout = ({ children }) => {
     return (
         <div>
-            <Header/>
+            <Header apiKey = {'AIzaSyDiWfhcmXqs2zTdBV81ohncxWz3Vf8P9Xk'}/>
             {children}
             <Footer />
         </div>
