@@ -10,7 +10,6 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const HelpPage = () => {
   const [expanded, setExpanded] = useState(Array(FAQ.length).fill(false));
-  console.log('expanded',expanded)
 
   const ToggleIcon = ({ index }) => {
     return expanded[index] ? <RemoveCircleOutlineIcon /> : <AddCircleOutlineIcon />;

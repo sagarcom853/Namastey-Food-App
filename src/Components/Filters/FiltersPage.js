@@ -10,6 +10,7 @@ const FiltersPage = ({
   valuetext,
   value,
   HighestPriceValue,
+  dropdownValue,
   priceFilter,
   labelNamesArray,
   handleInputChange,
@@ -27,7 +28,7 @@ const FiltersPage = ({
 
   return (
     <div>
-      <div className="flex flex-wrap lg:justify-start md:justify-start sm:justify-center my-4 p-2 gap-3 items-center">
+      <div className="flex flex-wrap justify-center my-4 p-2 gap-3 items-center">
         {/* <FilterSlider
           marks={marks}
           handleChange={handleChange}
@@ -39,17 +40,21 @@ const FiltersPage = ({
         <FilterDropdown
           labelNamesArray={labelNamesArray}
           handleInputChange={handleInputChange}
+          textFieldValue = {textFieldValue}
+          topRated={topRated}
         />
         <SearchBar
           textFieldValue={textFieldValue}
           handleSearch={handleSearchChange}
           setTextFieldValue={setTextFieldValue}
+          dropdownValue={dropdownValue}
           Err={Err}
-
+          placeholder="Search for Restaurants"
         />
         <button
           className={` w-36 rounded-md p-2 transition-all duration-300 ${darkMode ? buttonClassDark : ' bg-gray-400'}`}
           onClick={handleTopRestaurants}
+          disabled={textFieldValue || dropdownValue.length>0}
         >
           {topRated ? <p>View all</p> : <p>View Top Rated</p>}
         </button>

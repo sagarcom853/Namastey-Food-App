@@ -4,8 +4,9 @@ import { useSelector } from "react-redux";
 const ShimmerUi = () => {
   let cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const darkMode = useSelector((store)=>store.cart?.dark)
+
   return (
-    <div className={`flex flex-wrap md:wd-3/4 sm:wd-3/4 xs:wd-3/4 mx-auto gap-5 mb-4 md:justify-center sm:items-center sm:justify-center`}>
+    <div className={`flex flex-wrap justify-center gap-2`}>
       {cards.map((card) => {
         return (
           <div

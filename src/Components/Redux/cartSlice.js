@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const cartSlice = createSlice(
     {
         name: 'cart',
@@ -22,6 +21,11 @@ const cartSlice = createSlice(
                     state.items.push({ ...newItem, quantity: 1 })
                 }
             },
+            setCartItems: (state, action) => {
+                const newItems = Array.isArray(action.payload) ? action.payload : [action.payload];
+                state.items = newItems;
+              },
+              
             removeItem: (state, action) => {
                 const itemIdToRemove = action.payload;
                 console.log('itemIdToRemove', itemIdToRemove)
@@ -36,7 +40,7 @@ const cartSlice = createSlice(
                 }
             },
             clearCart: (state) => {
-                 state.items.length = 0
+                state.items.length = 0
             },
 
             themeReducer: (state, action) => {
@@ -55,7 +59,7 @@ const cartSlice = createSlice(
     }
 
 )
-export const { addItem, removeItem, clearCart, themeReducer } = cartSlice.actions
+export const { addItem, removeItem, clearCart, themeReducer, setCartItems } = cartSlice.actions
 export default cartSlice.reducer
 
 
