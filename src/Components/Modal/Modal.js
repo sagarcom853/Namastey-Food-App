@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Modal = ({ modalTitle = '', modalContent = "", showModal, setShowModal }) => {
     const darkMode = useSelector((store) => store.cart?.dark)
-    console.log('typoofmodal content', typeof (modalContent))
+    // console.log('typoofmodal content', typeof (modalContent))
 
     return (
         <div >

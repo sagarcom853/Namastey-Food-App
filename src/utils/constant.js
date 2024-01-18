@@ -1,10 +1,26 @@
 // export const RestuarantMenuAPI = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.9319838&lng=86.7465928&restaurantId=${id}&submitAction=ENTER`
-export const cloudinaryIdIcon =
-    `https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_18,h_18/`
-export const cloudinaryImageId =
-    `https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/`
+export const weather_API = 'a2ac8f252952756e57ff657ad656e40d';
+export const cloudinaryIdIcon = `https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_18,h_18/`
+export const cloudinaryImageId = `https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/`
+export let API = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999"
+export let API3 = 'http://localhost:8000/product/products'
+export let API2 = 'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
+export let cartTableLabels = [
+    { id: 0, name: 'Item' },
+    { id: 1, name: 'Restaurant' },
+    { id: 2, name: 'Price' },
+    { id: 3, name: 'Quantity' },
 
-    
+]
+
+export let SummaryTableLabels = [
+    { id: 0, name: 'Item' },
+    { id: 1, name: 'Restaurant' },
+    { id: 2, name: 'Price' },
+    { id: 3, name: 'Quantity' },
+    { id: 4, name: 'Total Price' },
+]
+
 export const FAQ = [
     {
         id: 473,

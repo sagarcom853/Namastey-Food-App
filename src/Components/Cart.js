@@ -1,40 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
-import { addItem, removeItem, clearCart } from "./Redux/cartSlice";
-import { useNavigate } from "react-router-dom";
-
-let cloudinaryImageId = "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
-
-const CartItem = ({ item, index }) => {
-  const dispatch = useDispatch()
-  const subtotal = (item.info.price / 100) * item.quantity;
-
-  return (
-    <div className="flex flex-wrap justify-between p-4 border-b border-gray-300 items-center">
-      <div className="flex flex-wrap gap-10 items-center">
-        <img
-          alt='food'
-          className='h-24 w-28 rounded-md'
-          loading='lazy'
-          src={
-            cloudinaryImageId + item.info.imageId
-          }
-        />
-        <h3 className="text-lg font-semibold w-128">{item.info.name}</h3>
-        <p className="text-gray-600">&#8377; {(item.info.price / 100).toFixed(2)}</p>
-      </div>
-      <div className="flex items-center">
-        <button className="bg-gray-200 px-3 py-1 rounded-l-md transition-all duration-300 ease-in-out" onClick={() => dispatch(removeItem(index))}>-</button>
-        <p className="px-3">{item.quantity} items</p>
-        <button className="bg-gray-200 px-3 py-1 rounded-r-md transition-all duration-300 ease-in-out " onClick={() => dispatch(addItem(item))}>+</button>
-      </div>
-      <p className="text-lg">&#8377; {subtotal.toFixed(2)}</p>
-      <div className="flex justify-between p-4 border-b border-gray-300 items-center">
-      </div>
-    </div>
-  );
-};
+import { addItem, removeItem, clearCart, setCartItems } from "./Redux/cartSlice";
+import { useNavigate, Link } from "react-router-dom";
+import { cloudinaryImageId } from "../utils/constant";
+import { cartTableLabels } from "../utils/constant";
+import { useHook } from "../useHooks/CustomAPIHook";
+import { useAuth } from "./Context/AuthProvider";
 
 const belowLine = (cart, ifCouponApplied) => {
   let totalQuantity = cart.reduce((previous, current) => {
@@ -88,7 +60,6 @@ const belowLine = (cart, ifCouponApplied) => {
 function findUniqueObjects(arr, property) {
   const uniqueObjects = [];
   const uniqueTitles = new Set();
-  console.log("array", arr)
 
   for (const item of arr) {
     if (item.info && item.info.offerTags) {
@@ -153,38 +124,88 @@ const offersTag = (item, setCoupedApplied, ifCouponApplied) => {
 const Cart = () => {
   const [ifCouponApplied, setCoupedApplied] = useState({ isApplied: false, discount: "" })
   const cart = useSelector((store) => store?.cart.items);
+  console.log('cart in cart', cart)
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const { user } = useAuth()
+
+  // Save cart data to localStorage whenever the cart changes
+  useEffect(() => {
+    if (user && user.email) {
+      localStorage.setItem(`cart-${user?.email}`, JSON.stringify(cart));
+    }
+  }, [cart, user, dispatch]);
 
   return (
-    <div className="p-6 m-6">
-      <div className="flex flex-wrap justify-between">
-        <h2 className="text-2xl font-semibold mb-4">Cart Page</h2>
-        <div className="flex flex-wrap flex-end flex-row gap-6">
-          <Button className="bg-black text-white px-4 rounded-md h-10 transition-all duration-300 ease-in-out" variant="contained" color="primary" onClick={() => dispatch(clearCart())}>
-            Clear Cart
-          </Button>
-          <Button className="bg-black text-white px-4 rounded-md h-10 transition-all duration-300 ease-in-out" variant="contained" color="secondary" onClick={() => navigate(-1)}>
-            Back
-          </Button>
-        </div>
+    <div className="w-3/4 mx-auto p-8 rounded bg-white shadow-2xl mt-8 mb-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Cart Page</h2>
+        {cart.length > 0 ?
+          <div className="flex flex-wrap flex-end flex-row gap-6">
+            <button className=" text-white px-4 py-1 rounded-md transition-all duration-300 ease-in-out bg-[#00416a] hover:bg-green-700" variant="contained" color="primary" onClick={() => dispatch(clearCart())}>
+              Clear Cart
+            </button>
+            <button className=" text-white px-4 py-1 rounded-md transition-all duration-300 ease-in-out bg-[#00416a] hover:bg-green-700" variant="contained" color="secondary" onClick={() => navigate(-1)}>
+              Back
+            </button>
+          </div> : ''
+        }
       </div>
-      <div className="mb-4">
-        <p className="text-gray-600">You saved rupees on this order</p>
-        <h2 className="text-2xl font-semibold">Items Added {cart.length}</h2>
-      </div>
+      {cart.length > 0 ?
+        <table className="border-collapse border border-gray-300 mb-4">
+          <thead>
+            <tr className="" >
+              {cartTableLabels.map((row) => {
+                return <th key={row.id} className="p-3 text-left">{row.name}</th>
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {cart && cart.map((cartItem, index) => {
+              const subtotal = cartItem && cartItem.info && cartItem.info.defaultPrice ? cartItem.info.defaultPrice / 100 : cartItem?.info?.price / 100
 
-      <div>
-        {offersTag(cart, setCoupedApplied, ifCouponApplied)}
-        {cart && cart.map((item, index) => (
-          <>
-            <CartItem key={index} index={index} item={item} />
+              return (
+                <tr className='border-t border-gray-300' key={cartItem.info.id} >
+                  <td className="p-3">
+                    {cartItem.info.imageId ?
+                      <Link to={`../restaurant/${cartItem.info.restaurantData.id}`}>
+                        <img
+                          src={cloudinaryImageId + cartItem.info.imageId}
+                          className="w-16 h-16 object-fill rounded-md"
+                          alt={cartItem.title}
+                        />
+                      </Link> : <div className="h-16 w-16 bg-gray-200 rounded-md"></div>
 
-          </>
-        ))}
-      </div>
+                    }
+                    <p className="ml-2 text-sm">{cartItem.info.name}</p>
+                  </td>
+                  <td className="p-3 text-sm">{cartItem.info.restaurantData.name}</td>
+                  <td className="p-3 text-sm">&#8377; {subtotal.toFixed(2)}</td>
+                  <td className="flex flex-wrap items-center pt-8">
+                    <button className="bg-gray-200 px-3 py-1 rounded-l-md transition-all duration-300 ease-in-out" onClick={() => dispatch(removeItem(index))}>-</button>
+                    <p className="p-3 text-sm">{cartItem.quantity} items</p>
+                    <button className="bg-gray-200 px-3 py-1 rounded-r-md transition-all duration-300 ease-in-out " onClick={() => dispatch(addItem(cartItem))}>+</button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
 
-      {cart.length > 0 ? belowLine(cart, ifCouponApplied) : ""}
+        </table> : <p className="font-bold text-2xl text-gray-800 flex justify-center items-center my-8">Cart is Empty! Add items</p>
+      }
+
+
+
+      {/* {cart.length > 0 ? belowLine(cart, ifCouponApplied) : ""} */}
+      {cart.length > 0 ?
+        <div className='flex justify-end mt-2' >
+          <button className=" text-white px-4 py-1 rounded-md transition-all duration-300 ease-in-out bg-[#00416a] hover:bg-green-700" variant="contained" color="secondary" onClick={() => navigate('/payment')}>
+            Order Summary
+          </button>
+        </div> : ''
+
+      }
+
     </div>
   );
 };

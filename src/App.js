@@ -11,8 +11,17 @@ import Login from "./Components/authentication/Login";
 import SignupPage from "./Components/authentication/SignupPage";
 import Layout from "./Components/authentication/Layout";
 import ProtectedRoute from "./Components/authentication/ProtectedRoutes";
+import ProfilePage from "./Components/ProfilePage";
 import { useSelector } from 'react-redux'
 import { IntlProvider } from "react-intl";
+import BasicForm from "./Components/forms/BasicForm"
+import AdditionalFormPage from "./Components/forms/AdditionalForm";
+import PaymentPage from "./Components/PaymentPage";
+import SuccessPage from "./Components/OrdersDetailsPage";
+import MyOrders from "./Components/MyOrders"
+import PageNotFound from "./Components/PageNotFound";
+import Favourites from "./Components/Favourites";
+import OrdersDetails from "./Components/OrdersDetailsPage"
 
 const HelpPage = lazy(() =>
   import("./Components/HelpPage")
@@ -69,7 +78,6 @@ const App = () => {
   };
 
   //filter using dropdown
-
   return (
     <div className={`relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
       <IntlProvider messages={{}} locale="en" defaultLocale="en">
@@ -80,7 +88,7 @@ const App = () => {
             <Route exact path="/*" element={<Layout>
               <Routes>
                 <Route
-                  path='/'
+                  path='/home'
                   element={
                     <Home
                       marks={marks}
@@ -98,15 +106,28 @@ const App = () => {
                 <Route exact path='hotelPage' element={<HotelPage />} />
                 <Route exact path='help' element={<HelpPage />} />
                 <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
-                <Route path="cart" element={<ProtectedRoute />}>
-                  <Route index element={<Cart />} />
+                <Route index path='cart' element={<Cart />} />
+                  <Route exact path='payment' element={<PaymentPage />} />
+
+
+                <Route path="" element={<ProtectedRoute />}>
+                  <Route exact path='profile' element={<ProfilePage />} />
+                  <Route exact path='basicform' element={<BasicForm />} />
+                  <Route exact path='additionalform' element={<AdditionalFormPage />} />
+                  <Route exact path='orders/:id/:itemId' element={< OrdersDetails/>} />
+                  <Route exact path='orders' element={<MyOrders />} />
+                  <Route exact path='favourites' element={<Favourites />} />
                 </Route>
                 <Route
                   exact
                   path='grocery'
+
                   element={
                     <Suspense fallback={<p> Loading..............</p>}>
-                      <Grocery />
+                      <div>
+                        <Grocery />
+
+                      </div>
                     </Suspense>
                   }
                 />
@@ -146,6 +167,8 @@ const App = () => {
                     </Suspense>
                   }
                 />
+                <Route path='*' element={<PageNotFound />} />
+
 
               </Routes>
 

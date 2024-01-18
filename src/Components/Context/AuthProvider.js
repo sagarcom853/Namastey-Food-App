@@ -2,13 +2,13 @@ import React, { createContext, useState, useContext } from 'react'
 
 const AuthContext = createContext(null)
 const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({ isAuthenticated: false, token: "" })
+    const [auth, setAuth] = useState({ isAuthenticated: false, token: "" , user: {}})
     const [theme, setTheme] = useState("light")
-    const login = (token) => {
-        setAuth({ ...auth, isAuthenticated: true, token: token })
+    const login = (user, token='') => {
+        setAuth({ ...auth, isAuthenticated: true, token: token , user : user})
     }
     const logout = () => {
-        setAuth({ ...auth, isAuthenticated: false, token: "" })
+        setAuth({ ...auth, isAuthenticated: false, token: "", user: {}})
     }
     // Function to toggle the theme
     const toggleTheme = () => {
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ login, logout, ...auth, toggleTheme, theme }}>
+        <AuthContext.Provider value={{ login, logout, ...auth, setAuth, toggleTheme, theme, }}>
             {children}
         </AuthContext.Provider>
     )
