@@ -5,11 +5,11 @@ import { Route, Outlet, Routes, useNavigate, Navigate, useLocation } from "react
 export const ProtectedRoute = () => {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
-    console.log('location in auth',location)
+    console.log('location in auth', location)
     if (isAuthenticated) {
         return <Outlet />
     } else {
-        return <Navigate to='/login' state={{ from: location }} replace />
+        return <Navigate to='/landing' state={{ from: location }} replace />
     }
 };
 export default ProtectedRoute;

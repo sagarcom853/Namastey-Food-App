@@ -6,7 +6,7 @@ import { MdLockReset } from "react-icons/md";
 // import Loggout from "./Google_Logout";
 import { useAuth } from "../Context/AuthProvider";
 import { Navigate, useNavigate, Link } from "react-router-dom";
-import { gapi } from "gapi-script";
+// import { gapi } from "gapi-script";
 import axios from "axios"
 import LoadingComponent from "../../utils/LoadingComponent";
 
@@ -52,12 +52,6 @@ const Login = () => {
       setErr(error.message)
 
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // console.error('Response data:', error.response.data.message);
-        // console.error('Response status:', error.response.status);
-        // console.error('Response headers:', error.response.headers);
-
-        // Set the error based on the server reesponse
         setErr(error.response.data.message || 'An error occurred.');
       } else if (error.request) {
         // The request was made but no response was received
@@ -72,15 +66,15 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientID,
-        scope: ""
-      })
-    }
-    gapi.load('client:auth2', start)
-  }, [])
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.client.init({
+  //       clientId: clientID,
+  //       scope: ""
+  //     })
+  //   }
+  //   gapi.load('client:auth2', start)
+  // }, [])
 
   useEffect(() => {
     setErr('')
@@ -93,60 +87,67 @@ const Login = () => {
   }
 
   return (
-    <div className="diagonal-split-background w-96 mx-auto my-8">
-      <h1 className="font-bold text-3xl pt-16 mb-3 text-white text-center uppercase">
-        User Login
-      </h1>
-      <div className="w-64 mx-auto relative">
-        <form className="" onSubmit={handleSubmit}>
-          <div className="relative flex">
-            <MdAccountCircle className="text-6xl text-emerald-900 outline-black absolute box-border z-20 -ml-3" />
-            <input
-              type="email"
-              placeholder="Enter email"
-              required
-              className="my-3 w-full h-8 box-border hover:border-none pl-14 p-5 rounded-3xl bg-emerald-100 focus:outline-none focus:outline-emerald-900"
-              name="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+    <div className="relative">
+      <div>
+        <img src="https://images.pexels.com/photos/5903095/pexels-photo-5903095.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt='food-icon' className="login-food-image" />
+      </div>
+      <div className="absolute top-24 left-0 right-0 bg-[#ee8549b3] w-96 mx-auto my-6 ">
+        <h1 className="font-bold text-3xl pt-16 mb-3 text-white text-center uppercase">
+          User Login
+        </h1>
+        <div className="w-64 mx-auto ">
+          <form className="" onSubmit={handleSubmit}>
+            <div className="relative flex">
+              <MdAccountCircle className="text-6xl text-emerald-900 outline-black absolute box-border z-20 -ml-3" />
+              <input
+                type="email"
+                placeholder="Enter email"
+                required
+                className="my-3 w-full h-8 box-border hover:border-none pl-14 p-5 rounded-3xl bg-emerald-100 focus:outline-none focus:outline-emerald-900"
+                name="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <MdLockReset className="text-6xl text-emerald-900 absolute z-20 -ml-3" />
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                className="my-3 h-8 w-full hover:border-none pl-14 p-5 rounded-3xl bg-emerald-100 focus:outline-none focus:outline-emerald-900"
+                name="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <button type='submit' className={`uppercase rounded-3xl w-full p-2 my-5 font-bold bg-white text-gray-700 hover:bg-emerald-100 ${buttonLoading || err ? "opacity-50 cursor-not-allowed" : "" // Disable the button styles when loading
+              }`}
+              disabled={(buttonLoading || err) && formValid}
+
+            >
+              {buttonLoading ? "Loading..." : "Login"}
+            </button>
+            {err ? <div className="p-1  rounded-md flex justify-center bg-red-600 text-white mb-4">{err}</div> : ''}
+          </form>
           <div>
-            <MdLockReset className="text-6xl text-emerald-900 absolute z-20 -ml-3" />
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              className="my-3 h-8 w-full hover:border-none pl-14 p-5 rounded-3xl bg-emerald-100 focus:outline-none focus:outline-emerald-900"
-              name="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <p className="text-white">Do not have an Account? <Link to='/signup' className="hover:text-white">SignUp Now!!</Link></p>
           </div>
-
-          <button type='submit' className={`uppercase rounded-3xl w-full p-2 my-5 font-bold bg-white text-gray-700 hover:bg-emerald-100 ${buttonLoading || err ? "opacity-50 cursor-not-allowed" : "" // Disable the button styles when loading
-            }`}
-            disabled={(buttonLoading || err) && formValid}
-
-          >
-            {buttonLoading ? "Loading..." : "Login"}
-          </button>
-          {err ? <div className="p-1  rounded-md flex justify-center bg-red-600 text-white mb-4">{err}</div> : ''}
-        </form>
-        <div>
-          <p className="text-gray-400">Do not have an Account? <Link to='/signup' className="hover:text-white">SignUp Now!!</Link></p>
+          {/* <div className="my-2">
+         <Loggin user={user} setUser={setUser} />
+       </div>
+       <div className="my-2">
+         <Loggout />
+       </div> */}
         </div>
-        {/* <div className="my-2">
-          <Loggin user={user} setUser={setUser} />
-        </div>
-        <div className="my-2">
-          <Loggout />
-        </div> */}
       </div>
     </div>
+
   );
+
 };
 
 export default Login;   

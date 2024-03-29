@@ -1,13 +1,16 @@
-import { useAuth } from './Context/AuthProvider'
-import MemberInfoTable from '../MemberProfileTable'
+import { useAuth } from '../Context/AuthProvider'
+import MemberInfoTable from '../../MemberProfileTable'
 import { useState, useEffect } from 'react';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import axios from 'axios'
+import { Link } from 'react-router-dom';
+import "./profilePage.css"
 
 const ProfilePage = () => {
     const { user, setAuth, auth } = useAuth()
     const [newProfileImage, setNewProfileImage] = useState(null)
     const [success, setSuccess] = useState('')
+    const [isAddressShown, setAddressShown] = useState(false)
     const defaultProfileImage = 'https://cdn2.f-cdn.com/files/download/38545966/4bce6b.jpg'
 
     let dateString = ''
@@ -45,6 +48,7 @@ const ProfilePage = () => {
         { label: 'DOB', value: dateString },
         { label: 'Present Address', value: user ? userAdd : '' },
     ];
+
 
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
@@ -96,32 +100,32 @@ const ProfilePage = () => {
     }, [user]);
 
     return (
-        <div>
+        <div className=''>
             <div className='flex justify-evenly gap-4 align-center'>
                 {
                     success ? <div className='bg-green-700 border-2 w-64 px-4 my-2 text-white rounded-md cursor-pointer'>{success}</div> : ''
                 }
-                <h1 className='member-name text-center mt-4'>Member Profile Page</h1>
+                {/* <h1 className='member-name text-center mt-4'>Member Profile Page</h1> */}
 
             </div>
 
-            <div className='member-total'>
-                <div className='member-intro'>
-                    <div
-                        className='cover-image'
-                        style={{ backgroundImage: `url('https://tse4.mm.bing.net/th?id=OIP.X0upBc_m8UmXj6ljIoQ3twHaCv&pid=Api&P=0&h=180')` }}
-                    >
-                        <label htmlFor='profile-image' className='edit-icon'>
-                            <CameraAltIcon />
-                        </label>
-                        <input
-                            type='file'
-                            id='profile-image'
-                            accept='image/*'
-                            style={{ display: 'none' }}
-                            onChange={handleImageChange}
-                        />
-                        <h1 className='text-red-500'></h1>
+            <div className='member-intro'>
+                <div
+                    className='cover-image '
+                >
+                    <div className='member-image-name'>
+                        <div className='edit-icon'  >
+                            <label htmlFor='profile-image' >
+                                <CameraAltIcon />
+                            </label>
+                            <input
+                                type='file'
+                                id='profile-image'
+                                accept='image/*'
+                                style={{ display: 'none' }}
+                                onChange={handleImageChange}
+                            />
+                        </div>
                         <img
                             // src={newProfileImage ? URL.createObjectURL(newProfileImage) : user ? user.ImageUrl : defaultProfileImage}
                             // src={user.imageURL ? user.imageURL : defaultProfileImage}
@@ -135,8 +139,33 @@ const ProfilePage = () => {
                             alt='profile-pic'
                         />
 
-                        <div className='member-name'>{user.name}</div>
+
+                        <div className='flex flex-row'>
+                            <div className='member-name'>{user.name}
+                                {user.isAdmin && <div className=' text-sm p-0 m-0 text-center w-20 bg-[#00416a] text-white'>Admin*</div>}
+                            </div>
+
+                        </div>  <div>
+                            <Link to='/basicform' className='button flex justify-end'>Edit Profile</Link>
+                        </div>
                     </div>
+
+                    <div className='profile-details' >
+                        <div className='details'>
+                            <div className='text-2xl mx-auto'> 0</div>
+                            <div className='text-xl'> Reviews</div>
+                        </div>
+
+                        <div className='details'>
+                            <div className='text-2xl mx-auto'> 0</div>
+                            <div className='text-xl'> Photos</div>
+                        </div>
+                        <div className='details'>
+                            <div className='text-2xl mx-auto'> 0</div>
+                            <div className='text-xl'> Followers</div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -145,9 +174,40 @@ const ProfilePage = () => {
                 <MemberInfoTable title="Basic Information" fields={basicInfoFields} />
                 <MemberInfoTable title="Additional Information" fields={additionalInfoFields} />
             </div>
+            <div className='ml-4 mb-10 pl-4 flex items-center  justify-start gap-2 '>
+                <div className='text-[#00416a] font-bold text-xl  '>
+                    My addresses
+                </div>
+                <button className='bg-[#00416a] text-white px-4 py-0.5 text-sm transition-all duration-300 ease-in-out' onClick={() => setAddressShown(!isAddressShown)}>{!isAddressShown ? 'Show Addresses' : 'Hide Addresses'
+                }</button>
+                <Link to='/address' className='bg-[#00416a] text-white px-4 py-0.5 text-sm '>+Add Address</Link>
+            </div>
+
+            {isAddressShown ?
+                <table className="w-3/4 ml-8 my-3 p-4 border-collapse border border-gray-300 mb-4 shadow-md transition-all duration-300 ease-in-out">
+                    <tbody>
+                        {user && user.addresses?.map((address, index) => {
+                            let userAdd = address && address.add1 ? address.add1 + ',' + address.add2 + ',' + address.landmark + ',' + address.state + ',' + address.country + ',' + address.pin : ''
+                            return <tr key={index} className="border-t border-gray-300 ">
+                                <div className='p-4 flex flex-wrap justify-between'>
+                                    <div className=''>{userAdd}</div>
+                                    <div className=''>
+                                        <button className='button'>Set as delivery Address</button>
+                                    </div>
+                                </div>
+                            </tr>
+                        }
+
+                        )}
+                    </tbody>
+                </table>
+                :
+                ''
+            }
         </div>
 
     )
 }
 
 export default ProfilePage
+

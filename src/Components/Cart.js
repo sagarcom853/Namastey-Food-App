@@ -137,7 +137,7 @@ const Cart = () => {
   }, [cart, user, dispatch]);
 
   return (
-    <div className="w-3/4 mx-auto p-8 rounded bg-white shadow-2xl mt-8 mb-4">
+    <div className="lg:w-3/4 sm:w-full md:w-full mx-auto p-8 rounded bg-white shadow-2xl mt-8 mb-4 overflow-scroll">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Cart Page</h2>
         {cart.length > 0 ?
@@ -152,7 +152,7 @@ const Cart = () => {
         }
       </div>
       {cart.length > 0 ?
-        <table className="border-collapse border border-gray-300 mb-4">
+        <table className="border-collapse border border-gray-300 mb-4 ">
           <thead>
             <tr className="" >
               {cartTableLabels.map((row) => {

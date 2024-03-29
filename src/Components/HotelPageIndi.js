@@ -18,7 +18,8 @@ import Stack from '@mui/material/Stack';
 import SearchBar from "./Filters/SearchBar";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { cloudinaryImageId } from "../utils/constant"
+import LoadingComponent from "../utils/LoadingComponent";
 
 
 const HotelPageIndi = () => {
@@ -32,17 +33,12 @@ const HotelPageIndi = () => {
   let navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const darkMode = useSelector((store) => store.cart?.dark);
-
   let RestuarantMenuAPI = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.9319838&lng=86.7465928&restaurantId=${id}&submitAction=ENTER`;
-  let cloudinaryIdIcon =
-    "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_18,h_18/";
-  let cloudinaryImageId =
-    "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
 
   const fetchMenu = async () => {
     try {
       const { data } = await axios.get(RestuarantMenuAPI);
-      setRestaurantInfo(data.data.cards[0].card.card.info);
+      setRestaurantInfo(data.data.cards[2].card.card?.info);
       {
         data?.data?.cards?.map((d) => {
           if (d.groupedCard) {
@@ -57,12 +53,12 @@ const HotelPageIndi = () => {
 
   useEffect(() => {
     fetchMenu();
-  }, [id]);
+}, [id]);
 
-  if (restaurantInfo.length === 0 || restaurantMenuData.length === 0) {
+  if (restaurantInfo?.length === 0 || restaurantMenuData?.length === 0) {
     return (
       <div className="flex flex-wrap">
-        <ShimmerUi />
+        <LoadingComponent />
       </div>
     );
   }
@@ -226,10 +222,10 @@ const HotelPageIndi = () => {
     setVegLabel(!vegLabel)
   }
 
-  const basicDetails = () => (
-    <div>
-      {/* Navigation Buttons */}
-      <div className="flex flex-wrap gap-4 justify-end mb-6">
+  /* Navigation Buttons */
+  const itemsInDetails = () => {
+    return (
+      <div className="flex flex-wrap gap-4 justify-end mb-6 sm:flex-nowrap">
         <SearchBar
           textFieldValue={textFieldValue}
           value={textFieldValue}
@@ -237,18 +233,25 @@ const HotelPageIndi = () => {
           // onChange={setTextFieldValue}
           placeholder="Search Menu" />
 
-        <Link to="/">
-          <button className="bg-emerald-200 hover:bg-emerald-400 hover:shadow-2xl p-2 w-28 rounded-md capitalize transition-all duration-300 ease-in-out" onClick={() => navigate(-1)}>
-            home
-          </button>
-        </Link>
-        <Link to={isAuthenticated ? "/cart" : "/login"}>
-          <button className="bg-purple-200 hover:bg-purple-400 hover:shadow-2xl p-2 w-28 rounded-md capitalize transition-all duration-300 ease-in-out">
-            cart
-          </button>
-        </Link>
+        <div className="flex flex-wrap gap-4">
+          <Link to="/">
+            <button className="bg-emerald-200 hover:bg-emerald-400 hover:shadow-2xl p-2 w-28 rounded-md capitalize transition-all duration-300 ease-in-out" onClick={() => navigate(-1)}>
+              home
+            </button>
+          </Link>
+          <Link to={isAuthenticated ? "/cart" : "/login"}>
+            <button className="bg-purple-200 hover:bg-purple-400 hover:shadow-2xl p-2 w-28 rounded-md capitalize transition-all duration-300 ease-in-out">
+              cart
+            </button>
+          </Link>
+        </div>
       </div>
+    )
+  }
 
+  const basicDetails = () => (
+    <div className="w-full">
+      {itemsInDetails()}
       {/* Restaurant Name and Rating */}
       <div className="flex items-center justify-between mb-2">
         <div className="font-bold text-xl text-gray-600">{restaurantInfo?.name}</div>
@@ -274,10 +277,10 @@ const HotelPageIndi = () => {
       {/* Restaurant Location */}
       <div className="flex flex-wrap justify-start mb-2">
         <div className="text-gray-600 text-sm">
-          {restaurantInfo.areaName}, {restaurantInfo.city}
+          {restaurantInfo?.areaName}, {restaurantInfo?.city}
         </div>
         <div className="text-gray-600 text-sm ml-2">
-          {restaurantInfo.sla.lastMileTravelString}
+          {restaurantInfo?.sla.lastMileTravelString}
         </div>
       </div>
 

@@ -36,7 +36,6 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (contactData.name !== "" && contactData.email !== "" && contactData.comments && contactData.doc && !previewMode) {
-
       dispatch(addComments({ id: 1, name: contactData.name, email: contactData.email, comments: contactData.comments, nestedComments: [] }))
       setContactData({ ...contactData, name: "", email: "", comments: "", doc: "" })
     }

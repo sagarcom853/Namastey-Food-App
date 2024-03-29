@@ -12,8 +12,10 @@ import ScrollTop from "../utils/ScrollToTop";
 import axios from 'axios'
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { API2 } from "../utils/constant";
+import { API} from "../utils/constant";
 import { weather_API } from "../utils/constant";
+import Tooltip from '@mui/material/Tooltip';
+import Corousal from "../LandingPage/Carousal";
 
 const Home = ({
   marks,
@@ -42,6 +44,7 @@ const Home = ({
   const [long, setLong] = useState('')
   const dispatch = useDispatch()
   const location = useLocation()
+  const [eatMode, setEatMode] = useState('delivery')
 
   const darkMode = useSelector((store) => store?.cart.dark);
 
@@ -51,7 +54,7 @@ const Home = ({
 
   const fetchData = async () => {
     try {
-      const data = await fetch(API2);
+      const data = await fetch(API);
       const json = await data.json();
 
       setRestaurantData6(
@@ -327,7 +330,6 @@ const Home = ({
           modalTitle="Error Occured"
           showModal={showModal}
           setShowModal={setShowModal} />
-
         <ShimmerUi />
 
       </>
@@ -352,7 +354,6 @@ const Home = ({
     } catch (error) {
       if (error.response) {
         setErr(error.response.data.message)
-
       }
     }
   }
@@ -360,11 +361,10 @@ const Home = ({
   const filters = () => {
     return (
       <div >
-        <Stack direction="row" className="ml-6 cursor-pointer" spacing={1}>
+        <Stack direction="row" className="ml-8 cursor-pointer" spacing={1}>
           {dropdownValue && (
             <Chip
               label={dropdownValue[0].info.name}
-              // onDelete={() => setTopRated(false)}
               color="primary"
 
             />
@@ -381,7 +381,6 @@ const Home = ({
             textFieldValue && (
               <Chip
                 label={textFieldValue}
-                // onClick={ }
                 className="capitalize"
                 onDelete={() => setTextFieldValue("")}
                 color={textFieldValue ? "primary" : "default"}
@@ -399,7 +398,7 @@ const Home = ({
     <div className={` ${darkMode ? 'darkModeCSS' : ""}`}>
       {isAuthenticated ? <div className="flex flex-wrap items-center justify-center font-bold text-lg">{location.state ? `Welcome back ${user.name}` : ""}</div> : " "}
       <div className="flex flex-wrap justify-start mx-8 gap-10">
-        <div>You are in {cityData?.name || ''}</div>
+        {/* <div>You are in {cityData?.name || ''}</div> */}
         {Err ?
           <div className="px-10 py-1 rounded-md flex justify-center bg-red-600 text-white">{Err}</div>
           : ''
@@ -430,30 +429,33 @@ const Home = ({
         <div className="flex flex-wrap justify-end m-4 p-2">
           <div className="flex flex-wrap gap-12 cursor-pointer text-xs">
             <div className="flex gap-4 items-center">
-              <Switch
-                checked={darkMode}
-                onChange={handleTheme}
-                inputProps={{ 'aria-label': 'controlled' }}
-                label={darkMode === true ? "Dark" : "Ligt"}
-              />
+              <Tooltip title={darkMode ? 'Enable light mode' : 'Enable dark mode'} arrow placement="top">
+                <Switch
+                  checked={darkMode}
+                  onChange={handleTheme}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                  label={darkMode === true ? "Dark" : "Ligt"}
+                />
+              </Tooltip>
             </div>
-            <div className="flex gap-4 items-center">
-              <img className="h-6 w-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/c0bb85d3a6347b2ec070a8db694588261616149578.png?output-format=webp" loading="lazy" />
+
+            <div className={`flex gap-4 items-center ${eatMode === 'delivery' ? 'order-border' : ''}`} onClick={() => setEatMode('delivery')} >
+              <img className="h-6 w-6" alt="illustration" src={eatMode === 'delivery' ? 'https://b.zmtcdn.com/data/o2_assets/c0bb85d3a6347b2ec070a8db694588261616149578.png?output-format=webp' : 'https://b.zmtcdn.com/data/o2_assets/246bbd71fbba420d5996452be3024d351616150055.png'} loading="lazy" />
               <span className="">Delivery</span>
             </div>
-            <div className="flex gap-4 items-center">
-              <img className="h-6 w-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/78d25215ff4c1299578ed36eefd5f39d1616149985.png?output-format=webp" loading="lazy" />
+            <div className={`flex gap-4 items-center ${eatMode === 'dine' ? 'order-border' : ''}`} onClick={() => setEatMode('dine')} >
+              <img className="h-6 w-6" alt="illustration" src={eatMode === 'dine' ? 'https://b.zmtcdn.com/data/o2_assets/30fa0a844f3ba82073e5f78c65c18b371616149662.png' : 'https://b.zmtcdn.com/data/o2_assets/78d25215ff4c1299578ed36eefd5f39d1616149985.png?output-format=webp'} loading="lazy" />
               <span className="whitespace-nowrap">Dining Out</span>
             </div>
-            <div className="flex gap-4 items-center">
-              <img className="h-6 w-6" alt="illustration" src="https://b.zmtcdn.com/data/o2_assets/01040767e4943c398e38e3592bb1ba8a1616150142.png?output-format=webp" loading="lazy" />
+            <div className={`flex gap-4 items-center mt-2" ${eatMode === 'night' ? 'order-border' : ''}`} onClick={() => setEatMode('night')}>
+              <img className="h-6 w-6" alt="illustration" src={eatMode === 'night' ? 'https://b.zmtcdn.com/data/o2_assets/855687dc64a5e06d737dae45b7f6a13b1616149818.png' : "https://b.zmtcdn.com/data/o2_assets/01040767e4943c398e38e3592bb1ba8a1616150142.png?output-format=webp"} loading="lazy" />
               <span className="">Nightlife</span>
             </div>
           </div>
         </div>
       </div>
-      {/* <TotalRestaurants RestaurantData={RestaurantData6} /> */}
       {filters()}
+      <Corousal />
       <HotelPage
         RestaurantData={RestaurantData6}
         marks={marks}
@@ -473,7 +475,7 @@ const Home = ({
         setTopRated={setTopRated}
       />
       <ScrollTop showBelow={800} />
-    </div>
+    </div >
   );
 };
 export default Home;

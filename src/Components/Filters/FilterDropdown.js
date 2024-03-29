@@ -12,7 +12,7 @@ const FilterDropdown = ({ labelNamesArray, handleInputChange, Err, textFieldValu
         className={`border w-64 border-gray-300 focus:border-gray-500 transition-all duration-300 px-2 py-2 outline-none  rounded ${darkMode ? 'darkModeCSS' : ""}`}
         onChange={(e) => handleInputChange(e)}>
         {labelNamesArray?.map((labels) => {
-          return <option key={labels}>{labels}</option>
+          return <option className='filter-dropdown-option' key={labels}>{labels}</option>
         })}
       </select>
     </div>

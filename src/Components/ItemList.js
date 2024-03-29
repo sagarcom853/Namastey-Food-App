@@ -10,14 +10,23 @@ import MenuModal from "./Modal/MenuModal"
 import { useAuth } from "./Context/AuthProvider";
 import axios from 'axios'
 import { useHook } from "../useHooks/CustomAPIHook";
-
+import Tooltip from '@mui/material/Tooltip';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ItemList = ({ it, vegLabel, restaurantInfo }) => {
     const [showModal, setShowModal] = useState(false)
-    
+    const [openSnack, setopenSnack] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    })
     const [err, setErr] = useState('')
     const [expandedGroup, setExpandedGroup] = useState(null);
     const { handleRemoveItem, hooksErr } = useHook()
+    const { vertical, horizontal, open } = openSnack;
+
     let cloudinaryImageId =
         "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
     const dispatch = useDispatch()
@@ -27,15 +36,12 @@ const ItemList = ({ it, vegLabel, restaurantInfo }) => {
         toast.success('Added to cart!', {
             position: toast.POSITION.TOP_RIGHT
         });
+        // setopenSnack(true)
+        setopenSnack({ ...openSnack, open: true })
     };
 
     const handleAddItem = (info) => {
         //dispatching actions with actions and actions.payload
-
-        //opening modal
-        // if (info.addons.length > 0) {
-        //     setShowModal(true)
-        // }
         info = { ...info, restaurantData: restaurantInfo }
         dispatch(addItem({ info }))
         showToastMessage()
@@ -47,12 +53,7 @@ const ItemList = ({ it, vegLabel, restaurantInfo }) => {
     }
 
     useEffect(() => {
-
     }, [user])
-    //closing modal
-    // const onHandleChange = () => {
-    //     setShowModal(false)
-    // }
 
     const handleAddtoFavourites = async (data) => {
         data.info = { ...data.info, restaurantData: restaurantInfo }
@@ -114,9 +115,7 @@ const ItemList = ({ it, vegLabel, restaurantInfo }) => {
                     >
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
-
                         >
-
                             <Typography className='text-sm mt-3 font-sans text-gray-600'>{addon.groupName}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -151,9 +150,34 @@ const ItemList = ({ it, vegLabel, restaurantInfo }) => {
         }, 4000)
     }, [err])
 
+    const handleClose = () => {
+        setopenSnack({ ...openSnack, open: false });
+    };
+
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     return (<>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
+        <Snackbar
+            open={openSnack.open}
+            anchorOrigin={{ vertical, horizontal }}
+            key={vertical + horizontal}
+            autoHideDuration={5000}
+            onClose={handleClose}
+            message="Item added to cart successfully"
+            action={action}
+        />
         <Grid container spacing={2}>
             <Grid item xs={8} sm={9} md={10} lg={10}>
                 {err ?
@@ -180,19 +204,25 @@ const ItemList = ({ it, vegLabel, restaurantInfo }) => {
                         {it.card.info.name}
                     </div>
                     {isItemWishlisted() ? (
-                        <img
-                            src='https://cdn-icons-png.flaticon.com/128/7245/7245139.png'
-                            alt='remove-wishlist-icon'
-                            className='h-4 w-4'
-                            onClick={() => handleRemoveFromFavourites(it.card)}
-                        />
+                        <Tooltip title="Remove from favourites" arrow placement="top">
+                            <img
+                                src='https://cdn-icons-png.flaticon.com/128/7245/7245139.png'
+                                alt='remove-wishlist-icon'
+                                className='h-4 w-4'
+                                onClick={() => handleRemoveFromFavourites(it.card)}
+                            />
+                        </Tooltip>
+
                     ) : (
-                        <img
-                            src='https://icon-library.com/images/wishlist-icon/wishlist-icon-16.jpg'
-                            alt='wishlist-icon'
-                            className='h-4 w-4'
-                            onClick={() => handleAddtoFavourites(it.card)}
-                        />
+                        <Tooltip title="Add to favourites" arrow placement="top">
+                            <img
+                                src='https://icon-library.com/images/wishlist-icon/wishlist-icon-16.jpg'
+                                alt='wishlist-icon'
+                                className='h-4 w-4'
+                                onClick={() => handleAddtoFavourites(it.card)}
+                            />
+                        </Tooltip>
+
                     )}
                 </div>
 

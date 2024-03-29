@@ -101,7 +101,7 @@ const Favourites = () => {
                         </button> : ''
                     }
                     {showMenu ? (
-                        <div className='w-full mx-auto h-[100%] my-20 flex justify-around items-center cursor-pointer'>
+                        <div className='w-full mx-auto h-[100%] my-20  cursor-pointer'>
                             {mapLabels()}
                         </div>
                     ) : (

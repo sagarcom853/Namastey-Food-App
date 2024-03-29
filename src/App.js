@@ -11,7 +11,7 @@ import Login from "./Components/authentication/Login";
 import SignupPage from "./Components/authentication/SignupPage";
 import Layout from "./Components/authentication/Layout";
 import ProtectedRoute from "./Components/authentication/ProtectedRoutes";
-import ProfilePage from "./Components/ProfilePage";
+import ProfilePage from "./Components/ProfileDetails/ProfilePage";
 import { useSelector } from 'react-redux'
 import { IntlProvider } from "react-intl";
 import BasicForm from "./Components/forms/BasicForm"
@@ -22,6 +22,12 @@ import MyOrders from "./Components/MyOrders"
 import PageNotFound from "./Components/PageNotFound";
 import Favourites from "./Components/Favourites";
 import OrdersDetails from "./Components/OrdersDetailsPage"
+import LandingPage from "./LandingPage/LandingPage";
+import ItemFilterPage from "./ItemsFilter/ItemFilterPage"
+import LoadingComponent from "./utils/LoadingComponent";
+import Address from "./Components/forms/Address";
+import AllUsers from "./Components/ProfileDetails/AllUsers"
+import AllOrders from "./Components/ProfileDetails/AllOrders";
 
 const HelpPage = lazy(() =>
   import("./Components/HelpPage")
@@ -60,12 +66,6 @@ const App = () => {
     return `${value} rupees`;
   }
 
-  // const handleSearchChange = (e) => {
-  //   if (textFieldValue) {
-  //     setTextFieldValue("");
-  //   }
-  //   setTextFieldValue(e.target.value);
-  // };
   const handleChange = (event) => {
     setPriceFilter(event.target.value === "" ? "" : Number(event.target.value));
   };
@@ -85,6 +85,12 @@ const App = () => {
           <Routes>
             <Route exact path='/login' element={<Login />} />
             <Route exact path='/signup' element={<SignupPage />} />
+            <Route exact path='/landing' element={<LandingPage />} />
+            <Route exact path='help' element={
+              <Suspense fallback={<LoadingComponent />}>
+                <HelpPage />
+              </Suspense>
+            } />
             <Route exact path="/*" element={<Layout>
               <Routes>
                 <Route
@@ -104,19 +110,22 @@ const App = () => {
                 <Route exact path='about' element={<About />} />
                 <Route exact path='contact' element={<Contact />} />
                 <Route exact path='hotelPage' element={<HotelPage />} />
-                <Route exact path='help' element={<HelpPage />} />
                 <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
-                <Route index path='cart' element={<Cart />} />
-                  <Route exact path='payment' element={<PaymentPage />} />
-
-
                 <Route path="" element={<ProtectedRoute />}>
                   <Route exact path='profile' element={<ProfilePage />} />
                   <Route exact path='basicform' element={<BasicForm />} />
                   <Route exact path='additionalform' element={<AdditionalFormPage />} />
-                  <Route exact path='orders/:id/:itemId' element={< OrdersDetails/>} />
+                  <Route exact path='address' element={<Address />} />
+                  <Route exact path='/allUsers' element={<AllUsers />} />
+                  <Route exact path='/allOrders' element={<AllOrders />} />
+
+                  <Route exact path='orders/:id/:itemId' element={< OrdersDetails />} />
                   <Route exact path='orders' element={<MyOrders />} />
                   <Route exact path='favourites' element={<Favourites />} />
+                  <Route index path='cart' element={<Cart />} />
+                  <Route exact path='payment' element={<PaymentPage />} />
+                  <Route exact path='collections/:id' element={< ItemFilterPage />} />
+
                 </Route>
                 <Route
                   exact
@@ -158,6 +167,8 @@ const App = () => {
                     </Suspense>
                   }
                 />
+
+
                 <Route
                   exact
                   path='progress'

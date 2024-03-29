@@ -5,13 +5,14 @@ import Modal from "./Modal/Modal";
 import axios from 'axios'
 import { useAuth } from "./Context/AuthProvider";
 import { useHook } from "../useHooks/CustomAPIHook";
+import Tooltip from '@mui/material/Tooltip';
 
 const RestaurantCard = ({ data }) => {
   const [hoveredState] = useState(true);
   const [showModal, setShowModal] = useState(false)
   const { user, setAuth, auth } = useAuth()
   const [err, setErr] = useState('')
-  const { handleRemoveItem ,hooksErr} = useHook()
+  const { handleRemoveItem, hooksErr } = useHook()
 
   const isItemWishlisted = () => {
     if (user?.favourites?.restaurant) {
@@ -62,21 +63,21 @@ const RestaurantCard = ({ data }) => {
     }, 3000)
   }, [err])
 
-  const handleRemoveFromFavourites=(data)=>{
+  const handleRemoveFromFavourites = (data) => {
     console.log(data)
     handleRemoveItem(user.email, data.info, 'restaurant')
     console.log('hooksErr', hooksErr)
     console.log('done')
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
   }, [user])
 
   return (
     <div
       key={data.info.id}
-      className='border border-gray-300 hover:border-gray-100 cursor-pointer hover:border-2 hover: rounded-2xl hover:outline-0 w-72 h-90 mt-4 hover:shadow-2xl transition-all duration-300 '
+      className='border border-gray-100 hover:border-gray-100 cursor-pointer hover:border-2 hover: rounded-2xl hover:outline-0 w-72 h-90 mt-4 hover:shadow-2xl transition-all duration-300 '
     >
       <div className='h-40 w-60 mb-1 mx-auto relative'>
         <Link to={`/restaurant/${data.info.id}`}>
@@ -88,20 +89,31 @@ const RestaurantCard = ({ data }) => {
             src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${data.info.cloudinaryImageId}`}
           />
         </Link>
+        {data.info.aggregatedDiscountInfoV3 && <div className=" swiggy-header">
+          <div>{data.info.aggregatedDiscountInfoV3.header}</div> &nbsp;
+          <div>{data.info.aggregatedDiscountInfoV3.subHeader}</div>
+
+        </div>}
         {user && isItemWishlisted() ? (
-          <img
-            src='https://cdn-icons-png.flaticon.com/128/7245/7245139.png'
-            alt='remove-wishlist-icon'
-            className="image-absolute"
-            onClick={() => handleRemoveFromFavourites(data)}
-          />
+          <Tooltip title="Remove from favourites" arrow placement="top">
+            <img
+              src='https://cdn-icons-png.flaticon.com/128/7245/7245139.png'
+              alt='remove-wishlist-icon'
+              className="image-absolute"
+              onClick={() => handleRemoveFromFavourites(data)}
+            />
+          </Tooltip>
+
         ) : (
-          <img
-            src='https://icon-library.com/images/wishlist-icon/wishlist-icon-16.jpg'
-            alt='wishlist-icon'
-            className="image-absolute"
-            onClick={() => handleAddtoFavourites(data)}
-          />
+          <Tooltip title="Add to favourites" arrow placement="top">
+            <img
+              src='https://icon-library.com/images/wishlist-icon/wishlist-icon-16.jpg'
+              alt='wishlist-icon'
+              className="image-absolute"
+              onClick={() => handleAddtoFavourites(data)}
+            />
+          </Tooltip>
+
         )}
 
       </div>
@@ -110,23 +122,25 @@ const RestaurantCard = ({ data }) => {
           {data.info.name}
         </div>
         {err ? <div className="p-1  rounded-md flex justify-center bg-red-600 text-white mb-4">{err}</div> : ''}
-        <div className='text-sm text-gray-600'>
+        <div className='text-sm text-gray-600 h-10'>
           {data.info.cuisines?.join(", ")}
         </div>
         <div className='mt-4 text-gray-600'>
-          <ul className='flex flex-row flex-wrap gap-2 justify-start items-center '>
-            <li className='text-sm text-gray-600'>
+          <ul className=' text-sm flex flex-row gap-1 justify-start items-center '>
+            <li className=' text-gray-600'>
               {data.info.sla.deliveryTime} MINS
             </li>
-            <li className='text-sm text-gray-600'>
+            <li className='text-gray-600'>
               {data.info.costForTwo}
             </li>
             <li className={` ${Number(data.info?.avgRating) > 4 ? "text-green-900" : "text-pink-900"}`}>
-
-              <StarIcon />{data.info?.avgRating}</li>
-            {data.info.isOpen ? <li className='text-sm bg-green-100 p-1 rounded-md hover:bg-green-200 text-gray-600'>
+              <div className="flex items-center">
+                <StarIcon />{data.info?.avgRating}
+              </div>
+            </li>
+            {data.info.isOpen ? <li className='bg-green-100 p-1 rounded-md hover:bg-green-200 text-gray-600'>
               OPEN
-            </li> : <li className='text-sm bg-gray-300 p-1 rounded-md hover:bg-gray-600 hover:text-white text-gray-600'>
+            </li> : <li className='bg-gray-300 p-1 rounded-md hover:bg-gray-600 hover:text-white text-gray-600'>
               CLOSED
             </li>}
 
@@ -156,8 +170,8 @@ export default RestaurantCard;
 export const withPromotedRestuarant = (WrapperComponent) => {
   return (props) => {
     return (
-      <div className='flex relative'>
-        <label className='absolute ml-3 mt-8 z-1 bg-gray-700 text-white text-xs p-1 w-20 text-center font-semibold font-sans uppercase'>
+      <div className='flex'>
+        <label className='promoted absolute ml-6 mt-8 z-1000 bg-gray-700 text-white text-xs p-1 w-20 text-center font-semibold font-sans uppercase'>
           Promoted
         </label>
         <WrapperComponent data={props.data} />
