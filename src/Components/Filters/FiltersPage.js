@@ -52,7 +52,7 @@ const FiltersPage = ({
           placeholder="Search for Restaurants"
         />
         <button
-          className={` w-36 rounded-md p-2 transition-all duration-300 ${darkMode ? buttonClassDark : ' bg-gray-400'}`}
+          className={` w-36 rounded-md p-2 transition-all duration-300 outline-none border border-gray-300${darkMode ? buttonClassDark : ''}`}
           onClick={handleTopRestaurants}
           disabled={textFieldValue || dropdownValue.length>0}
         >

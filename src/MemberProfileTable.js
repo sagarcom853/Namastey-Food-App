@@ -1,12 +1,10 @@
 import React from 'react';
-// import BasicDetails from "./forms/BasicForm"
-import { Link } from "react-router-dom"
 const MemberInfoTable = ({ title, fields }) => {
     return (
         <div className='member-basic'>
             <div className='flex flex-row justify-between'>
-                <h1 className='member-name'>{title}</h1>
-                <Link to='/basicform' className='button flex justify-end'>Edit</Link>
+                <h1 className='text-[#00416a] font-bold text-xl'>{title}</h1>
+
             </div>
 
             <table>

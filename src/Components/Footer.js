@@ -10,7 +10,7 @@ const Footer = () => {
               <Link to="/about">About us</Link>
             </li>
             <li>
-              <Link to="/">Careers</Link>
+              <Link to="/home">Careers</Link>
             </li>
             <li>
               <Link to="/generate-password">Team GeneratePassword</Link>
@@ -19,19 +19,19 @@ const Footer = () => {
               <Link to="/generate-password2">Generate Password2</Link>
             </li>
             <li>
-              <Link to="/">Bug Bounty</Link>
+              <Link to="/home">Bug Bounty</Link>
             </li>
             <li>
-              <Link to="/">Namaste One</Link>
+              <Link to="/home">Namaste One</Link>
             </li>
             <li>
-              <Link to="/">Namaste Corporate</Link>
+              <Link to="/home">Namaste Corporate</Link>
             </li>
             <li>
               <Link to="/grocery">Namaste Instamart</Link>
             </li>
             <li>
-              <Link to="/">Namaste Genie</Link>
+              <Link to="/home">Namaste Genie</Link>
             </li>
           </ul>
         </div>
@@ -50,7 +50,7 @@ const Footer = () => {
               <Link to="/barcode">Barcode with us
               </Link>
             </li>
-            <li className="">  <Link to="/">Ride with us
+            <li className="">  <Link to="/home">Ride with us
             </Link></li>
           </ul>
         </div>
@@ -59,22 +59,22 @@ const Footer = () => {
         <div className="hidden md:block rightFooter1">
           <span className="opacity-50 font-medium">LEGAL</span>
           <ul className="mt-4 flex flex-col gap-2">
-            <Link to="/">
+            <Link to="/home">
               <li className="">Terms & Conditions</li>
             </Link>
-            <Link to="/">
+            <Link to="/home">
               <li className="">Refund & Cancellation</li>
             </Link>
-            <Link to="/">
+            <Link to="/home">
               <li className="">Privacy Policy</li>
             </Link>
-            <Link to="/">
+            <Link to="/home">
               <li className="">Cookie Policy</li>
             </Link>
-            <Link to="/">
+            <Link to="/home">
               <li className="">Offer Terms</li>
             </Link>
-            <Link to="/">
+            <Link to="/home">
               <li className="">Phishing & Fraud</li>
             </Link>
           </ul>

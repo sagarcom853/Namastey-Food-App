@@ -9,14 +9,15 @@ import { useNavigate } from "react-router-dom"
 const SuccessPage = () => {
     const { user } = useAuth()
     const [orderDetails, setOrderDetails] = useState([]);
+    const [userDetails, setUserDetails] = useState([])
     const [loading, setLoading] = useState(false)
     const params = useParams()
+    const [searchParams] = useSearchParams()
+    const email = searchParams.get('search')
     const navigate = useNavigate()
     const id = params.id
     console.log('params', params)
     const itemId = params.itemId.split('=')[1] === 'null' ? null : params.itemId.split('=')[1]
-
-    let userAdd = user && user.add1 ? user.add1 + ',' + user.add2 + ',' + user.landmark + ',' + user.state + ',' + user.country + ',' + user.pin : ''
     let filteredOrder = orderDetails && orderDetails.filter((order) => {
         return order._id === id
     })
@@ -30,7 +31,8 @@ const SuccessPage = () => {
     const fetchOrderDetails = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`http://localhost:8000/user/fetchUser?email=${user.email}`);
+            const response = await axios.get(`http://localhost:8000/user/fetchUser?email=${email ? email : user.email}`);
+            setUserDetails(response.data)
             setOrderDetails(response.data.orders);
             setLoading(false)
             // setAuth({ ...auth, isAuthenticated: true, user: response.data.user });
@@ -41,7 +43,6 @@ const SuccessPage = () => {
     };
 
     const orderDetailsFunc = () => {
-
         if (itemId !== 'null' && itemId !== null) {
             let itemDetails = filteredOrder[0].items.filter((order) => {
                 return order.info.id === itemId
@@ -54,7 +55,7 @@ const SuccessPage = () => {
                 <>
                     {renderItem(itemDetails)}
                     {otherItemsData.length > 0 ? <>
-                        <div className="member-name">Other products in the order</div>
+                        <div className="member-name1">Other products in the order</div>
                         {renderOtherProducts(otherItemsData)}
                     </> : ' '}
 
@@ -112,10 +113,20 @@ const SuccessPage = () => {
         )
     }
     const deliveryDetails = () => {
+        const { name, email, addresses } = userDetails
+        let address = addresses[1]
+        let userAdd = address.add1 ? address.add1 + ',' + address.add2 + ',' + address.landmark + ',' + address.state + ',' + address.country + ',' + address.pin : ''
         return (
             <div className="border border-text-300 mb-2 p-4 shadow-md">
-                <h1 className="member-name">Delivery Address</h1>
-                {userAdd}
+                <h1 className="member-name1">Delivery Address</h1>
+                {userDetails &&
+                    <>
+                        <p>{name}</p>
+                        <p>{email}</p>
+
+                    </>
+                }
+                <p>{userAdd}</p>
             </div>
         )
     }
@@ -124,12 +135,13 @@ const SuccessPage = () => {
         return filteredOrder.map((filter) => {
             return (
                 <div key={filter._id} className="border border-text-300 mb-2 p-4 shadow-md text-sm">
-                    <h1 className="member-name mb-2">Payment Details</h1>
+                    <h1 className="member-name1 mb-2">Payment Details</h1>
+                    <div className="mb-0.5"><span className="font-semibold"> Order ID:</span> {filter._id}</div>
                     <div className="mb-0.5"><span className="font-semibold"> Paymode Mode:</span> {filter.paymentMode}</div>
                     <div className="mb-0.5"><span className="font-semibold mb-0.5">Ordered Date: </span> {new Date(filter.paymentTime).toLocaleString()}</div>
                     <div className="mb-0.5"><span className="font-semibold mb-0.5">Payment Status: </span> {filter.paymentStatus}</div>
-                    <div className="mb-0.5"><span className="font-semibold mb-0.5">Total Amount before Tax:</span> &#8377;{filter.totalAmount.toFixed(2)}</div>
-                    <div className="mb-0.5"><span className="font-semibold mb-0.5">Total Amount After Tax: </span>&#8377;{filter.totalAmountwithCharges.toFixed(2)}</div>
+                    <div className="mb-0.5"><span className="font-semibold mb-0.5">Total Amount before Tax:</span> &#8377;{filter?.totalAmount?.toFixed(2)}</div>
+                    <div className="mb-0.5"><span className="font-semibold mb-0.5">Total Amount After Tax: </span>&#8377;{filter?.totalAmountwithCharges?.toFixed(2)}</div>
                 </div>
             )
         })
@@ -154,7 +166,7 @@ const SuccessPage = () => {
             <button className=" text-white px-6 py-1 mb-4 rounded-md transition-all duration-300 ease-in-out bg-[#00416a] hover:bg-green-700" onClick={() => handleGoBack()}>
                 Back
             </button>
-            <h1 className="member-name">
+            <h1 className="member-name1">
                 order Details:
             </h1>
             <div className="flex flex-wrap gap-2">
@@ -165,8 +177,8 @@ const SuccessPage = () => {
                 </div>
 
                 <div className="border border-text-300 mb-2 p-4 shadow-md">
-                    <h1 className="member-name">Billing Details</h1>
-                    <div className="">{deliveryDetails()}</div>
+                    <h1 className="member-name1">Billing Details</h1>
+                    {userDetails && userDetails.length > 0 && <div className="">{deliveryDetails()}</div>}
                     <div> {completeOrderDetails()} </div>
                 </div>
 

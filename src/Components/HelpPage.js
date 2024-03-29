@@ -1,5 +1,5 @@
-import { FAQ } from '../utils/constant'
-import { useState } from 'react'
+import { FAQ } from '../utils/constant';
+import { useState } from 'react';
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -46,9 +46,7 @@ const HelpPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
-                <div className='font-sans font-gray-300'>{quest.description}</div>
-              </Typography>
+              <div data-testid={`description-${index}`} className='font-sans font-gray-300'>{quest.description}</div>
             </AccordionDetails>
           </Accordion>
         );

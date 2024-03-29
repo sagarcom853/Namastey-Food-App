@@ -72,11 +72,12 @@ const OrderPage = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Restaurant Name</th>
+                        <th >Name</th>
+                        <th className="border-t">Restaurant Name</th>
                         <th>Payment Status</th>
                         <th>Payment Time</th>
                         <th>Payment Mode</th>
+                        <th>Delivery Status</th>
                         <th><button className="button" onClick={() => deleteOrders(user.email)}>DeleteAll</button></th>
                         {/* <th>Address: </th> */}
                     </tr>
@@ -88,14 +89,15 @@ const OrderPage = () => {
                         <tbody key={order._id}>
                             {order.items.map((item) => {
                                 return (
-                                    <tr key={item.info.id} className=''>
+                                    <tr key={item.info.id} className='border-t border-gray-300'>
                                         <td>{item.info.name}</td>
                                         <td>{item.info.restaurantData.name}</td>
                                         <td>{order.paymentStatus}</td>
                                         <td>{new Date(order.paymentTime).toLocaleString()}</td>
                                         <td>{order.paymentMode}</td>
+                                        <td>{order.deliveryStatus ? order.deliveryStatus : 'Not Delivered'}</td>
                                         <td><button className="button" onClick={() => navigate(`/orders/${order._id}/itemId=${item.info.id}`)}>Details...</button></td>
-                                        <td><button className="button">Delete</button></td>
+                                        {/* <td><button className="button">Delete</button></td> */}
                                     </tr>
                                 )
                             })}
@@ -115,7 +117,7 @@ const OrderPage = () => {
             <div>
                 {orderDetails && orderDetails.orders.length > 0 ?
                     <div>
-                        <h1>
+                        <h1 className="member-name1">
                             Review your past orders:
                         </h1>
                         {!loading && orderDetailsFunc()}
