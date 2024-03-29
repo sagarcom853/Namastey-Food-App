@@ -14,6 +14,11 @@ Rating and Reviews: Share your feedback and read reviews from other customers to
 Technologies Used
 Frontend: React.js, Redux for state management, Tailwind CSS for styling.
 
+For backend create an config.env inside config folder and paste the following:
+PORT = 8000
+RAZORPAY_API_KEY = YOUR API KEY'
+RAZORPAY_API_SECRET = 'YOUR API SECRET'
+
 Getting Started
 Prerequisites
 Node.js and npm should be installed on your machine.
@@ -28,14 +33,6 @@ cd namaste-foods
 npm install
 Set up environment variables:
 
-Create a .env file in the root directory and add the following:
-
-env
-Copy code
-REACT_APP_API_URL=http://localhost:5000
-REACT_APP_STRIPE_PUBLIC_KEY=your_stripe_public_key
-Replace your_stripe_public_key with your Stripe API public key.
-
 Run the application:
 bash
 Copy code
@@ -48,5 +45,3 @@ Create a new branch for your feature or bug fix.
 Make your changes and write tests if possible.
 Test your changes thoroughly.
 Create a pull request with a clear description of your changes.
-License
-This project is licensed under the MIT License.
