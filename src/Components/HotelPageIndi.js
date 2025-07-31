@@ -33,14 +33,15 @@ const HotelPageIndi = () => {
   let navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const darkMode = useSelector((store) => store.cart?.dark);
-  let RestuarantMenuAPI = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.9319838&lng=86.7465928&restaurantId=${id}&submitAction=ENTER`;
-
+  // let RestuarantMenuAPI = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.9319838&lng=86.7465928&restaurantId=${id}&submitAction=ENTER`;
+let RestuarantMenuAPI = `http://localhost:3002/restaurants`
   const fetchMenu = async () => {
+    console.log("Fetching menu for restaurant ID:", id);
     try {
       const { data } = await axios.get(RestuarantMenuAPI);
-      setRestaurantInfo(data.data.cards[2].card.card?.info);
+      setRestaurantInfo(data[0]?.data?.cards[2]?.card?.card?.info);
       {
-        data?.data?.cards?.map((d) => {
+        data[0]?.data?.cards?.map((d) => {
           if (d.groupedCard) {
             setRestaurantMenuData(d.groupedCard.cardGroupMap.REGULAR.cards);
           }

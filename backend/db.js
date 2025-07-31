@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-var mongoURL = `mongodb+srv://sagarcom853:4uFJBxok7c5RAhXS@cluster0.p1cysgz.mongodb.net/namaste-food`
+var mongoURL = process.env.mongoURL
 mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 var db = mongoose.connection
 
