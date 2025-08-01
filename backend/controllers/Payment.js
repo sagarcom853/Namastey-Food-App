@@ -29,9 +29,9 @@ const checkout = async (req, res) => {
     const newOrder = {
       items: cart,
       paymentMode,
-      paymentTime: new Date(),
+      paymentTime: null,
       paymentStatus: "pending",
-      amount: Number(totalAmount),
+      totalAmount: Number(totalAmount),
       DeliveryStatus: "Not Delivered",
       DeliveredAt: "",
       totalAmountwithCharges: Number(totalAmountwithCharges),
@@ -67,6 +67,37 @@ const checkout = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+const markDelivered = async (req, res) => {
+  try {
+    const { orderId, email } = req.body;
+    const existingUser = await User.findOne({ email: email });
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const order = existingUser.orders.id(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    order.DeliveryStatus = "Delivered";
+    order.DeliveryAt = new Date();
+    if (order.paymentMode === "cash") {
+      order.paymentStatus = "success";
+      order.paymentTime = new Date();
+    }
+    await existingUser.save();
+    res
+      .status(200)
+      .json({
+        message: "Order marked as delivered successfully",
+        user: existingUser,
+      });
+  } catch (error) {
+    console.error("Error marking order as delivered:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 
 // const paymentVerification = async (req, res) => {
 //     console.log('payment here')
@@ -137,4 +168,4 @@ const getKey = async (req, res) => {
   }
 };
 
-module.exports = { checkout, paymentVerification, getKey };
+module.exports = { checkout, paymentVerification, getKey, markDelivered };

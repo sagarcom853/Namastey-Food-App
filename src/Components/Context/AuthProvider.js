@@ -31,9 +31,14 @@ const AuthProvider = ({ children }) => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
+  const setAuthStorage = (userObject)=>{
+    localStorage.setItem("auth", JSON.stringify(userObject));
+    setAuth(userObject);
+  }
+
   return (
     <AuthContext.Provider
-      value={{ login, logout, ...auth, setAuth, toggleTheme, theme }}
+      value={{ login, logout, ...auth, setAuth, toggleTheme, theme, setAuthStorage }}
     >
       {children}
     </AuthContext.Provider>

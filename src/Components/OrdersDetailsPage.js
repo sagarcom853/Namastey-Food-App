@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from "axios"
 import { useParams, useSearchParams, Link } from "react-router-dom"
 import LoadingComponent from "../utils/LoadingComponent"
-import { cloudinaryImageId } from "../utils/constant"
+import { assets, cloudinaryImageId } from "../utils/constant"
 import { useNavigate } from "react-router-dom"
 
 const SuccessPage = () => {
@@ -16,7 +16,6 @@ const SuccessPage = () => {
     const email = searchParams.get('search')
     const navigate = useNavigate()
     const id = params.id
-    console.log('params', params)
     const itemId = params.itemId.split('=')[1] === 'null' ? null : params.itemId.split('=')[1]
     let filteredOrder = orderDetails && orderDetails.filter((order) => {
         return order._id === id
@@ -66,7 +65,6 @@ const SuccessPage = () => {
     }
 
     const otherItems = (filteredOrder) => {
-        console.log(filteredOrder)
         return (filteredOrder.map((order) => {
             return (
                 <div key={order._id}>
@@ -91,7 +89,7 @@ const SuccessPage = () => {
                     {item.info.imageId ? (
                         <Link to={`../restaurant/${item.info.restaurantData.id}`}>
                             <img
-                                src={cloudinaryImageId + item.info.imageId}
+                                src={assets + item.info.imageId}
                                 className="w-32 h-28 object-fill rounded-md"
                                 alt={item.title}
                             />
