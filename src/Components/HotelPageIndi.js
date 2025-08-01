@@ -13,28 +13,29 @@ import StarIcon from "@mui/icons-material/Star";
 import { useSelector } from "react-redux";
 import ItemList from "./ItemList";
 import ScrollTop from "../utils/ScrollToTop";
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import SearchBar from "./Filters/SearchBar";
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
-import { cloudinaryImageId } from "../utils/constant"
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import { cloudinaryImageId } from "../utils/constant";
 import LoadingComponent from "../utils/LoadingComponent";
-
 
 const HotelPageIndi = () => {
   const [restaurantMenuData, setRestaurantMenuData] = useState([]);
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [ErrorMessage, setErrorMessage] = useState('');
+  const [ErrorMessage, setErrorMessage] = useState("");
   const [vegLabel, setVegLabel] = useState(false);
-  const [textFieldValue, setTextFieldValue] = useState("")
+  const [textFieldValue, setTextFieldValue] = useState("");
   const { id } = useParams();
   let navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const darkMode = useSelector((store) => store.cart?.dark);
-  // let RestuarantMenuAPI = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.9319838&lng=86.7465928&restaurantId=${id}&submitAction=ENTER`;
-let RestuarantMenuAPI = `http://localhost:3002/restaurants`
+  //  let RestuarantMenuAPI = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.9319838&lng=86.7465928&restaurantId=${id}&submitAction=ENTER`;
+
+  /**. The Restaurant API comes from JSON Server running restaurant JSON file*/
+  let RestuarantMenuAPI = `http://localhost:3002/restaurants`;
   const fetchMenu = async () => {
     console.log("Fetching menu for restaurant ID:", id);
     try {
@@ -54,7 +55,7 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
 
   useEffect(() => {
     fetchMenu();
-}, [id]);
+  }, [id]);
 
   if (restaurantInfo?.length === 0 || restaurantMenuData?.length === 0) {
     return (
@@ -124,9 +125,8 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
         let lengthOfCards = 0;
         if (vegLabel) {
           result = item.card.card.itemCards?.filter((iterator) => {
-            let veg =
-              iterator.card.info.itemAttribute?.vegClassifier === "VEG";
-            console.log("veg", veg)
+            let veg = iterator.card.info.itemAttribute?.vegClassifier === "VEG";
+            console.log("veg", veg);
             if (veg) {
               lengthOfCards++;
               return veg;
@@ -135,36 +135,39 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
         }
 
         if (textFieldValue) {
-          lengthOfCards = 0
-          let resultant = []
+          lengthOfCards = 0;
+          let resultant = [];
           if (vegLabel) {
-            resultant = result
+            resultant = result;
           } else {
-            resultant = item.card.card.itemCards
+            resultant = item.card.card.itemCards;
           }
           result = resultant.filter((iterator) => {
-            let filter = (iterator.card.info.name).toLowerCase().includes(textFieldValue.toLowerCase())
+            let filter = iterator.card.info.name
+              .toLowerCase()
+              .includes(textFieldValue.toLowerCase());
             if (filter) {
-              ++lengthOfCards
-              console.log('length of cards', lengthOfCards)
-              return filter
+              ++lengthOfCards;
+              console.log("length of cards", lengthOfCards);
+              return filter;
             }
-          })
-          console.log("resultr", result)
+          });
+          console.log("resultr", result);
         }
 
-
-        { console.log("length of cards outside", lengthOfCards) }
+        {
+          console.log("length of cards outside", lengthOfCards);
+        }
         return (
           <div
-            className={`mt-1 mb-3 ${darkMode ? "darkModeCSS" : "bg-green-500"
-              }`}
+            className={`mt-1 mb-3 ${darkMode ? "darkModeCSS" : "bg-green-500"}`}
             key={item.card.card.title}
           >
             {((!vegLabel && !textFieldValue) || lengthOfCards > 0) && (
               <Accordion
-                className={`mt-1 mb-3 ${darkMode ? "darkModeCSS" : " text-blue-600 bg-green-500"
-                  }`}
+                className={`mt-1 mb-3 ${
+                  darkMode ? "darkModeCSS" : " text-blue-600 bg-green-500"
+                }`}
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -173,10 +176,9 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
                   className={`${darkMode ? "darkModeCSS" : "bg-green-900"}`}
                 >
                   <Typography className="font-sans font-semibold">
-                    {
-                      (vegLabel || textFieldValue) && lengthOfCards > 0
-                        ? `${item.card.card.title} (${lengthOfCards})`
-                        : `${item.card.card.title} (${item.card.card.itemCards?.length})`}
+                    {(vegLabel || textFieldValue) && lengthOfCards > 0
+                      ? `${item.card.card.title} (${lengthOfCards})`
+                      : `${item.card.card.title} (${item.card.card.itemCards?.length})`}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -207,7 +209,10 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
               checked={vegLabel}
               onChange={() => setVegLabel(!vegLabel)}
             />
-            <label htmlFor="veg" className="ml-2 text-gray-600 text-sm cursor-pointer">
+            <label
+              htmlFor="veg"
+              className="ml-2 text-gray-600 text-sm cursor-pointer"
+            >
               Veg Only
             </label>
             {/* <img alt="veg" loading="lazy" src={cloudinaryImageId + vegDetails.imageId}></img> */}
@@ -217,11 +222,11 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
     });
 
   const handleDelete = () => {
-    setVegLabel(false)
-  }
+    setVegLabel(false);
+  };
   const handleClick = () => {
-    setVegLabel(!vegLabel)
-  }
+    setVegLabel(!vegLabel);
+  };
 
   /* Navigation Buttons */
   const itemsInDetails = () => {
@@ -232,11 +237,15 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
           value={textFieldValue}
           setTextFieldValue={setTextFieldValue}
           // onChange={setTextFieldValue}
-          placeholder="Search Menu" />
+          placeholder="Search Menu"
+        />
 
         <div className="flex flex-wrap gap-4">
           <Link to="/">
-            <button className="bg-emerald-200 hover:bg-emerald-400 hover:shadow-2xl p-2 w-28 rounded-md capitalize transition-all duration-300 ease-in-out" onClick={() => navigate(-1)}>
+            <button
+              className="bg-emerald-200 hover:bg-emerald-400 hover:shadow-2xl p-2 w-28 rounded-md capitalize transition-all duration-300 ease-in-out"
+              onClick={() => navigate(-1)}
+            >
               home
             </button>
           </Link>
@@ -247,21 +256,24 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
           </Link>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const basicDetails = () => (
     <div className="w-full">
       {itemsInDetails()}
       {/* Restaurant Name and Rating */}
       <div className="flex items-center justify-between mb-2">
-        <div className="font-bold text-xl text-gray-600">{restaurantInfo?.name}</div>
+        <div className="font-bold text-xl text-gray-600">
+          {restaurantInfo?.name}
+        </div>
         <div className="flex flexwrap flex-col p-1 bg-gray-100 shadow-lg w-20">
           <p
-            className={`items-center text-center flex justify-center ${Number(restaurantInfo?.avgRatingString) > 4.5
-              ? "text-green-600 hover:text-green-800 cursor-pointer transition-all duration-300 ease-in-out"
-              : "text-orange-600 hover:text-orange-900 cursor-pointer transition-all duration-300 ease-in-out"
-              }`}
+            className={`items-center text-center flex justify-center ${
+              Number(restaurantInfo?.avgRatingString) > 4.5
+                ? "text-green-600 hover:text-green-800 cursor-pointer transition-all duration-300 ease-in-out"
+                : "text-orange-600 hover:text-orange-900 cursor-pointer transition-all duration-300 ease-in-out"
+            }`}
           >
             <StarIcon /> {restaurantInfo?.avgRatingString}
           </p>
@@ -301,21 +313,17 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
             onClick={handleClick}
             onDelete={vegLabel ? handleDelete : undefined}
             color={vegLabel ? "primary" : "default"}
-
           />
         )}
-        {
-          textFieldValue && (
-            <Chip
-              label={textFieldValue}
-              // onClick={ }
-              className="capitalize"
-              onDelete={() => setTextFieldValue("")}
-              color={textFieldValue ? "primary" : "default"}
-            />
-          )
-        }
-
+        {textFieldValue && (
+          <Chip
+            label={textFieldValue}
+            // onClick={ }
+            className="capitalize"
+            onDelete={() => setTextFieldValue("")}
+            color={textFieldValue ? "primary" : "default"}
+          />
+        )}
       </Stack>
     </div>
   );
@@ -323,17 +331,17 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
   const BreadCrumbsFunc = () => {
     function handleClick(event) {
       event.preventDefault();
-      console.info('You clicked a breadcrumb.');
+      console.info("You clicked a breadcrumb.");
     }
 
     return (
       <div role="presentation" onClick={handleClick}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" className='text-sm ' key={1} to="/home">
+          <Link underline="hover" className="text-sm " key={1} to="/home">
             Home
           </Link>
           <Link
-            className='text-sm'
+            className="text-sm"
             key={2}
             underline="hover"
             color="inherit"
@@ -341,11 +349,13 @@ let RestuarantMenuAPI = `http://localhost:3002/restaurants`
           >
             Restaurants
           </Link>
-          <Typography key={3} className='text-sm' >{restaurantInfo?.name}</Typography>
+          <Typography key={3} className="text-sm">
+            {restaurantInfo?.name}
+          </Typography>
         </Breadcrumbs>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className={`w-4/5 mx-auto mt-1 `}>

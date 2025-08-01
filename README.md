@@ -1,6 +1,6 @@
 Food ordering App - Restaurant Food Ordering App
 
-WFoods is a web-based application that allows users to browse and order food from our restaurant. With a wide variety of delicious dishes and seamless ordering process, we aim to provide a delightful dining experience.
+Foods is a web-based application that allows users to browse and order food from our restaurant. With a wide variety of delicious dishes and seamless ordering process, we aim to provide a delightful dining experience.
 
 Technologies Used
 Frontend: React.js, Redux for state management, Tailwind CSS for styling.
@@ -16,13 +16,15 @@ Installation
 once the repo is cloned. There are two components to this.
 
 1. The frontend which can be directly run by : npm run start. which will run at port 3000
-2. The backend in which you can cd into and then run npx nodemon App.js which will run at port 8080/8000
+2. The backend in which you can cd into and then run npx nodemon App.js which will run at port 8080 or 8000.
+We are using npx command to run the commands locally if we don't install the modules Globally.
+same with running json server.
 
 To run the local set up without APIs
 
 1. Install json web-webserver
 2. run products json file with : npx json-server --watch productsData.json --port 3001
-3. run restaurants json file with : npx json-server --watch prestaurantsData.json--port 3002.
+3. run restaurants json file with : npx json-server --watch restaurantsData.json--port 3002.
 4. Note they will run at different ports.
 
 If mongo db doesn't connect, then drop the database and start by creating again.
