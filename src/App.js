@@ -12,26 +12,24 @@ import SignupPage from "./Components/authentication/SignupPage";
 import Layout from "./Components/authentication/Layout";
 import ProtectedRoute from "./Components/authentication/ProtectedRoutes";
 import ProfilePage from "./Components/ProfileDetails/ProfilePage";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import { IntlProvider } from "react-intl";
-import BasicForm from "./Components/forms/BasicForm"
+import BasicForm from "./Components/forms/BasicForm";
 import AdditionalFormPage from "./Components/forms/AdditionalForm";
 import PaymentPage from "./Components/PaymentPage";
 import SuccessPage from "./Components/OrdersDetailsPage";
-import MyOrders from "./Components/MyOrders"
+import MyOrders from "./Components/MyOrders";
 import PageNotFound from "./Components/PageNotFound";
 import Favourites from "./Components/Favourites";
-import OrdersDetails from "./Components/OrdersDetailsPage"
+import OrdersDetails from "./Components/OrdersDetailsPage";
 import LandingPage from "./LandingPage/LandingPage";
-import ItemFilterPage from "./ItemsFilter/ItemFilterPage"
+import ItemFilterPage from "./ItemsFilter/ItemFilterPage";
 import LoadingComponent from "./utils/LoadingComponent";
 import Address from "./Components/forms/Address";
-import AllUsers from "./Components/ProfileDetails/AllUsers"
+import AllUsers from "./Components/ProfileDetails/AllUsers";
 import AllOrders from "./Components/ProfileDetails/AllOrders";
 
-const HelpPage = lazy(() =>
-  import("./Components/HelpPage")
-);
+const HelpPage = lazy(() => import("./Components/HelpPage"));
 const GeneratePassword1 = lazy(() =>
   import("./Password Generator old/GeneratePassword1")
 );
@@ -40,7 +38,7 @@ const PasswordGenerate = lazy(() =>
 );
 const Grocery = lazy(() => import("./Components/Grocery"));
 const BarCode = lazy(() => import("./Scanner/BarCode"));
-const ProgressBar = lazy(() => import('./Progressbar/ProgressBar'));
+const ProgressBar = lazy(() => import("./Progressbar/ProgressBar"));
 
 const App = () => {
   let HighestPriceValue = 800;
@@ -48,7 +46,7 @@ const App = () => {
   const [plates, changePlates] = useState(0);
   const [priceFilter, setPriceFilter] = useState(HighestPriceValue);
   const [value, setValue] = useState(HighestPriceValue);
-  const darkMode = useSelector((store) => store.cart?.dark)
+  const darkMode = useSelector((store) => store.cart?.dark);
 
   //instead of manually setting data, write a loop
   const setMarks = (HighestPriceValue, steps) => {
@@ -79,116 +77,143 @@ const App = () => {
 
   //filter using dropdown
   return (
-    <div className={`relative z-10 ${darkMode ? 'darkModeCSS' : ''}`}>
+    <div className={`relative z-10 ${darkMode ? "darkModeCSS" : ""}`}>
       <IntlProvider messages={{}} locale="en" defaultLocale="en">
         <BrowserRouter>
           <Routes>
-            <Route exact path='/login' element={<Login />} />
-            <Route exact path='/signup' element={<SignupPage />} />
-            <Route exact path='/landing' element={<LandingPage />} />
-            <Route exact path='help' element={
-              <Suspense fallback={<LoadingComponent />}>
-                <HelpPage />
-              </Suspense>
-            } />
-            <Route exact path="/*" element={<Layout>
-              <Routes>
-                <Route
-                  path='/home'
-                  element={
-                    <Home
-                      marks={marks}
-                      handleChange={handleChange}
-                      valuetext={valuetext}
-                      handleBlur={handleBlur}
-                      priceFilter={priceFilter}
-                      value={value}
-                      HighestPriceValue={HighestPriceValue}
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/signup" element={<SignupPage />} />
+            <Route exact path="/landing" element={<LandingPage />} />
+
+            <Route
+              exact
+              path="/*"
+              element={
+                <Layout>
+                  <Routes>
+                    <Route
+                      path="/home"
+                      element={
+                        <Home
+                          marks={marks}
+                          handleChange={handleChange}
+                          valuetext={valuetext}
+                          handleBlur={handleBlur}
+                          priceFilter={priceFilter}
+                          value={value}
+                          HighestPriceValue={HighestPriceValue}
+                        />
+                      }
                     />
-                  }
-                />
-                <Route exact path='about' element={<About />} />
-                <Route exact path='contact' element={<Contact />} />
-                <Route exact path='hotelPage' element={<HotelPage />} />
-                <Route exact path='/restaurant/:id' element={<HotellPageIndi />} />
-                <Route path="" element={<ProtectedRoute />}>
-                  <Route exact path='profile' element={<ProfilePage />} />
-                  <Route exact path='basicform' element={<BasicForm />} />
-                  <Route exact path='additionalform' element={<AdditionalFormPage />} />
-                  <Route exact path='address' element={<Address />} />
-                  <Route exact path='/allUsers' element={<AllUsers />} />
-                  <Route exact path='/allOrders' element={<AllOrders />} />
+                    <Route
+                      exact
+                      path="help"
+                      element={
+                        <Suspense fallback={<LoadingComponent />}>
+                          <HelpPage />
+                        </Suspense>
+                      }
+                    />
+                    <Route exact path="about" element={<About />} />
+                    <Route exact path="contact" element={<Contact />} />
+                    <Route exact path="hotelPage" element={<HotelPage />} />
+                    <Route
+                      exact
+                      path="/restaurant/:id"
+                      element={<HotellPageIndi />}
+                    />
+                    <Route path="" element={<ProtectedRoute />}>
+                      <Route exact path="profile" element={<ProfilePage />} />
+                      <Route exact path="basicform" element={<BasicForm />} />
+                      <Route
+                        exact
+                        path="additionalform"
+                        element={<AdditionalFormPage />}
+                      />
+                      <Route exact path="address" element={<Address />} />
+                      <Route exact path="/allUsers" element={<AllUsers />} />
+                      <Route exact path="/allOrders" element={<AllOrders />} />
 
-                  <Route exact path='orders/:id/:itemId' element={< OrdersDetails />} />
-                  <Route exact path='orders' element={<MyOrders />} />
-                  <Route exact path='favourites' element={<Favourites />} />
-                  <Route index path='cart' element={<Cart />} />
-                  <Route exact path='payment' element={<PaymentPage />} />
-                  <Route exact path='collections/:id' element={< ItemFilterPage />} />
+                      <Route
+                        exact
+                        path="orders/:id/:itemId"
+                        element={<OrdersDetails />}
+                      />
+                      <Route exact path="orders" element={<MyOrders />} />
+                      <Route exact path="favourites" element={<Favourites />} />
+                      <Route index path="cart" element={<Cart />} />
+                      <Route exact path="payment" element={<PaymentPage />} />
+                      <Route
+                        exact
+                        path="collections/:id"
+                        element={<ItemFilterPage />}
+                      />
+                    </Route>
+                    <Route
+                      exact
+                      path="grocery"
+                      element={
+                        <Suspense fallback={<p> Loading..............</p>}>
+                          <div>
+                            <Grocery />
+                          </div>
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      exact
+                      path="generate-password"
+                      element={
+                        <Suspense
+                          fallback={<p> Password Generate..............</p>}
+                        >
+                          <GeneratePassword1 />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      exact
+                      path="generate-password2"
+                      element={
+                        <Suspense
+                          fallback={<p> Password Generate..............</p>}
+                        >
+                          <PasswordGenerate />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      exact
+                      path="barcode"
+                      element={
+                        <Suspense
+                          fallback={<p> Loading Scanner..............</p>}
+                        >
+                          <BarCode />
+                        </Suspense>
+                      }
+                    />
 
-                </Route>
-                <Route
-                  exact
-                  path='grocery'
-
-                  element={
-                    <Suspense fallback={<p> Loading..............</p>}>
-                      <div>
-                        <Grocery />
-
-                      </div>
-                    </Suspense>
-                  }
-                />
-                <Route
-                  exact
-                  path='generate-password'
-                  element={
-                    <Suspense fallback={<p> Password Generate..............</p>}>
-                      <GeneratePassword1 />
-                    </Suspense>
-                  }
-                />
-                <Route
-                  exact
-                  path='generate-password2'
-                  element={
-                    <Suspense fallback={<p> Password Generate..............</p>}>
-                      <PasswordGenerate />
-                    </Suspense>
-                  }
-                />
-                <Route
-                  exact
-                  path='barcode'
-                  element={
-                    <Suspense fallback={<p> Loading Scanner..............</p>}>
-                      <BarCode />
-                    </Suspense>
-                  }
-                />
-
-
-                <Route
-                  exact
-                  path='progress'
-                  element={
-                    <Suspense fallback={<p> Loading Progress..............</p>}>
-                      <ProgressBar />
-                    </Suspense>
-                  }
-                />
-                <Route path='*' element={<PageNotFound />} />
-
-
-              </Routes>
-
-            </Layout>} />
-
+                    <Route
+                      exact
+                      path="progress"
+                      element={
+                        <Suspense
+                          fallback={<p> Loading Progress..............</p>}
+                        >
+                          <ProgressBar />
+                        </Suspense>
+                      }
+                    />
+                    <Route path="*" element={<PageNotFound />} />
+                  </Routes>
+                </Layout>
+              }
+            />
           </Routes>
-        </BrowserRouter >
+        </BrowserRouter>
       </IntlProvider>
-    </div >
+    </div>
   );
 };
 

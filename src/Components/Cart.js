@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { addItem, removeItem, clearCart, setCartItems } from "./Redux/cartSlice";
 import { useNavigate, Link } from "react-router-dom";
-import { cloudinaryImageId } from "../utils/constant";
+import { assets } from "../utils/constant";
 import { cartTableLabels } from "../utils/constant";
 import { useHook } from "../useHooks/CustomAPIHook";
 import { useAuth } from "./Context/AuthProvider";
@@ -170,7 +170,7 @@ const Cart = () => {
                     {cartItem.info.imageId ?
                       <Link to={`../restaurant/${cartItem.info.restaurantData.id}`}>
                         <img
-                          src={cloudinaryImageId + cartItem.info.imageId}
+                          src={assets + cartItem.info.imageId}
                           className="w-16 h-16 object-fill rounded-md"
                           alt={cartItem.title}
                         />

@@ -14,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { assets } from "../utils/constant";
 
 const ItemList = ({ it, vegLabel, restaurantInfo }) => {
     const [showModal, setShowModal] = useState(false)
@@ -245,11 +246,11 @@ const ItemList = ({ it, vegLabel, restaurantInfo }) => {
                     {it.card.info.imageId ? (
                         <div className='relative'>
                             <img
-                                alt='food'
+                                alt='menu-food-logo'
                                 className='h-24 w-28 rounded-md'
                                 loading='lazy'
                                 src={
-                                    cloudinaryImageId + it.card.info.imageId
+                                    assets + it.card.info.imageId
                                 }
                             />
                             <button
