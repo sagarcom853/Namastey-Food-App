@@ -40,7 +40,44 @@ const AllOrders = () => {
     }
   }, [user]);
 
-  const deleteOrders = async (email) => {
+  const deleteByOrderId = async (email, orderId) => {
+    console.log("inside delete by order id function", email, orderId);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/user/deleteOrderById",
+        {
+          email: email,
+          orderId: orderId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setAuth({ ...auth, isAuthenticated: true, user: response.data.user });
+        setErr("");
+        // setOrderDetails()
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErr("Items not there...........");
+        } else {
+          setErr(error.response.data.message || "An error occurred.");
+        }
+      } else if (error.request) {
+        setErr("No response received from the server.");
+      } else {
+        setErr("Error setting up the request.");
+      }
+    }
+  };
+
+  const deleteAllUsersOrders = async (email) => {
+    console.log("inside delete all orders function", email);
     try {
       const response = await axios.post(
         "http://localhost:8000/user/deleteOrders",
@@ -97,7 +134,6 @@ const AllOrders = () => {
     }
   };
 
-
   const orderDetailsFunc = () => {
     return (
       <table>
@@ -117,9 +153,9 @@ const AllOrders = () => {
               <button
                 className={isDeleteAllBtnActive ? "button disabled" : "button"}
                 disabled={isDeleteAllBtnActive}
-                onClick={() => deleteOrders(user.email)}
+                onClick={() => deleteAllUsersOrders(user.email)}
               >
-                DeleteAll
+                Delete All
               </button>
             </th>
             {/* <th>Address: </th> */}
@@ -180,7 +216,10 @@ const AllOrders = () => {
                   </td>
                 )}
                 <td>
-                  <button className="button">
+                  <button
+                    className="button"
+                    onClick={() => deleteByOrderId(order.email, order._id)}
+                  >
                     {/* <DeleteIcon /> */}
                     <DeleteOutlineIcon />
                   </button>

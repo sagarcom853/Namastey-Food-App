@@ -15,8 +15,7 @@ const instance = new Razorpay({
 
 const checkout = async (req, res) => {
   try {
-    const { email, cart, paymentMode, totalAmount, totalAmountwithCharges } =
-      req.body;
+    const { email, cart, paymentMode, totalAmount, totalAmountwithCharges } = req.body;
 
     // Find the existing user
     const existingUser = await User.findOne({ email });
@@ -86,18 +85,15 @@ const markDelivered = async (req, res) => {
       order.paymentTime = new Date();
     }
     await existingUser.save();
-    res
-      .status(200)
-      .json({
-        message: "Order marked as delivered successfully",
-        user: existingUser,
-      });
+    res.status(200).json({
+      message: "Order marked as delivered successfully",
+      user: existingUser,
+    });
   } catch (error) {
     console.error("Error marking order as delivered:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 // const paymentVerification = async (req, res) => {
 //     console.log('payment here')
@@ -120,16 +116,12 @@ const markDelivered = async (req, res) => {
 
 const paymentVerification = async (req, res) => {
   console.log(req, req.body);
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
   //pay_NanHa2sMHWB6PU
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
-  const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
-    .update(body.toString())
-    .digest("hex");
+  const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_API_SECRET).update(body.toString()).digest("hex");
 
   const isAuthentic = expectedSignature === razorpay_signature;
 
@@ -156,9 +148,7 @@ const getKey = async (req, res) => {
   try {
     const razorpayApiKey = process.env.RAZORPAY_API_KEY;
     if (!razorpayApiKey) {
-      return res
-        .status(500)
-        .json({ error: "Razorpay API key not configured." });
+      return res.status(500).json({ error: "Razorpay API key not configured." });
     }
 
     res.status(200).json({ key: razorpayApiKey });

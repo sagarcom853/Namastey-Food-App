@@ -64,25 +64,14 @@ const Home = ({
       // const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=20.27060&lng=85.83340")
 
       /**. The Restaurant API comes from JSON Server running restaurant JSON file*/
-      const data = await fetch("http://localhost:3001/products");
-      console.log("data", data);
+      // const data = await fetch("http://localhost:3001/products");
+      const data = await fetch("http://localhost:8000/product/products");
       const json = await data.json();
 
-      setRestaurantData6(
-        json[0]?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
-      setOriginalData(
-        json[0]?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
+      setRestaurantData6(json[0]?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+      setOriginalData(json[0]?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     } catch (error) {
-      <Modal
-        modalContent={error}
-        modalTitle="Error Occured"
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />;
+      <Modal modalContent={error} modalTitle='Error Occured' showModal={showModal} setShowModal={setShowModal} />;
     }
   };
 
@@ -98,6 +87,7 @@ const Home = ({
   }, []);
 
   //function to implement infinite scrolling but with same API...
+  //Incremental Loading...
   // const getRestaurantMore = async () => {
   //   console.log("fetch more datta called")
   //   try {
@@ -123,51 +113,41 @@ const Home = ({
   async function getRestaurantMore() {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/update",
-        {
-          method: "POST", // Use POST for fetching more restaurants
-          headers: {
-            "Content-Type": "application/json",
-            // Add any additional headers here
+      const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/update", {
+        method: "POST", // Use POST for fetching more restaurants
+        headers: {
+          "Content-Type": "application/json",
+          // Add any additional headers here
+        },
+        body: JSON.stringify({
+          lat: 12.9715987,
+          lng: 86.73296984285116,
+          nextOffset: "COVCELQ4KICAkcKjpOn/ZDCnEzgC", // Use the correct nextOffset value,
+          page_type: "DESKTOP_WEB_LISTING",
+          // Other payload parameters if needed
+          seoParams: {
+            apiName: "FoodHomePage",
+            pageType: "FOOD_HOMEPAGE",
+            seoUrl: "https://www.swiggy.com/",
           },
-          body: JSON.stringify({
-            lat: 12.9715987,
-            lng: 86.73296984285116,
-            nextOffset: "COVCELQ4KICAkcKjpOn/ZDCnEzgC", // Use the correct nextOffset value,
-            page_type: "DESKTOP_WEB_LISTING",
-            // Other payload parameters if needed
-            seoParams: {
-              apiName: "FoodHomePage",
-              pageType: "FOOD_HOMEPAGE",
-              seoUrl: "https://www.swiggy.com/",
-            },
-            widgetOffset: {
-              // Include your widgetOffset values here
-              NewListingView_Topical_Fullbleed: "",
-              NewListingView_category_bar_chicletranking_TwoRows: "",
-              NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
-              Restaurant_Group_WebView_SEO_PB_Theme: "",
-              collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: "10",
-              inlineFacetFilter: "",
-              restaurantCountWidget: "",
-              // collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: String(page),
-            },
-          }),
-        }
-      );
+          widgetOffset: {
+            // Include your widgetOffset values here
+            NewListingView_Topical_Fullbleed: "",
+            NewListingView_category_bar_chicletranking_TwoRows: "",
+            NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
+            Restaurant_Group_WebView_SEO_PB_Theme: "",
+            collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: "10",
+            inlineFacetFilter: "",
+            restaurantCountWidget: "",
+            // collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: String(page),
+          },
+        }),
+      });
       const data = await response.json();
       if (originalData) {
-        let newRestaurants =
-          data.data.cards[0].card.card.gridElements.infoWithStyle.restaurants;
-        setRestaurantData6((prevRestaurants) => [
-          ...prevRestaurants,
-          ...newRestaurants,
-        ]);
-        setOriginalData((prevRestaurants) => [
-          ...prevRestaurants,
-          ...newRestaurants,
-        ]);
+        let newRestaurants = data.data.cards[0].card.card.gridElements.infoWithStyle.restaurants;
+        setRestaurantData6((prevRestaurants) => [...prevRestaurants, ...newRestaurants]);
+        setOriginalData((prevRestaurants) => [...prevRestaurants, ...newRestaurants]);
       }
     } catch (error) {
       setErr("Not able to update the additional Restaurants...");
@@ -187,17 +167,12 @@ const Home = ({
     };
   };
   // const throttledGetRestaurantMore = throttle(getRestaurantMore, 5000);
-  const throttledGetRestaurantMore = useCallback(
-    throttle(getRestaurantMore, 5000),
-    []
-  );
+  const throttledGetRestaurantMore = useCallback(throttle(getRestaurantMore, 5000), []);
 
   const setTopRatedFunc = useCallback(() => {
     if (topRated) {
       if (RestaurantData6?.length > 0) {
-        let RestaurantData4 = originalData?.filter(
-          (data) => data.info.avgRating > 4.3
-        );
+        let RestaurantData4 = originalData?.filter((data) => data.info.avgRating > 4.3);
         if (originalData.length !== RestaurantData4.length) {
           setRestaurantData6(RestaurantData4);
         }
@@ -211,13 +186,9 @@ const Home = ({
     if (textFieldValue) {
       if (originalData && originalData.length > 0) {
         let filteredData = originalData?.filter((data) => {
-          if (
-            data.info.name.toLowerCase().includes(textFieldValue.toLowerCase())
-          ) {
+          if (data.info.name.toLowerCase().includes(textFieldValue.toLowerCase())) {
             setErr("");
-            return data.info.name
-              .toLowerCase()
-              .includes(textFieldValue.toLowerCase());
+            return data.info.name.toLowerCase().includes(textFieldValue.toLowerCase());
           } else {
             setErr("No restaurants found");
             // setRestaurantData6('')
@@ -288,10 +259,7 @@ const Home = ({
 
   const handleScroll = async () => {
     try {
-      if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
-        document.documentElement.scrollHeight
-      ) {
+      if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight) {
         setPage((prev) => prev + 15);
         throttledGetRestaurantMore();
         // throttledFetchMoreData();   // if throttled then use this function, otherwise can directly use fetchMoreData()
@@ -343,7 +311,7 @@ const Home = ({
       <>
         <Modal
           modalContent={"Loading....................."}
-          modalTitle="Error Occured"
+          modalTitle='Error Occured'
           showModal={showModal}
           setShowModal={setShowModal}
         />
@@ -378,21 +346,15 @@ const Home = ({
   const filters = () => {
     return (
       <div>
-        <Stack direction="row" className="ml-8 cursor-pointer" spacing={1}>
-          {dropdownValue && (
-            <Chip label={dropdownValue[0].info.name} color="primary" />
-          )}
+        <Stack direction='row' className='ml-8 cursor-pointer' spacing={1}>
+          {dropdownValue && <Chip label={dropdownValue[0].info.name} color='primary' />}
           {topRated && (
-            <Chip
-              label="Top Rated"
-              onDelete={() => setTopRated(false)}
-              color={topRated ? "primary" : "default"}
-            />
+            <Chip label='Top Rated' onDelete={() => setTopRated(false)} color={topRated ? "primary" : "default"} />
           )}
           {textFieldValue && (
             <Chip
               label={textFieldValue}
-              className="capitalize"
+              className='capitalize'
               onDelete={() => setTextFieldValue("")}
               color={textFieldValue ? "primary" : "default"}
             />
@@ -405,26 +367,18 @@ const Home = ({
   return (
     <div className={` ${darkMode ? "darkModeCSS" : ""}`}>
       {isAuthenticated ? (
-        <div className="flex flex-wrap items-center justify-center font-bold text-lg">
+        <div className='flex flex-wrap items-center justify-center font-bold text-lg'>
           {location.state ? `Welcome back ${user.name}` : ""}
         </div>
       ) : (
         " "
       )}
-      <div className="flex flex-wrap justify-start mx-8 gap-10">
+      <div className='flex flex-wrap justify-start mx-8 gap-10'>
         {/* <div>You are in {cityData?.name || ''}</div> */}
-        {Err ? (
-          <div className="px-10 py-1 rounded-md flex justify-center bg-red-600 text-white">
-            {Err}
-          </div>
-        ) : (
-          ""
-        )}
+        {Err ? <div className='px-10 py-1 rounded-md flex justify-center bg-red-600 text-white'>{Err}</div> : ""}
       </div>
 
-      <div
-        className={`w-full flex flex-row sm:items-center sm:justify-center sm:mx-auto flex-wrap justify-between`}
-      >
+      <div className={`w-full flex flex-row sm:items-center sm:justify-center sm:mx-auto flex-wrap justify-between`}>
         <FiltersPage
           RestaurantData={RestaurantData6}
           marks={marks}
@@ -445,14 +399,10 @@ const Home = ({
           dropdownValue={dropdownValue}
           Err={Err}
         />
-        <div className="flex flex-wrap justify-end m-4 p-2">
-          <div className="flex flex-wrap gap-12 cursor-pointer text-xs">
-            <div className="flex gap-4 items-center">
-              <Tooltip
-                title={darkMode ? "Enable light mode" : "Enable dark mode"}
-                arrow
-                placement="top"
-              >
+        <div className='flex flex-wrap justify-end m-4 p-2'>
+          <div className='flex flex-wrap gap-12 cursor-pointer text-xs'>
+            <div className='flex gap-4 items-center'>
+              <Tooltip title={darkMode ? "Enable light mode" : "Enable dark mode"} arrow placement='top'>
                 <Switch
                   checked={darkMode}
                   onChange={handleTheme}
@@ -463,58 +413,52 @@ const Home = ({
             </div>
 
             <div
-              className={`flex gap-4 items-center ${
-                eatMode === "delivery" ? "order-border" : ""
-              }`}
+              className={`flex gap-4 items-center ${eatMode === "delivery" ? "order-border" : ""}`}
               onClick={() => setEatMode("delivery")}
             >
               <img
-                className="h-6 w-6"
-                alt="illustration"
+                className='h-6 w-6'
+                alt='illustration'
                 src={
                   eatMode === "delivery"
                     ? "https://b.zmtcdn.com/data/o2_assets/c0bb85d3a6347b2ec070a8db694588261616149578.png?output-format=webp"
                     : "https://b.zmtcdn.com/data/o2_assets/246bbd71fbba420d5996452be3024d351616150055.png"
                 }
-                loading="lazy"
+                loading='lazy'
               />
-              <span className="">Delivery</span>
+              <span className=''>Delivery</span>
             </div>
             <div
-              className={`flex gap-4 items-center ${
-                eatMode === "dine" ? "order-border" : ""
-              }`}
+              className={`flex gap-4 items-center ${eatMode === "dine" ? "order-border" : ""}`}
               onClick={() => setEatMode("dine")}
             >
               <img
-                className="h-6 w-6"
-                alt="illustration"
+                className='h-6 w-6'
+                alt='illustration'
                 src={
                   eatMode === "dine"
                     ? "https://b.zmtcdn.com/data/o2_assets/30fa0a844f3ba82073e5f78c65c18b371616149662.png"
                     : "https://b.zmtcdn.com/data/o2_assets/78d25215ff4c1299578ed36eefd5f39d1616149985.png?output-format=webp"
                 }
-                loading="lazy"
+                loading='lazy'
               />
-              <span className="whitespace-nowrap">Dining Out</span>
+              <span className='whitespace-nowrap'>Dining Out</span>
             </div>
             <div
-              className={`flex gap-4 items-center mt-2" ${
-                eatMode === "night" ? "order-border" : ""
-              }`}
+              className={`flex gap-4 items-center mt-2" ${eatMode === "night" ? "order-border" : ""}`}
               onClick={() => setEatMode("night")}
             >
               <img
-                className="h-6 w-6"
-                alt="illustration"
+                className='h-6 w-6'
+                alt='illustration'
                 src={
                   eatMode === "night"
                     ? "https://b.zmtcdn.com/data/o2_assets/855687dc64a5e06d737dae45b7f6a13b1616149818.png"
                     : "https://b.zmtcdn.com/data/o2_assets/01040767e4943c398e38e3592bb1ba8a1616150142.png?output-format=webp"
                 }
-                loading="lazy"
+                loading='lazy'
               />
-              <span className="">Nightlife</span>
+              <span className=''>Nightlife</span>
             </div>
           </div>
         </div>

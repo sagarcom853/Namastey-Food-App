@@ -1,20 +1,37 @@
 const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
-  name: { type: String, required: true },
-  cloudinaryImageId: { type: String, required: true },
-  description: { type: String, required: true },
-  locality: { type: String, required: true },
-  areaName: { type: String, required: true },
-  costForTwo: { type: String, required: true },
-  cuisines: { type: Array, required: true },
-  avgRating: { type: Number, required: true },
-  feeDetails: { type: Object },
-  price: { type: Number, required: true },
+const CardSchema = new mongoose.Schema({
+  card: {
+    card: {
+      "@type": String,
+      header: { type: Object, default: {} },
+      layout: { type: Object, default: {} },
+      imageGridCards: { type: Object, default: {} },
+      id: String,
+      gridElements: { type: Object, default: {} }
+    }
+  }
+}, { _id: false });
 
+const DataSchema = new mongoose.Schema({
+  statusMessage: String,
+  pageOffset: {
+    nextOffset: String,
+    widgetOffset: { type: Object, default: {} }
+  },
+  cards: [CardSchema],
+  firstOffsetRequest: Boolean,
+  cacheExpiryTime: Number,
+  nextFetch: Number
+}, { _id: false });
+
+const ProductSchema = new mongoose.Schema({
+  statusCode: Number,
+  data: DataSchema,
+  tid: String,
+  sid: String,
+  deviceId: String,
+  csrfToken: String
 });
 
-const Product = mongoose.model('Product', productSchema);
-
-module.exports = Product;
+module.exports = mongoose.model('Product', ProductSchema);
