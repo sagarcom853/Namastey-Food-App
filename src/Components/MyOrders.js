@@ -10,8 +10,6 @@ const OrderPage = () => {
   const [loading, setLoading] = useState(false);
   const [Err, setErr] = useState("");
   const navigate = useNavigate();
-  console.log("orders here", orderDetails);
-  console.log("user here", user);
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +33,7 @@ const OrderPage = () => {
     }
   }, [user]);
 
-  const deleteOrders = async (email) => {
+   const deleteOrders = async (email) => {
     try {
       const response = await axios.post(
         "http://localhost:8000/user/deleteOrders",

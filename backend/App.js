@@ -9,6 +9,7 @@ const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/OrderRoutes");
 const paymentRoutes = require("./Routes/PaymentRoutes");
 const swiggyRoutes = require("./Routes/swiigyRoutes");
+const chatRoutes = require("./Routes/chatRoute");
 
 const app = express();
 const cors = require("cors");
@@ -41,6 +42,7 @@ app.use("/user", userRoutes);
 app.use("/order", orderRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/swiggy", swiggyRoutes);
+app.use('/openai', chatRoutes)
 
 const PORT = process.env.PORT || 8000;
 // Start the server
