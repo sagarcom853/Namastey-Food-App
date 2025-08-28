@@ -22,7 +22,8 @@ same with running json server.
 
 To run the local set up without APIs
 
-1. Install json web-webserver
+1. Install json web-webserver.
+Go to respective folder in whcih json file present example data folder. Then run:
 2. run products json file with : npx json-server --watch productsData.json --port 3001
 3. run restaurants json file with : npx json-server --watch restaurantsData.json--port 3002.
 4. Note they will run at different ports.

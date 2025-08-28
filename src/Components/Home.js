@@ -64,8 +64,8 @@ const Home = ({
       // const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=20.27060&lng=85.83340")
 
       /**. The Restaurant API comes from JSON Server running restaurant JSON file*/
-      // const data = await fetch("http://localhost:3001/products");
-      const data = await fetch("http://localhost:8000/product/products");
+      const data = await fetch("http://localhost:3001/products");
+      // const data = await fetch("http://localhost:8000/product/products");
       const json = await data.json();
 
       setRestaurantData6(json[0]?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
