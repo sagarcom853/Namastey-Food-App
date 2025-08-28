@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@google/generative-ai": "^0.24.1",
     "@mkyy/mui-search-bar": "^0.5.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.15.14",

@@ -8,8 +8,7 @@ import ErrorModal from "./Modal/ErrorModal";
 import ShimmerUi from "../useHooks/ShimmerUi";
 import { useSelector } from "react-redux";
 import ChatAssistant from "./Chat/ChatAssistant";
-import ClearIcon from "@mui/icons-material/Clear";
-import { Tooltip } from "@mui/material";
+
 
 const Hotelpage = ({ RestaurantData, topRated, setTopRated, collectionId, textExplore }) => {
   const [showAssistant, setShowAssistant] = useState(false);
@@ -63,14 +62,11 @@ const Hotelpage = ({ RestaurantData, topRated, setTopRated, collectionId, textEx
             zIndex: 1000,
             display: "flex",
             flexDirection: "column",
+            overflow: 'scroll'
           }}
         >
-          <button style={{ alignSelf: "flex-end", margin: "8px" }} onClick={handleCloseAI}>
-            <Tooltip title='Close Chat Assistant'>
-              <ClearIcon />
-            </Tooltip>
-          </button>
-          <ChatAssistant />
+          <ChatAssistant handleCloseAI={handleCloseAI}/>
+         
         </div>
       )}
 
