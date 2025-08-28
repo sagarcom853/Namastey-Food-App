@@ -8,13 +8,9 @@ import ErrorModal from "./Modal/ErrorModal";
 import ShimmerUi from "../useHooks/ShimmerUi";
 import { useSelector } from "react-redux";
 import ChatAssistant from "./Chat/ChatAssistant";
-
+import { useMyContext } from "../context/context";
 
 const Hotelpage = ({ RestaurantData, topRated, setTopRated, collectionId, textExplore }) => {
-  const [showAssistant, setShowAssistant] = useState(false);
-  const handleOpenAI = () => setShowAssistant(true);
-  const handleCloseAI = () => setShowAssistant(false);
-
   const onlineStatus = useOnlineStatus();
   const RestaurantCardPromoted = withPromotedRestuarant(RestaurantCard);
 
@@ -43,33 +39,6 @@ const Hotelpage = ({ RestaurantData, topRated, setTopRated, collectionId, textEx
   }
   return (
     <div className='mx-12' style={{ position: "relative" }}>
-      <div className='flex justify-end mr-12'>
-        <button type='button' className='button' variant='contained' onClick={handleOpenAI}>
-          Open AI
-        </button>
-      </div>
-
-      {showAssistant && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: 0,
-            right: 0,
-            width: "350px",
-            height: "50vh",
-            background: "#fff",
-            boxShadow: "-2px 0 8px rgba(0,0,0,0.1)",
-            zIndex: 1000,
-            display: "flex",
-            flexDirection: "column",
-            overflow: 'scroll'
-          }}
-        >
-          <ChatAssistant handleCloseAI={handleCloseAI}/>
-         
-        </div>
-      )}
-
       <h1 className='hotelpage-head'>{!collectionId ? "Top Rated Restaurants near you! " : textExplore}</h1>
       <div className={`hotelpage-container ${darkMode ? "darkModeCSS" : ""}`}>
         {RestaurantData &&
